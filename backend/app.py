@@ -31,6 +31,7 @@ def favicon():
     return '', 204
 
 # Initialize components
+db.init_db()
 twin = DigitalTwin()
 simulator = WhatIfSimulator(twin)
 debugger = CodeDebugger()
