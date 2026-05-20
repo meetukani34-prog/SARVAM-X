@@ -5,10 +5,13 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Move DB to a storage folder to avoid Live Server reloads
-_BACKEND_DIR = os.path.dirname(os.path.abspath(__file__))
-_DB_DIR = os.path.join(_BACKEND_DIR, "db_storage")
-os.makedirs(_DB_DIR, exist_ok=True)
-DB_PATH = os.path.join(_DB_DIR, "sarvam.db")
+if os.environ.get("VERCEL"):
+    DB_PATH = "/tmp/sarvam.db"
+else:
+    _BACKEND_DIR = os.path.dirname(os.path.abspath(__file__))
+    _DB_DIR = os.path.join(_BACKEND_DIR, "db_storage")
+    os.makedirs(_DB_DIR, exist_ok=True)
+    DB_PATH = os.path.join(_DB_DIR, "sarvam.db")
 
 def get_conn():
     conn = sqlite3.connect(DB_PATH)
