@@ -3,7 +3,7 @@
  */
 
 // We default to port 5000 in development, or the window origin when built/served by Flask
-const BASE_URL = import.meta.env.DEV ? 'http://localhost:5000' : '';
+const BASE_URL = import.meta.env.DEV ? 'http://localhost:5000' : (import.meta.env.VITE_API_URL || '');
 
 export interface User {
   id: number;
