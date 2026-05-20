@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SARVAM-X — Explainable AI Learning Twin</title>
+  <meta name="description" content="Intelligent platform that creates a digital twin of a student, auto-debugs code, and explains all AI decisions." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="dashboard-page">
+  <!-- Background Effects -->
+  <div class="global-bg">
+    <div class="world-map-overlay">
+      <img src="img/ai_digital_twin_panoramic_1778616438420.png" alt="Digital Twin">
+    </div>
+    <div class="floating-words" id="floating-words"></div>
+  </div>
+  <div id="three-bg-container"></div>
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <a href="index.html" class="sidebar-brand" style="text-decoration:none; color:inherit; display:flex;">
+      <div class="brand-icon" id="sarvam-3d-logo"></div>
+      <div>
+        <div class="brand-name">SARVAM-X</div>
+        <div class="brand-sub">AI RESEARCH INTERFACE</div>
+      </div>
+    </a>
+
+    <nav class="nav-links">
+      <div class="nav-item active" data-page="dashboard" id="nav-dashboard" style="cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard Home
+      </div>
+      <div class="nav-item" data-page="twin" id="nav-twin" style="cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Digital Twin
+      </div>
+      <div class="nav-item" data-page="debugger" id="nav-debugger" style="cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Code Debugger
+      </div>
+      <div class="nav-item" data-page="explainer" id="nav-explainer" style="cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Explainable AI
+      </div>
+      <div class="nav-item" data-page="heatmap" id="nav-heatmap" style="cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Skill Heatmap
+      </div>
+      <div class="nav-item" data-page="history" id="nav-history" style="cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 2h14"/><path d="M5 22h14"/><path d="M15 2v5c0 1.71-1.21 3.26-3 3.82V12m0 0v1.18c1.79.56 3 2.11 3 3.82v5"/><path d="M9 2v5c0 1.71 1.21 3.26 3 3.82V12m0 0v1.18c-1.79.56-3 2.11-3 3.82v5"/></svg>
+        History
+      </div>
+      <div class="nav-item" data-page="profile" id="nav-profile" style="cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        User Profile
+      </div>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button class="btn-new-analysis" id="btn-new-session" onclick="openSessionModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Analysis
+      </button>
+      <a href="#" class="nav-footer-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Support
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content" id="main-content">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="page-breadcrumb" id="page-breadcrumb">Dashboard Home</span>
+      </div>
+      <div class="topbar-right">
+        <div class="score-badge" id="score-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span id="top-score">--% Score</span>
+        </div>
+        <button class="icon-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
+        <button class="icon-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        </button>
+        <div class="avatar-container" style="position:relative;">
+          <div class="avatar" id="user-avatar" style="cursor:pointer;" onclick="const d = document.getElementById('profile-dropdown'); d.style.display = d.style.display === 'none' ? 'block' : 'none';">R</div>
+          <div class="profile-dropdown" id="profile-dropdown" style="display:none; position:absolute; right:0; top:40px; background:rgba(13,17,23,0.95); padding:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); z-index:100; min-width:140px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+            <div class="dropdown-item" onclick="document.getElementById('nav-profile').click(); document.getElementById('profile-dropdown').style.display='none';" style="padding:10px; cursor:pointer; font-size:14px; transition:color 0.3s;" onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color='inherit'">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px; vertical-align:middle;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profile
+            </div>
+            <div class="dropdown-item" onclick="logout()" style="padding:10px; cursor:pointer; font-size:14px; color:#ff5555; transition:background 0.3s;" onmouseover="this.style.background='rgba(255,50,50,0.1)'; this.style.borderRadius='6px';" onmouseout="this.style.background='transparent'">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px; vertical-align:middle;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Log Out
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- PAGES -->
+    <div id="page-dashboard" class="page active"></div>
+    <div id="page-twin" class="page"></div>
+    <div id="page-debugger" class="page"></div>
+    <div id="page-explainer" class="page"></div>
+    <div id="page-heatmap" class="page"></div>
+    <div id="page-history" class="page"></div>
+    <div id="page-profile" class="page">
+      <div class="glass-card" style="max-width: 600px; margin: 40px auto; text-align: center;">
+        <div class="avatar" id="profile-large-avatar" style="width: 80px; height: 80px; font-size: 32px; margin: 0 auto 20px auto;"></div>
+        <h2 id="profile-name" style="margin-bottom: 10px; font-size: 24px;"></h2>
+        <p id="profile-email" style="color: var(--text-dim); margin-bottom: 30px;">SARVAM-X Registered User</p>
+        
+        <div style="display: flex; gap: 10px; justify-content: center;" id="profile-actions">
+          <button class="btn-secondary" onclick="toggleEditProfile()">Edit Profile</button>
+          <button class="btn-primary" onclick="logout()" style="background: rgba(255,50,50,0.2); color: #ff5555; border: none; cursor: pointer;">Log Out</button>
+        </div>
+
+        <div id="edit-profile-form" style="display:none; margin-top:20px; text-align:left; background:rgba(0,0,0,0.2); padding:20px; border-radius:12px;">
+          <div class="input-group" style="margin-bottom: 15px;">
+             <label style="display:block; font-size:12px; font-weight:600; color:var(--text-dim); margin-bottom:5px;">Full Name</label>
+             <input type="text" id="edit-name-input" style="width:100%; padding:12px; border-radius:8px; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.1); color:white; font-family:var(--font);" />
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn-primary" style="flex:1; justify-content:center;" onclick="submitEditProfile()">Save Changes</button>
+            <button class="btn-secondary" style="flex:1; justify-content:center;" onclick="toggleEditProfile()">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- SESSION MODAL -->
+  <div class="modal-overlay" id="session-modal" style="display:none">
+    <div class="modal-card glass-card">
+      <h3>Log Study Session</h3>
+      <div class="form-group">
+        <label>Language</label>
+        <select id="s-lang" onchange="updateTopics()">
+          <option value="python">Python</option>
+          <option value="javascript">JavaScript</option>
+          <option value="c">C Language</option>
+          <option value="cpp">C++</option>
+          <option value="java">Java</option>
+          <option value="php">PHP</option>
+          <option value="csharp">C#</option>
+          <option value="ruby">Ruby</option>
+          <option value="rust">Rust</option>
+          <option value="go">Go</option>
+          <option value="swift">Swift</option>
+          <option value="algorithms">Data Structures & Algorithms</option>
+          <option value="other">Other</option>
+        </select>
+        <input type="text" id="s-lang-other" placeholder="Enter custom language..." style="display:none; margin-top:8px;" />
+      </div>
+      <div class="form-group">
+        <label>Topic</label>
+        <select id="s-topic" onchange="updateTopicInput()">
+          <!-- Populated by JS -->
+        </select>
+        <input type="text" id="s-topic-other" placeholder="Enter custom topic..." style="display:none; margin-top:8px;" />
+      </div>
+      <div class="form-group">
+        <label>Accuracy (%)</label>
+        <input type="number" id="s-accuracy" min="0" max="100" value="75" />
+      </div>
+      <div class="form-group">
+        <label>Duration (minutes)</label>
+        <input type="number" id="s-duration" min="5" max="180" value="45" />
+      </div>
+      <div class="form-group">
+        <label>Problems Solved</label>
+        <input type="number" id="s-problems" min="1" max="100" value="8" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeSessionModal()">Cancel</button>
+        <button class="btn-primary" onclick="submitSession()">Log Session</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LUMINOUS MENTOR -->
+  <button class="mentor-fab" id="mentor-fab" onclick="Mentor.toggle()">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M12 2v1" stroke-linecap="round" opacity="0.4"/><path d="M19 5l-.7.7" stroke-linecap="round" opacity="0.4"/><path d="M5 5l.7.7" stroke-linecap="round" opacity="0.4"/></svg>
+  </button>
+
+  <div class="mentor-panel hidden" id="mentor-panel">
+    <!-- 3D AVATAR VIEWPORT -->
+    <div class="mentor-orb-section">
+      <div class="mentor-viewport">
+        <div id="mentor-3d-viewport" class="mentor-3d-viewport"></div>
+        <div class="mentor-avatar-glow" id="mentor-avatar-glow"></div>
+        <!-- Video for User Vision (Hidden) -->
+        <video id="mentor-vision-feed" autoplay muted playsinline style="display:none"></video>
+        <img src="img/mentor-avatar.png" alt="Luminous Mentor" class="mentor-avatar-img" id="mentor-avatar-img" />
+      </div>
+      
+      <div class="mentor-vision-status" id="mentor-vision-status">
+        <span class="vision-dot"></span> <span id="user-emotion-label">VISION STANDBY</span>
+      </div>
+      
+      <div class="mentor-name-bar">
+        <span class="mentor-name">Luminous Mentor</span>
+        <button class="vision-toggle-btn" id="vision-toggle" onclick="Mentor.toggleVision()" title="Toggle AI Vision">
+          <svg viewBox="0 0 24 24" width="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+        <span class="mentor-mood-pill" id="mentor-mood">RESONANT</span>
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="mentor-messages" id="mentor-messages"></div>
+
+    <!-- INPUT -->
+    <div class="mentor-voice-label">TAP MIC TO SPEAK · OR TYPE BELOW</div>
+    <div class="mentor-input-bar">
+      <button class="mentor-mic-btn" id="mentor-mic-btn" onclick="Mentor.toggleMic()" title="Click to speak">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+      </button>
+      <input class="mentor-input" id="mentor-input" placeholder="Ask your Mentor anything..." autocomplete="off" />
+      <button class="mentor-send-btn" id="mentor-send-btn" onclick="Mentor.sendMessage()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r149/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/three-core.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/mentor.js"></script>
+</body>
+</html>
