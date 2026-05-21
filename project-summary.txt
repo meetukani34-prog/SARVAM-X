@@ -1,0 +1,146 @@
+================================================================================
+  SARVAM-X: COGNITIVE INTELLIGENCE HUB & SECURITY SENTINEL - COMPLETE SUMMARY
+================================================================================
+
+This document is a plain-text reference guide designed to help you quickly
+understand the architecture, file structure, data flow, and serverless deployment
+mechanics of the SARVAM-X project.
+
+--------------------------------------------------------------------------------
+1. PROJECT OVERVIEW
+--------------------------------------------------------------------------------
+SARVAM-X is a full-stack, split-stack application composed of two primary
+interdisciplinary modules:
+
+  A. SARVAM Cognitive Suite (Personalized AI Learning Portal):
+     - Calculates virtual learning proficiency metrics ("Digital Twin").
+     - Predicts exam performance using local Machine Learning (Scikit-Learn).
+     - Explains score predictions using mathematical SHAP values (XAI).
+     - Models interactive study scenarios ("What-If Simulator").
+     - Parses Python code for syntax structure & vulnerabilities ("AST Debugger").
+     - Adaptively guides the user with a webcam facial expression reader
+       ("face-api.js" Emotion AI) and streaming LLM guidance (NVIDIA NIM Llama 3.1).
+
+  B. TRINETRA Secure Sentinel (AI Cybersecurity Portal):
+     - Predicts misinformation probability in text using Natural Language
+       Processing ("NLP Fake News Classifier").
+     - Explains positive/negative lexical framing.
+     - Scans source code for vulnerabilities (SQL injection, hardcoded secrets,
+       buffer overflows, command injection).
+     - Visualizes risk registers and security threat maps.
+
+--------------------------------------------------------------------------------
+2. PROJECT DIRECTORY STRUCTURE
+--------------------------------------------------------------------------------
+Here is the layout of the repository and what each file/directory accomplishes:
+
+/ (Root Directory)
+├── vercel.json                 <-- Configuration for Vercel unified deployment
+├── learning-journey.md         <-- Highly detailed conceptual roadmap
+├── README.md                   <-- Main markdown manual and setup guide
+├── project-summary.txt         <-- This plain-text file you are reading
+├── .gitignore                  <-- Unified exclusions list for git tracking
+│
+├── /backend                    <-- PYTHON FLASK API CODE
+│   ├── app.py                  <-- Flask main entry point, routes, LLM streaming
+│   ├── database.py             <-- SQLite3 connection and DB operations wrapper
+│   ├── requirements.txt        <-- Backend libraries (scikit-learn, flask, etc.)
+│   ├── /models                 <-- AI, ML, Debugger, and Explainability engines
+│   │   ├── twin_model.py       <-- Digital Twin proficient predictions
+│   │   ├── explainer.py        <-- Explainability Engine (SHAP mock math)
+│   │   ├── debugger.py         <-- AST and Regex code scanner and executor
+│   │   ├── momentum.py         <-- Calculates student study streak & friction
+│   │   └── __init__.py
+│   └── /db_storage             <-- Local database file folder (sarvam.db)
+│
+├── /client                     <-- REACT SPA VITE + TYPESCRIPT FRONTEND
+│   ├── index.html              <-- Main React page template
+│   ├── vite.config.ts          <-- Dynamic output directory bundler rules
+│   ├── package.json            <-- Frontend scripts and libraries (Three.js, etc.)
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   ├── /public                 <-- Global static SVGs (favicon, icons)
+│   └── /src                    <-- Frontend Source Code
+│       ├── main.tsx            <-- Bootstraps React and registers global diagnostics
+│       ├── App.tsx             <-- View router and state manager (Landing vs Suites)
+│       ├── index.css           <-- Tailwind CSS v4 custom theme styles
+│       ├── /components         <-- Modular layout widgets
+│       │   ├── Navbar.tsx      <-- Sleek fixed top navigation bar
+│       │   ├── HeroSection.tsx <-- Front page banner with 3D canvas
+│       │   ├── ThreeModel.tsx  <-- Pure HTML5 3D WebGL rotating particle mesh
+│       │   ├── AuthView.tsx    <-- Registration/login security portal
+│       │   ├── SarvamSuite.tsx <-- Learning portal dashboard
+│       │   ├── TrinetraSuite.tsx<- Security portal dashboard
+│       │   └── MentorPanel.tsx <-- Emotional AI webcam panel + streaming chat
+│       └── /lib
+│           ├── api.ts          <-- Unified backend fetch wrapper
+│           └── utils.ts
+│
+└── /frontend                   <-- STATIC DISTRIBUTION DIRECTORY (Vite Output)
+    └── assets/                 <-- Production compiled JS, CSS, and image files
+
+--------------------------------------------------------------------------------
+3. HOW THE COMPONENTS INTERCONNECT (DATA FLOW)
+--------------------------------------------------------------------------------
+
+[ USER SIGN IN FLOW ]
+  User enters credentials in AuthView.tsx ──> Fetched by api.ts ──> POSTs to Flask
+  (/api/auth/login) ──> verifies with database.py ──> Returns user ID, name, email.
+
+[ DIGITAL TWIN PREDICT FLOW ]
+  SarvamSuite.tsx mounts ──> Calls api.getDashboard(userId) ──> database.py queries
+  sessions and topic scores ──> twin_model.py trains local estimator ──>
+  explainer.py calculates influence weight ──> Returns KPIs, scores, SHAP values 
+  ──> Rendered by Chart.js in the browser.
+
+[ COGNITIVE AI MENTOR FLOW ]
+  Webcam turns on in MentorPanel.tsx ──> face-api.js evaluates face coordinates
+  ──> classifies emotion (neutral, happy, etc.) ──> User speaks/chats ──> Chat
+  POSTed to Flask (/api/chat) with emotion ──> Flask builds prompt injecting
+  emotion context ──> Streams tokens directly from NVIDIA Llama 3.1 ──> UI streams
+  text to screen.
+
+--------------------------------------------------------------------------------
+4. THE VERCEL SERVERLESS MAGIC
+--------------------------------------------------------------------------------
+Vercel is traditionally for static pages, but we configured it to run the entire
+Flask API dynamically!
+
+- ROUTING RULES (vercel.json):
+  All requests beginning with "/api" are intercepted by Vercel and sent to
+  "backend/app.py" under the "@vercel/python" runtime. All other requests are
+  served instantly as static precompiled HTML/JS from the Vite React build.
+
+- DYNAMIC COMPILER (vite.config.ts):
+  If the bundler detects it is running inside the Vercel build environment, it
+  compiles React into "/dist" (where Vercel expects it). If it runs locally on
+  your computer, it compiles into "../frontend" (where Flask expects it).
+
+- EPHEMERAL SQLITE ENGINE (database.py):
+  The local filesystem of Vercel containers is read-only. We check if the Vercel
+  flag is active; if it is, we direct SQLite to save the DB file to "/tmp/sarvam.db"
+  (the only writable directory in serverless environments) and auto-initialize it
+  on cold starts.
+
+--------------------------------------------------------------------------------
+5. RUNNING THE PROJECT LOCALLY
+--------------------------------------------------------------------------------
+
+A. Run the Python Backend & Dev Server (Flask serves static files):
+   1. Open terminal: `cd backend`
+   2. Start virtual env: `.venv\Scripts\Activate.ps1` (or source .venv/bin/activate)
+   3. Start backend: `python app.py`
+   4. Open `http://localhost:5000` in your web browser.
+
+B. Run React Frontend Developer Mode (Hot-Reloading):
+   1. Open a new terminal: `cd client`
+   2. Run: `npm run dev`
+   3. Open the dev URL (usually `http://localhost:5173`) in your browser.
+      (In dev mode, Vite automatically proxies API calls to port 5000!)
+
+C. Compile changes for Production:
+   1. `cd client`
+   2. `npm run build`
+      (This compiles your frontend and moves it to `/frontend` so the Flask
+      app serves the fresh updates at port 5000 instantly!)
+================================================================================
