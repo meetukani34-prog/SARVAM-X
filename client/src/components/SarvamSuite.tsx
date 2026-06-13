@@ -544,24 +544,24 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
 
             {/* Breadcrumb section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-4 border-b border-white/[0.04]">
-              <div>
-                <div className="flex items-center gap-2 text-[9px] uppercase font-bold tracking-widest text-primary/70 mb-1">
+              <div className="flex items-center gap-4">
+                {activeTab !== "dashboard" && (
                   <button 
                     onClick={() => setActiveTab("dashboard")} 
-                    className="flex items-center gap-1 hover:text-primary transition-colors focus:outline-none"
+                    className="flex items-center justify-center shrink-0 w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all duration-300 focus:outline-none shadow-sm"
                     title="Back to Dashboard"
                   >
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                     </svg>
-                    <span>MAIN HUB</span>
                   </button>
-                  <span className="text-white/20">/</span>
-                  <span className="text-muted-foreground">{activeTab}</span>
+                )}
+                <div>
+                  <span className="text-[9px] uppercase font-bold tracking-widest text-primary/70">Console / SARVAM-X</span>
+                  <h2 className="text-2xl font-extrabold tracking-tight mt-1 uppercase">
+                    {activeTab === "dashboard" ? "Cognitive Digital Twin" : activeTab === "debugger" ? "AST Multi-Language Debugger" : activeTab === "xai" ? "Explainable AI (SHAP)" : activeTab === "heatmap" ? "Skill Heatmap Matrix" : "Logged Study History"}
+                  </h2>
                 </div>
-                <h2 className="text-2xl font-extrabold tracking-tight mt-1 uppercase">
-                  {activeTab === "dashboard" ? "Cognitive Digital Twin" : activeTab === "debugger" ? "AST Multi-Language Debugger" : activeTab === "xai" ? "Explainable AI (SHAP)" : activeTab === "heatmap" ? "Skill Heatmap Matrix" : "Logged Study History"}
-                </h2>
               </div>
               <div className="text-[10px] text-muted-foreground bg-white/[0.02] border border-white/[0.06] rounded-xl px-4 py-2 font-bold tracking-widest font-mono uppercase">
                 Twin Resonance: {twinData?.predicted_score ? Math.round(twinData.predicted_score) : 70}%
