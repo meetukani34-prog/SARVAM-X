@@ -31,7 +31,8 @@ CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://l
 # Security Configurations
 app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'super-secret-sarvam-key-change-me')
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
-app.config['JWT_COOKIE_SECURE'] = False # True in production with HTTPS
+app.config['JWT_COOKIE_SECURE'] = True # Required for cross-domain cookies
+app.config['JWT_COOKIE_SAMESITE'] = 'None' # Required for cross-domain cookies
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False # Simplified for this demo
 app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 # 1MB max payload
 

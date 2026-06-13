@@ -88,7 +88,7 @@ function App() {
     <div className="bg-slate-50 dark:bg-[#07090e] min-h-screen text-slate-900 dark:text-foreground relative selection:bg-primary selection:text-primary-foreground overflow-x-hidden">
       {activeView === "landing" && (
         <>
-          <Navbar activeView="landing" onNavigate={handleNavigate} />
+          <Navbar activeView="landing" onNavigate={handleNavigate} isLoggedIn={!!userId} />
           <HeroSection />
           <StatsSection />
           <PlatformSelector onNavigate={handleNavigate} />

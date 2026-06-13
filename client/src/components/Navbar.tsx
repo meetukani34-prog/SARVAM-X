@@ -5,19 +5,17 @@ import { useTheme } from "../context/ThemeContext"
 interface NavbarProps {
   activeView: string
   onNavigate: (view: "landing" | "auth" | "sarvam" | "trinetra", platform?: "sarvam" | "trinetra") => void
+  isLoggedIn?: boolean
 }
 
-const Navbar: React.FC<NavbarProps> = ({ activeView, onNavigate }) => {
+const Navbar: React.FC<NavbarProps> = ({ activeView, onNavigate, isLoggedIn = false }) => {
   const links = ["Hub", "Platforms", "Features", "Workflow"]
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setIsLoggedIn(!!localStorage.getItem("sarvam_uid"))
-
       const handleScroll = () => setScrolled(window.scrollY > 50)
       window.addEventListener("scroll", handleScroll)
       return () => window.removeEventListener("scroll", handleScroll)
