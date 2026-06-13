@@ -895,7 +895,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-6">Skill Heatmap Matrix</h3>
                   {loadingHeatmap ? (
                     <div className="h-64 flex items-center justify-center text-muted-foreground text-xs font-semibold animate-pulse">Compiling Heatmap Data Grid...</div>
-                  ) : heatmapData ? (
+                  ) : heatmapData && heatmapData.topics.length > 0 ? (
                     <div className="min-w-[500px]">
                       {/* Grid Headers */}
                       <div className="grid grid-cols-5 gap-3 mb-3 border-b border-white/[0.05] pb-2 text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
@@ -938,7 +938,17 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                       </div>
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground p-4">No heatmap data found.</p>
+                    <div className="flex flex-col items-center justify-center h-48 bg-white/[0.01] border border-white/[0.03] rounded-2xl p-6 text-center">
+                      <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                      </div>
+                      <p className="text-sm font-bold text-white mb-1">No Study Data Logged</p>
+                      <p className="text-xs text-muted-foreground max-w-sm">
+                        Your skill heatmap is currently empty. Head over to the <span className="text-primary font-semibold">Cognitive Twin</span> dashboard and log some study sessions to start mapping your knowledge matrix.
+                      </p>
+                    </div>
                   )}
                 </div>
 
