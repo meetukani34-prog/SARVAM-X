@@ -201,7 +201,6 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
     setIsSlowLoad(false)
     const slowLoadTimer = setTimeout(() => {
       // If it takes more than 3 seconds, it's likely a Vercel cold start
-      console.log("Loading is taking longer than usual (Vercel cold start)...")
       setIsSlowLoad(true)
     }, 3000);
 

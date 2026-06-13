@@ -121,12 +121,13 @@ const ThreeModel: React.FC<ThreeModelProps> = ({ mode, className = "", color }) 
 
     // Animation Loop
     let animationFrameId: number
-    const clock = new THREE.Clock()
+    const timer = new THREE.Timer()
 
-    const animate = () => {
+    const animate = (timestamp: number) => {
       animationFrameId = requestAnimationFrame(animate)
 
-      const elapsed = clock.getElapsedTime()
+      timer.update(timestamp)
+      const elapsed = timer.getElapsed()
 
       if (particles) {
         particles.rotation.y = elapsed * 0.05
@@ -159,7 +160,7 @@ const ThreeModel: React.FC<ThreeModelProps> = ({ mode, className = "", color }) 
       renderer.render(scene, camera)
     }
 
-    animate()
+    requestAnimationFrame(animate)
 
     // Resize Handler
     const handleResize = () => {
