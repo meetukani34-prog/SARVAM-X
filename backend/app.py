@@ -373,16 +373,16 @@ def heatmap(user_id):
 
     # Pivot: {topic: {month: score}}
     grid = {}
-    months = set()
+    months_sorted = []
     for row in topic_scores:
         topic = row['topic']
         month = row['month']
-        months.add(month)
+        if month not in months_sorted:
+            months_sorted.append(month)
+            
         if topic not in grid:
             grid[topic] = {}
         grid[topic][month] = row['score']
-
-    months_sorted = sorted(months)
 
     # Calculate mastery distribution
     all_scores = [s for m in grid.values() for s in m.values()]

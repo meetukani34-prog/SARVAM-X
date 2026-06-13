@@ -34,8 +34,48 @@ def fetch_sessions(user_id):
     return res.data
 
 def fetch_topic_scores(user_id):
-    res = supabase.table("topic_scores").select("topic, month, score").eq("user_id", user_id).order("month").execute()
-    return res.data
+    # Dynamically compute topic_scores from real user sessions
+    res = supabase.table("sessions").select("topic, accuracy, timestamp").eq("user_id", user_id).execute()
+    sessions = res.data
+    
+    if not sessions:
+        return []
+        
+    scores_dict = {}
+    for s in sessions:
+        topic = s.get("topic")
+        acc = s.get("accuracy", 0)
+        ts_str = s.get("timestamp")
+        
+        if ts_str:
+            try:
+                dt = datetime.fromisoformat(ts_str.replace("Z", "+00:00"))
+                sort_key = dt.strftime("%Y-%m")
+                display_month = dt.strftime("%b %y") # e.g. "Jun 26"
+            except Exception:
+                sort_key = "2000-01"
+                display_month = "Unknown"
+        else:
+            sort_key = "2000-01"
+            display_month = "Unknown"
+            
+        key = (topic, sort_key, display_month)
+        if key not in scores_dict:
+            scores_dict[key] = []
+        scores_dict[key].append(acc)
+        
+    topic_scores = []
+    for (topic, sort_key, display_month), acc_list in scores_dict.items():
+        avg_score = sum(acc_list) / len(acc_list)
+        topic_scores.append({
+            "topic": topic,
+            "sort_key": sort_key,
+            "month": display_month,
+            "score": round(avg_score, 1)
+        })
+        
+    topic_scores.sort(key=lambda x: x["sort_key"])
+    return topic_scores
 
 def create_user(name, email, password):
     hashed_pwd = generate_password_hash(password)
