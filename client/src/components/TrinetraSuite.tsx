@@ -338,7 +338,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-slate-900/[0.02] dark:bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white transition-all"
+          className="w-9 h-9 rounded-lg border border-slate-900/10 dark:border-white/10 bg-slate-900/[0.02] dark:bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white transition-all"
         >
           {sidebarOpen ? (
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -584,7 +584,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                       onChange={(e) => setNewsInput(e.target.value)}
                       placeholder="Paste claims or transcripts here..."
                       rows={8}
-                      className="w-full bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-2xl p-4 text-xs text-slate-900 dark:text-white outline-none resize-none leading-relaxed mb-6"
+                      className="w-full bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/10 dark:border-white/10 hover:border-slate-900/10 dark:border-white/10 focus:border-slate-900/10 dark:border-white/10 rounded-2xl p-4 text-xs text-slate-900 dark:text-white outline-none resize-none leading-relaxed mb-6"
                     />
                   </div>
 

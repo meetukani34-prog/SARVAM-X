@@ -58,7 +58,7 @@ const HeroSection: React.FC = () => {
           </a>
           <a
             href="#features"
-            className="bg-slate-900/ dark:bg-white/ text-foreground border border-slate-900/ dark:border-white/ px-5 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold rounded-lg cursor-pointer hover:bg-slate-900/ dark:bg-white/ hover:border-slate-900/ dark:border-white/ transition-all duration-300 active:scale-[0.97] pointer-events-auto select-none text-center uppercase tracking-wider backdrop-blur-sm"
+            className="bg-slate-900/5 dark:bg-white/5 text-foreground border border-slate-900/10 dark:border-white/10 px-5 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold rounded-lg cursor-pointer hover:bg-slate-900/5 dark:bg-white/5 hover:border-slate-900/10 dark:border-white/10 transition-all duration-300 active:scale-[0.97] pointer-events-auto select-none text-center uppercase tracking-wider backdrop-blur-sm"
           >
             Learn More
           </a>
@@ -84,7 +84,7 @@ const HeroSection: React.FC = () => {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 opacity-0 animate-fade-up" style={{ animationDelay: "1.2s" }}>
-        <div className="w-6 h-10 rounded-full border-2 border-slate-900/ dark:border-white/ flex items-start justify-center p-1.5">
+        <div className="w-6 h-10 rounded-full border-2 border-slate-900/10 dark:border-white/10 flex items-start justify-center p-1.5">
           <div className="w-1 h-2.5 rounded-full bg-primary animate-bounce" />
         </div>
       </div>

@@ -442,7 +442,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-slate-900/[0.02] dark:bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white transition-all"
+          className="w-9 h-9 rounded-lg border border-slate-900/10 dark:border-white/10 bg-slate-900/[0.02] dark:bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white transition-all"
         >
           {sidebarOpen ? (
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -655,7 +655,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           setLogSubSubject(newSubSubj);
                           setLogTopic(subjectTopicsMap[newSubj][newSubSubj][0]);
                         }}
-                        className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
+                        className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/10 dark:border-white/10 hover:border-slate-900/10 dark:border-white/10 focus:border-slate-900/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
                       >
                         {Object.keys(subjectTopicsMap).map((s) => (
                           <option key={s} value={s} className="bg-[#0e121b] text-slate-900 dark:text-white">{s}</option>
@@ -672,7 +672,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           setLogSubSubject(newSubSubj);
                           setLogTopic(subjectTopicsMap[logSubject][newSubSubj][0]);
                         }}
-                        className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
+                        className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/10 dark:border-white/10 hover:border-slate-900/10 dark:border-white/10 focus:border-slate-900/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
                       >
                         {Object.keys(subjectTopicsMap[logSubject]).map((ss) => (
                           <option key={ss} value={ss} className="bg-[#0e121b] text-slate-900 dark:text-white">{ss}</option>
@@ -685,7 +685,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                       <select
                         value={logTopic}
                         onChange={(e) => setLogTopic(e.target.value)}
-                        className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
+                        className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/10 dark:border-white/10 hover:border-slate-900/10 dark:border-white/10 focus:border-slate-900/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
                       >
                         {subjectTopicsMap[logSubject][logSubSubject].map((t) => (
                           <option key={t} value={t} className="bg-[#0e121b] text-slate-900 dark:text-white">{t}</option>
@@ -704,7 +704,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                         max="100"
                         value={logAccuracy}
                         onChange={(e) => setLogAccuracy(Number(e.target.value))}
-                        className="w-full accent-primary h-1 bg-slate-900/ dark:bg-white/ rounded-lg cursor-pointer transition-all"
+                        className="w-full accent-primary h-1 bg-slate-900/5 dark:bg-white/5 rounded-lg cursor-pointer transition-all"
                       />
                     </div>
 
@@ -717,7 +717,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           max="300"
                           value={logDuration}
                           onChange={(e) => setLogDuration(Number(e.target.value))}
-                          className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs text-slate-900 dark:text-white outline-none"
+                          className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs text-slate-900 dark:text-white outline-none"
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
@@ -728,7 +728,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           max="50"
                           value={logProblems}
                           onChange={(e) => setLogProblems(Number(e.target.value))}
-                          className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs text-slate-900 dark:text-white outline-none"
+                          className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs text-slate-900 dark:text-white outline-none"
                         />
                       </div>
                     </div>
@@ -788,7 +788,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                         step="0.5"
                         value={simHours}
                         onChange={(e) => setSimHours(Number(e.target.value))}
-                        className="w-full accent-primary h-1 bg-slate-900/ dark:bg-white/ rounded-lg cursor-pointer"
+                        className="w-full accent-primary h-1 bg-slate-900/5 dark:bg-white/5 rounded-lg cursor-pointer"
                       />
                     </div>
                   </div>
@@ -854,7 +854,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                         <select
                           value={debugLanguage}
                           onChange={(e) => setDebugLanguage(e.target.value)}
-                          className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-2 px-4 text-[10px] uppercase font-bold tracking-widest text-slate-900 dark:text-white outline-none cursor-pointer"
+                          className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/10 dark:border-white/10 hover:border-slate-900/10 dark:border-white/10 focus:border-slate-900/10 dark:border-white/10 rounded-xl py-2 px-4 text-[10px] uppercase font-bold tracking-widest text-slate-900 dark:text-white outline-none cursor-pointer"
                         >
                           {["python", "javascript", "typescript", "cpp", "c", "csharp", "rust", "go", "java", "ruby", "php", "swift", "kotlin", "scala"].map((lang) => (
                             <option key={lang} value={lang} className="bg-[#0e121b] text-slate-900 dark:text-white">{lang.toUpperCase()}</option>
@@ -1117,7 +1117,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                                   ? "bg-primary/20 border-primary/30 text-primary"
                                   : score > 0
                                   ? "bg-cyan-500/15 border-cyan-500/35 text-cyan-300"
-                                  : "bg-slate-900/[0.02] dark:bg-white/[0.02] border-slate-900/ dark:border-white/ text-muted-foreground/30"
+                                  : "bg-slate-900/[0.02] dark:bg-white/[0.02] border-slate-900/10 dark:border-white/10 text-muted-foreground/30"
                                 return (
                                   <div
                                     key={m}
@@ -1193,7 +1193,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   <h3 className="text-xs font-bold uppercase tracking-widest text-primary">Logged Academic History</h3>
                   <button
                     onClick={loadHistoryData}
-                    className="p-2 border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ rounded-xl bg-slate-900/[0.02] dark:bg-white/[0.02] hover:bg-white/[0.04] text-xs transition-all text-gray-300"
+                    className="p-2 border border-slate-900/10 dark:border-white/10 hover:border-slate-900/10 dark:border-white/10 rounded-xl bg-slate-900/[0.02] dark:bg-white/[0.02] hover:bg-white/[0.04] text-xs transition-all text-gray-300"
                     title="Reload"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

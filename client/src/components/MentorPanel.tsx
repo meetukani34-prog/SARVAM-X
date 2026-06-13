@@ -369,7 +369,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
             className={`px-3 py-1.5 rounded-lg border text-[9px] uppercase font-bold tracking-widest flex items-center gap-1.5 duration-300 transition-all ${
               isVisionActive
                 ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.15)]"
-                : "bg-slate-900/[0.02] dark:bg-white/[0.02] border-slate-900/ dark:border-white/ text-muted-foreground hover:text-slate-900 dark:text-white"
+                : "bg-slate-900/[0.02] dark:bg-white/[0.02] border-slate-900/10 dark:border-white/10 text-muted-foreground hover:text-slate-900 dark:text-white"
             }`}
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -395,7 +395,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
           />
           {/* Facial analysis scanline */}
           <div className="absolute top-0 bottom-0 left-0 right-0 pointer-events-none bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent animate-scanline border-b border-cyan-500/20" />
-          <div className="absolute bottom-2 left-2 bg-white/60 dark:bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-md border border-slate-900/ dark:border-white/ flex items-center gap-1.5 shadow-md">
+          <div className="absolute bottom-2 left-2 bg-white/60 dark:bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-md border border-slate-900/10 dark:border-white/10 flex items-center gap-1.5 shadow-md">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             <span id="user-emotion-label" className="text-[8px] font-bold text-slate-900 dark:text-white uppercase tracking-widest font-mono">
               USER: {userEmotion.toUpperCase()} {(emotionConfidence * 100).toFixed(0)}%
@@ -453,7 +453,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
             onChange={(e) => setInputText(e.target.value)}
             disabled={isStreaming}
             placeholder="Sync a question with Luminous..."
-            className="flex-1 bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl px-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder-muted-foreground/50 outline-none transition-all duration-300 disabled:opacity-50"
+            className="flex-1 bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/10 dark:border-white/10 hover:border-slate-900/10 dark:border-white/10 focus:border-slate-900/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder-muted-foreground/50 outline-none transition-all duration-300 disabled:opacity-50"
           />
           <button
             type="submit"

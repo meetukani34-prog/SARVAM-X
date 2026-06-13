@@ -177,7 +177,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="p-8 md:p-10 relative z-10">
               <button 
                 onClick={() => setActiveModal(null)}
-                className="absolute top-6 right-6 p-2 rounded-full bg-slate-900/[0.02] dark:bg-white/[0.02] hover:bg-white/[0.1] text-slate-900/ dark:text-white/ hover:text-slate-900 dark:text-white transition-all duration-300"
+                className="absolute top-6 right-6 p-2 rounded-full bg-slate-900/[0.02] dark:bg-white/[0.02] hover:bg-white/[0.1] text-slate-900/60 dark:text-white/60 hover:text-slate-900 dark:text-white transition-all duration-300"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -196,9 +196,9 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </div>
               </div>
               
-              <div className="text-slate-900/ dark:text-white/ space-y-5 max-h-[50vh] overflow-y-auto pr-4 text-sm md:text-base leading-relaxed font-light custom-scrollbar">
+              <div className="text-slate-900/60 dark:text-white/60 space-y-5 max-h-[50vh] overflow-y-auto pr-4 text-sm md:text-base leading-relaxed font-light custom-scrollbar">
                 {currentContent?.img && (
-                  <div className="w-full h-48 rounded-xl overflow-hidden border border-slate-900/ dark:border-white/ mb-6 shadow-lg">
+                  <div className="w-full h-48 rounded-xl overflow-hidden border border-slate-900/10 dark:border-white/10 mb-6 shadow-lg">
                     <img src={currentContent.img} alt={activeModal || "Resource"} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                   </div>
                 )}
@@ -219,7 +219,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <div className="mt-10 pt-6 border-t border-slate-900/[0.05] dark:border-white/[0.05] flex justify-end gap-4">
                 <button 
                   onClick={() => setActiveModal(null)}
-                  className="px-6 py-3 bg-transparent hover:bg-white/[0.05] text-slate-900/ dark:text-white/ hover:text-slate-900 dark:text-white rounded-xl transition-colors font-medium text-sm tracking-wide"
+                  className="px-6 py-3 bg-transparent hover:bg-white/[0.05] text-slate-900/60 dark:text-white/60 hover:text-slate-900 dark:text-white rounded-xl transition-colors font-medium text-sm tracking-wide"
                 >
                   Cancel
                 </button>

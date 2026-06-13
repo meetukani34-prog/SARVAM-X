@@ -88,11 +88,11 @@ const Navbar: React.FC<NavbarProps> = ({ activeView, onNavigate, isLoggedIn = fa
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg bg-nav-button/30 hover:bg-nav-button/50 border border-slate-900/ dark:border-white/ transition-colors"
+            className="p-2 rounded-lg bg-nav-button/30 hover:bg-nav-button/50 border border-slate-900/10 dark:border-white/10 transition-colors"
             aria-label="Toggle theme"
           >
             {theme === "dark" ? (
-              <svg className="w-5 h-5 text-slate-900/ dark:text-white/" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-slate-900/60 dark:text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
             ) : (
@@ -143,7 +143,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeView, onNavigate, isLoggedIn = fa
           {/* Hamburger Menu Button (Mobile) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-slate-900/[0.02] dark:bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white hover:border-slate-900/ dark:border-white/ transition-all"
+            className="md:hidden w-9 h-9 rounded-lg border border-slate-900/10 dark:border-white/10 bg-slate-900/[0.02] dark:bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white hover:border-slate-900/10 dark:border-white/10 transition-all"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
@@ -174,7 +174,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeView, onNavigate, isLoggedIn = fa
               key={link}
               href={`#${link.toLowerCase()}`}
               onClick={() => handleMobileNav(`#${link.toLowerCase()}`)}
-              className="text-xl font-bold text-slate-900/ dark:text-white/ hover:text-primary uppercase tracking-[0.2em] transition-all duration-300"
+              className="text-xl font-bold text-slate-900/60 dark:text-white/60 hover:text-primary uppercase tracking-[0.2em] transition-all duration-300"
               style={{ animationDelay: `${i * 0.05}s` }}
             >
               {link}
