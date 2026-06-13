@@ -551,7 +551,7 @@ def chat():
     system_msg = COGNITIVE_MIRROR_PERSONA + "\n" + student_ctx
     
     # Format history for OpenAI API
-    formatted_messages = [{"role": "system", "content": system_msg + "\nCOMPULSORY RESPONSE RULE: You MUST reply in the EXACT same language as the user's latest message. If the user's latest message is in English, reply entirely in English. If it is in Hindi, reply in Hindi. Be concise, empathetic, and fast."}]
+    formatted_messages = [{"role": "system", "content": system_msg + "\nCOMPULSORY RESPONSE RULE: Look AT THE USER'S LATEST MESSAGE. If there are NO Hindi/Hinglish/Gujarati words in the user's latest message, you MUST reply 100% in pure English. Even if the user's grammar is broken, if the words are English, YOU MUST REPLY IN ENGLISH. Do NOT use Hinglish or Hindi unless the user specifically typed Hindi/Hinglish words in their latest message."}]
     
     for msg in history[-4:]: # Keep last 4 turns for context
         formatted_messages.append({
