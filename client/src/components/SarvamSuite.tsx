@@ -401,11 +401,22 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
     ]
   }
 
+  const getBackgroundImage = (tab: string) => {
+    switch (tab) {
+      case "dashboard": return "/bg-sarvam.png";
+      case "debugger": return "/bg-blue.png";
+      case "xai": return "/bg-cyan.png";
+      case "heatmap": return "/bg-orange.png";
+      case "history": return "/bg-trinetra.png";
+      default: return "/bg-sarvam.png";
+    }
+  }
+
   return (
     <div 
-      className="flex h-screen bg-[#07090e] text-foreground overflow-hidden font-sans select-none bg-cover bg-center bg-no-repeat bg-fixed"
+      className="flex h-screen bg-[#07090e] text-foreground overflow-hidden font-sans select-none bg-cover bg-center bg-no-repeat bg-fixed transition-all duration-1000"
       style={{
-        backgroundImage: "linear-gradient(to bottom, rgba(7, 9, 14, 0.75), rgba(7, 9, 14, 0.98)), url('/bg-sarvam.png')"
+        backgroundImage: `linear-gradient(to bottom, rgba(7, 9, 14, 0.75), rgba(7, 9, 14, 0.98)), url('${getBackgroundImage(activeTab)}')`
       }}
     >
 
