@@ -30,11 +30,15 @@ ChartJS.register(
 )
 
 const subjectTopicsMap: Record<string, string[]> = {
-  "Computer Science": ["Algorithms", "Networks", "Operating Systems", "Databases", "Compilers", "Web Security", "Artificial Intelligence", "Software Engineering", "Cryptography"],
+  "Computer Science Core": ["Algorithms", "Networks", "Operating Systems", "Databases", "Compilers", "Software Engineering"],
+  "Data Structures & Algorithms": ["Arrays & Strings", "Linked Lists", "Trees & Graphs", "Dynamic Programming", "Recursion", "Sorting & Searching"],
+  "Programming Languages": ["Python", "C", "C++", "Java", "JavaScript", "Rust", "Go"],
+  "Cyber Security": ["Network Security", "Cryptography", "Ethical Hacking", "Web Application Security", "Digital Forensics"],
+  "Artificial Intelligence & ML": ["Machine Learning", "Deep Learning", "Natural Language Processing", "Computer Vision", "Reinforcement Learning"],
+  "Data Science & Big Data": ["Data Mining", "Data Visualization", "Big Data", "Statistical Modeling", "Predictive Analytics"],
   "Mathematics": ["Calculus", "Linear Algebra", "Discrete Mathematics", "Probability", "Statistics", "Number Theory"],
   "Physics": ["Mechanics", "Electromagnetism", "Thermodynamics", "Quantum Mechanics", "Relativity", "Optics"],
   "Biology": ["Genetics", "Cell Biology", "Evolution", "Ecology", "Human Anatomy", "Bioinformatics"],
-  "Data Science": ["Machine Learning", "Data Mining", "Data Visualization", "Big Data", "Natural Language Processing", "Deep Learning"],
   "Chemistry": ["Organic Chemistry", "Inorganic Chemistry", "Physical Chemistry", "Biochemistry", "Analytical Chemistry"],
   "Economics": ["Microeconomics", "Macroeconomics", "Econometrics", "Game Theory", "International Trade"],
   "Literature": ["American Literature", "British Literature", "World Literature", "Poetry", "Drama", "Literary Theory"]
@@ -98,8 +102,8 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
   const [loadingHeatmap, setLoadingHeatmap] = useState(true)
 
   // Session logger states
-  const [logSubject, setLogSubject] = useState("Computer Science")
-  const [logTopic, setLogTopic] = useState(subjectTopicsMap["Computer Science"][0])
+  const [logSubject, setLogSubject] = useState("Computer Science Core")
+  const [logTopic, setLogTopic] = useState(subjectTopicsMap["Computer Science Core"][0])
   const [logAccuracy, setLogAccuracy] = useState(80)
   const [logDuration, setLogDuration] = useState(45)
   const [logProblems, setLogProblems] = useState(6)
