@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface PricingSectionProps {
   onNavigate: (view: "landing" | "auth" | "sarvam" | "trinetra", platform?: "sarvam" | "trinetra") => void;
 }
 
+const customOptions = [
+  { label: "Custom Scale", price: "Custom", unit: "/ year", cta: "Contact Sales" },
+  { label: "10,000 API/day", price: "₹999", unit: "/ month", cta: "Get Enterprise" },
+  { label: "50,000 API/day", price: "₹1,999", unit: "/ month", cta: "Get Enterprise" },
+  { label: "100,000 API/day", price: "₹2,999", unit: "/ month", cta: "Get Enterprise" },
+];
+
 const PricingSection: React.FC<PricingSectionProps> = ({ onNavigate }) => {
+  const [customSelection, setCustomSelection] = useState(0);
+  const selectedCustom = customOptions[customSelection];
+
   return (
     <section className="relative w-full py-32 overflow-hidden z-10 bg-slate-50 dark:bg-[#07090e]">
       {/* Background ambient glow */}
@@ -96,10 +106,28 @@ const PricingSection: React.FC<PricingSectionProps> = ({ onNavigate }) => {
           {/* Enterprise Plan */}
           <div className="relative group rounded-3xl border border-slate-900/10 dark:border-slate-900/10 dark:border-white/10 bg-white/50 dark:bg-[#0b0e14]/50 backdrop-blur-xl p-8 hover:border-slate-900/20 dark:hover:border-slate-900/20 dark:border-white/20 transition-all duration-300 flex flex-col">
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Enterprise</h3>
-            <p className="text-sm text-muted-foreground/70 mb-6 min-h-[40px]">For large scale organizations requiring custom SLAs and dedicated infrastructure.</p>
+            <p className="text-sm text-muted-foreground/70 mb-4 min-h-[40px]">For large scale organizations requiring custom SLAs and dedicated infrastructure.</p>
+            
+            <div className="mb-4 relative">
+              <select 
+                className="w-full bg-slate-900/5 dark:bg-white/5 border border-slate-900/10 dark:border-white/10 rounded-xl px-4 py-3 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple/50 appearance-none cursor-pointer"
+                value={customSelection}
+                onChange={(e) => setCustomSelection(Number(e.target.value))}
+              >
+                {customOptions.map((opt, idx) => (
+                  <option key={idx} value={idx} className="bg-slate-50 text-slate-900 dark:bg-[#0b0e14] dark:text-white">
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-500 dark:text-slate-400">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+              </div>
+            </div>
+
             <div className="mb-8">
-              <span className="text-5xl font-extrabold text-slate-900 dark:text-white">Custom</span>
-              <span className="text-muted-foreground/60 text-sm"> / year</span>
+              <span className="text-5xl font-extrabold text-slate-900 dark:text-white">{selectedCustom.price}</span>
+              <span className="text-muted-foreground/60 text-sm"> {selectedCustom.unit}</span>
             </div>
             <ul className="space-y-4 mb-8 flex-1">
               <li className="flex items-center gap-3 text-slate-900/80 dark:text-white/80 text-sm">
@@ -123,7 +151,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({ onNavigate }) => {
               onClick={() => onNavigate("auth")}
               className="w-full py-4 rounded-xl border border-slate-900/10 dark:border-slate-900/10 dark:border-white/10 hover:border-purple/50 text-slate-900 dark:text-white font-bold tracking-wide hover:bg-purple/10 transition-colors"
             >
-              Contact Sales
+              {selectedCustom.cta}
             </button>
           </div>
         </div>
