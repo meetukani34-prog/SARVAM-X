@@ -450,6 +450,15 @@ def dashboard(user_id):
     weak_topics = twin.detect_weak_topics(topic_scores)
     shap_vals = twin.get_shap_values(sessions)
 
+    # XAI narrative and study plan
+    study_plan = twin.generate_study_plan(weak_topics, sessions)
+    narrative = explainer.generate_narrative(predicted_score, shap_vals, weak_topics)
+    feature_breakdown = explainer.get_feature_breakdown(shap_vals)
+    tips = explainer.get_improvement_tips(shap_vals)
+
+    # Save prediction
+    db.save_prediction(user_id, predicted_score, shap_vals, narrative)
+
     # KPIs
     total_problems = sum(s.get('problems_solved', 0) for s in sessions)
     total_hours = round(sum(s.get('duration_min', 0) for s in sessions) / 60, 1)
@@ -470,6 +479,12 @@ def dashboard(user_id):
         "predicted_score": predicted_score,
         "velocity": velocity,
         "weak_topics": weak_topics[:3],
+        "study_plan": study_plan,
+        "shap_values": shap_vals,
+        "feature_breakdown": feature_breakdown,
+        "narrative": narrative,
+        "tips": tips,
+        "session_count": len(sessions),
         "kpis": {
             "total_problems": total_problems,
             "focus_hours": total_hours,
@@ -477,7 +492,6 @@ def dashboard(user_id):
             "session_count": len(sessions),
         },
         "daily_status": daily_status,
-        "shap_values": shap_vals,
     })
 
 

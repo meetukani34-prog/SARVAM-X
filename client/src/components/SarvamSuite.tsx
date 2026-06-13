@@ -220,13 +220,10 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
     }, 3000);
 
     try {
-      // Run both heavy API calls in parallel to cut the 15+ second load time in half
-      const [res, dash] = await Promise.all([
-        api.getTwin(userId),
-        api.getDashboard(userId)
-      ]);
+      // Fetch consolidated dashboard metric (now includes all Twin data) to cut down Vercel cold start by half!
+      const dash = await api.getDashboard(userId)
 
-      setTwinData(res);
+      setTwinData(dash);
       setKpis(dash.kpis);
       setDailyStatus(dash.daily_status);
     } catch (e) {

@@ -142,6 +142,11 @@ export interface DashboardResponse {
   predicted_score: number;
   velocity: number;
   weak_topics: string[];
+  study_plan: string[];
+  feature_breakdown: { [key: string]: string };
+  narrative: string;
+  tips: string[];
+  session_count: number;
   kpis: KPI;
   daily_status: Array<{ topic: string; score: number }>;
   shap_values: { [key: string]: number };
