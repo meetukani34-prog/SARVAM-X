@@ -14,7 +14,7 @@
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%; /* slate-500 */
+    --muted-foreground: 215.3 19.3% 34.5%; /* slate-700 for better contrast */
 
     --accent: 142.1 76.2% 36.3%;
     --accent-foreground: 355.7 100% 97.3%;

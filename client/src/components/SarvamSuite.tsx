@@ -360,7 +360,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
 
 
   // Visual styling helper mapping
-  const bgCard = "bg-white/[0.02] backdrop-blur-2xl border border-white/[0.05] rounded-3xl"
+  const bgCard = "bg-slate-900/[0.02] dark:bg-white/[0.02] backdrop-blur-2xl border border-slate-900/[0.05] dark:border-white/[0.05] rounded-3xl"
 
   // Line Chart Config for skills
   const lineChartData = {
@@ -423,13 +423,13 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
       {/* Mobile Sidebar Overlay Backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-30 bg-white/60 dark:bg-black/60 backdrop-blur-sm md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Mobile Top Bar */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white/[0.01] border-b border-white/[0.05] z-20">
+      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white/[0.01] border-b border-slate-900/[0.05] dark:border-white/[0.05] z-20">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -440,7 +440,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white transition-all"
+          className="w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-slate-900/[0.02] dark:bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white transition-all"
         >
           {sidebarOpen ? (
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -462,7 +462,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
       <MentorPanel userId={userId} />
 
       {/* LEFT SIDEBAR NAVIGATION */}
-      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-slate-50/95 dark:bg-slate-50/95 dark:bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-slate-900/10 dark:border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-slate-50/95 dark:bg-slate-50/95 dark:bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-slate-900/10 dark:border-slate-900/[0.05] dark:border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col gap-8">
           
           {/* Main Suite Brand Logo - clickable to go back to landing page */}
@@ -513,7 +513,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
         </div>
 
         {/* Workspace selector, profile & actions */}
-        <div className="flex flex-col gap-4 mt-8 md:mt-0 pt-6 border-t border-white/[0.05]">
+        <div className="flex flex-col gap-4 mt-8 md:mt-0 pt-6 border-t border-slate-900/[0.05] dark:border-white/[0.05]">
           <button
             onClick={onSwitchSuite}
             className="w-full py-3 px-4 bg-purple/10 border border-purple/20 text-purple text-xs font-semibold tracking-widest uppercase rounded-xl hover:bg-purple/25 transition-all duration-300 flex items-center justify-center gap-2"
@@ -565,11 +565,11 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
           <div className="animate-fadeIn">
 
             {/* Breadcrumb section */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-4 border-b border-white/[0.04]">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-4 border-b border-slate-900/[0.04] dark:border-white/[0.04]">
               <div className="flex items-center gap-4">
                 <button 
                   onClick={onBackToHome} 
-                  className="flex items-center justify-center shrink-0 w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all duration-300 focus:outline-none shadow-sm group"
+                  className="flex items-center justify-center shrink-0 w-12 h-12 rounded-xl bg-white/[0.03] border border-slate-900/[0.08] dark:border-white/[0.08] hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all duration-300 focus:outline-none shadow-sm group"
                   title="Exit to Main Website"
                 >
                   <svg className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -583,7 +583,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   </h2>
                 </div>
               </div>
-              <div className="text-[10px] text-muted-foreground bg-white/[0.02] border border-white/[0.06] rounded-xl px-4 py-2 font-bold tracking-widest font-mono uppercase">
+              <div className="text-[10px] text-muted-foreground bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/[0.06] dark:border-white/[0.06] rounded-xl px-4 py-2 font-bold tracking-widest font-mono uppercase">
                 Twin Resonance: {twinData?.predicted_score ? Math.round(twinData.predicted_score) : 70}%
               </div>
             </div>
@@ -617,7 +617,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-2 sm:gap-4 border-t border-white/[0.05] pt-4 sm:pt-6 mt-4 sm:mt-6 text-center">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4 border-t border-slate-900/[0.05] dark:border-white/[0.05] pt-4 sm:pt-6 mt-4 sm:mt-6 text-center">
                     <div>
                       <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold">Predicted Score</span>
                       <p className="text-xl font-extrabold text-slate-900 dark:text-white mt-1">{twinData?.predicted_score ? Math.round(twinData.predicted_score) : 70}%</p>
@@ -653,7 +653,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           setLogSubSubject(newSubSubj);
                           setLogTopic(subjectTopicsMap[newSubj][newSubSubj][0]);
                         }}
-                        className="bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
+                        className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
                       >
                         {Object.keys(subjectTopicsMap).map((s) => (
                           <option key={s} value={s} className="bg-[#0e121b] text-slate-900 dark:text-white">{s}</option>
@@ -670,7 +670,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           setLogSubSubject(newSubSubj);
                           setLogTopic(subjectTopicsMap[logSubject][newSubSubj][0]);
                         }}
-                        className="bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
+                        className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
                       >
                         {Object.keys(subjectTopicsMap[logSubject]).map((ss) => (
                           <option key={ss} value={ss} className="bg-[#0e121b] text-slate-900 dark:text-white">{ss}</option>
@@ -683,7 +683,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                       <select
                         value={logTopic}
                         onChange={(e) => setLogTopic(e.target.value)}
-                        className="bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
+                        className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
                       >
                         {subjectTopicsMap[logSubject][logSubSubject].map((t) => (
                           <option key={t} value={t} className="bg-[#0e121b] text-slate-900 dark:text-white">{t}</option>
@@ -715,7 +715,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           max="300"
                           value={logDuration}
                           onChange={(e) => setLogDuration(Number(e.target.value))}
-                          className="bg-white/[0.02] border border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs text-slate-900 dark:text-white outline-none"
+                          className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs text-slate-900 dark:text-white outline-none"
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
@@ -726,7 +726,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           max="50"
                           value={logProblems}
                           onChange={(e) => setLogProblems(Number(e.target.value))}
-                          className="bg-white/[0.02] border border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs text-slate-900 dark:text-white outline-none"
+                          className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs text-slate-900 dark:text-white outline-none"
                         />
                       </div>
                     </div>
@@ -791,8 +791,8 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 border-t border-white/[0.05] pt-6 mt-6">
-                    <div className="p-4 bg-white/[0.01] border border-white/[0.03] rounded-2xl text-center">
+                  <div className="grid grid-cols-2 gap-4 border-t border-slate-900/[0.05] dark:border-white/[0.05] pt-6 mt-6">
+                    <div className="p-4 bg-white/[0.01] border border-slate-900/[0.03] dark:border-white/[0.03] rounded-2xl text-center">
                       <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold">Standard Score</span>
                       <p className="text-xl font-extrabold text-slate-900 dark:text-white mt-1">{simData?.original_score ? Math.round(simData.original_score) : 70}%</p>
                     </div>
@@ -810,7 +810,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                     <div className="flex flex-col gap-3.5">
                       {twinData?.weak_topics && twinData.weak_topics.length > 0 ? (
                         twinData.weak_topics.map((topic, i) => (
-                          <div key={i} className="flex gap-3 items-start p-3 bg-white/[0.01] border border-white/[0.03] rounded-2xl">
+                          <div key={i} className="flex gap-3 items-start p-3 bg-white/[0.01] border border-slate-900/[0.03] dark:border-white/[0.03] rounded-2xl">
                             <span className="w-5 h-5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-[9px] flex items-center justify-center font-mono shrink-0">!</span>
                             <div>
                               <p className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">{topic}</p>
@@ -825,7 +825,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   </div>
                   
                   {/* Digital Twin 3D node indicator */}
-                  <div className="flex items-center gap-3 bg-white/[0.02] border border-white/[0.05] p-3 rounded-2xl mt-6">
+                  <div className="flex items-center gap-3 bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/[0.05] dark:border-white/[0.05] p-3 rounded-2xl mt-6">
                     <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0">
                       <ThreeModel mode="dodecahedron" color={0x10b981} className="w-full h-full" />
                     </div>
@@ -852,7 +852,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                         <select
                           value={debugLanguage}
                           onChange={(e) => setDebugLanguage(e.target.value)}
-                          className="bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-2 px-4 text-[10px] uppercase font-bold tracking-widest text-slate-900 dark:text-white outline-none cursor-pointer"
+                          className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-2 px-4 text-[10px] uppercase font-bold tracking-widest text-slate-900 dark:text-white outline-none cursor-pointer"
                         >
                           {["python", "javascript", "typescript", "cpp", "c", "csharp", "rust", "go", "java", "ruby", "php", "swift", "kotlin", "scala"].map((lang) => (
                             <option key={lang} value={lang} className="bg-[#0e121b] text-slate-900 dark:text-white">{lang.toUpperCase()}</option>
@@ -860,9 +860,9 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                         </select>
                       </div>
 
-                      <div className="relative border border-white/[0.06] rounded-2xl overflow-hidden bg-black/40 mb-6">
+                      <div className="relative border border-slate-900/[0.06] dark:border-white/[0.06] rounded-2xl overflow-hidden bg-white/40 dark:bg-black/40 mb-6">
                         {/* Fake code header */}
-                        <div className="bg-white/[0.02] border-b border-white/[0.04] px-4 py-2 flex items-center justify-between text-[9px] font-mono tracking-widest text-muted-foreground select-none">
+                        <div className="bg-slate-900/[0.02] dark:bg-white/[0.02] border-b border-slate-900/[0.04] dark:border-white/[0.04] px-4 py-2 flex items-center justify-between text-[9px] font-mono tracking-widest text-muted-foreground select-none">
                           <span>{debugLanguage.toUpperCase()} SCANNER</span>
                           <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
                         </div>
@@ -899,11 +899,11 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                 <div className={`${bgCard} p-4 sm:p-6 flex flex-col justify-between h-[400px] sm:h-[500px]`}>
                   <div>
                     <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-4">AST Trace Terminal</h3>
-                    <div className="bg-black/50 border border-white/[0.05] rounded-2xl p-4 h-96 overflow-y-auto font-mono text-[10px] text-gray-300 flex flex-col gap-2 shadow-inner">
+                    <div className="bg-white/50 dark:bg-black/50 border border-slate-900/[0.05] dark:border-white/[0.05] rounded-2xl p-4 h-96 overflow-y-auto font-mono text-[10px] text-gray-300 flex flex-col gap-2 shadow-inner">
                       {runLogs.map((log, i) => {
                         const isFail = log.level === "FAIL" || log.level === "CRITICAL"
                         return (
-                          <div key={i} className="leading-relaxed border-b border-white/[0.02] pb-1">
+                          <div key={i} className="leading-relaxed border-b border-slate-900/[0.02] dark:border-white/[0.02] pb-1">
                             <span className="text-muted-foreground mr-1.5 select-none font-bold">[{log.time || "LOG"}]</span>
                             <span className={isFail ? "text-red-400 font-bold" : log.level === "DEBUG" ? "text-cyan-400" : "text-emerald-400 font-bold"}>
                               {log.level}:
@@ -919,7 +919,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   </div>
                   
                   {/* Digital Twin metrics indicator */}
-                  <div className="flex items-center justify-between border-t border-white/[0.05] pt-4 text-[9px] font-mono tracking-widest text-muted-foreground mt-4">
+                  <div className="flex items-center justify-between border-t border-slate-900/[0.05] dark:border-white/[0.05] pt-4 text-[9px] font-mono tracking-widest text-muted-foreground mt-4">
                     <span>SYNTAX STATUS: {debugResult ? "PROCESSED" : "STANDBY"}</span>
                     <span>AST VER: 2.1.0</span>
                   </div>
@@ -970,7 +970,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                       <div className="flex flex-col gap-4">
                         {debugResult.fixes && debugResult.fixes.length > 0 ? (
                           debugResult.fixes.map((fix, i) => (
-                            <div key={i} className="p-4 bg-white/[0.01] border border-white/[0.04] rounded-2xl flex flex-col gap-3">
+                            <div key={i} className="p-4 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl flex flex-col gap-3">
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                 <div className="p-3 bg-red-500/[0.03] border border-red-500/10 rounded-xl font-mono text-[10px] text-red-400 truncate">
                                   <span className="text-[8px] block text-muted-foreground uppercase font-bold tracking-wider mb-1 font-sora">ORIGINAL</span>
@@ -994,7 +994,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                     {(debugResult.exec_out || debugResult.exec_err) && (
                       <div className={`${bgCard} lg:col-span-3 p-6`}>
                         <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-4">Python Sub-Process Execution logs</h3>
-                        <div className="p-4 bg-black/40 border border-white/[0.05] rounded-2xl font-mono text-xs">
+                        <div className="p-4 bg-white/40 dark:bg-black/40 border border-slate-900/[0.05] dark:border-white/[0.05] rounded-2xl font-mono text-xs">
                           {debugResult.exec_out && (
                             <div className="mb-2">
                               <span className="text-emerald-400 font-bold block mb-1">STDOUT:</span>
@@ -1007,7 +1007,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                               <pre className="whitespace-pre-wrap leading-relaxed text-red-400/80">{debugResult.exec_err}</pre>
                             </div>
                           )}
-                          <div className="text-[9px] text-muted-foreground uppercase font-bold mt-4 tracking-widest border-t border-white/[0.03] pt-2 flex justify-between">
+                          <div className="text-[9px] text-muted-foreground uppercase font-bold mt-4 tracking-widest border-t border-slate-900/[0.03] dark:border-white/[0.03] pt-2 flex justify-between">
                             <span>EXEC CODE: {debugResult.exec_code}</span>
                             <span>TIMEOUT: 3s</span>
                           </div>
@@ -1034,7 +1034,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                       return (
                         <div key={idx} className="flex items-center justify-between gap-4">
                           <div className="w-1/3 text-xs font-bold text-gray-300 truncate uppercase tracking-wide">{feat.replace(/_/g, " ")}</div>
-                          <div className="flex-1 bg-white/[0.03] h-2.5 rounded-full overflow-hidden relative border border-white/[0.01]">
+                          <div className="flex-1 bg-white/[0.03] h-2.5 rounded-full overflow-hidden relative border border-slate-900/[0.01] dark:border-white/[0.01]">
                             <div className={`${color} h-full rounded-full transition-all duration-1000`} style={{ width: `${widthPercent}%` }} />
                           </div>
                           <div className="w-12 text-right text-xs font-bold font-mono text-primary">{(val * 100).toFixed(0)}%</div>
@@ -1049,15 +1049,15 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   <div>
                     <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-6">Stability Diagnostics</h3>
                     <div className="flex flex-col gap-4">
-                      <div className="flex justify-between items-center p-3 bg-white/[0.01] border border-white/[0.04] rounded-2xl">
+                      <div className="flex justify-between items-center p-3 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl">
                         <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Calibration Stability</span>
                         <span className="text-xs font-bold text-emerald-400">HIGH</span>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-white/[0.01] border border-white/[0.04] rounded-2xl">
+                      <div className="flex justify-between items-center p-3 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl">
                         <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Predictor Confidence</span>
                         <span className="text-xs font-bold text-slate-900 dark:text-white">93.2%</span>
                       </div>
-                      <div className="flex justify-between items-center p-3 bg-white/[0.01] border border-white/[0.04] rounded-2xl">
+                      <div className="flex justify-between items-center p-3 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl">
                         <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Anomalous Risk Factor</span>
                         <span className="text-xs font-bold text-red-400">Low (1.2%)</span>
                       </div>
@@ -1092,7 +1092,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   ) : heatmapData && heatmapData.topics.length > 0 ? (
                     <div className="min-w-[500px]">
                       {/* Grid Headers */}
-                      <div className="grid grid-cols-5 gap-3 mb-3 border-b border-white/[0.05] pb-2 text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
+                      <div className="grid grid-cols-5 gap-3 mb-3 border-b border-slate-900/[0.05] dark:border-white/[0.05] pb-2 text-[9px] font-bold uppercase tracking-widest text-muted-foreground">
                         <div className="col-span-2 text-left">Academic Topic</div>
                         {heatmapData.months.map((m) => (
                           <div key={m} className="text-center">{m}</div>
@@ -1115,7 +1115,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                                   ? "bg-primary/20 border-primary/30 text-primary"
                                   : score > 0
                                   ? "bg-cyan-500/15 border-cyan-500/35 text-cyan-300"
-                                  : "bg-white/[0.02] border-slate-900/ dark:border-white/ text-muted-foreground/30"
+                                  : "bg-slate-900/[0.02] dark:bg-white/[0.02] border-slate-900/ dark:border-white/ text-muted-foreground/30"
                                 return (
                                   <div
                                     key={m}
@@ -1132,7 +1132,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                       </div>
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center justify-center h-48 bg-white/[0.01] border border-white/[0.03] rounded-2xl p-6 text-center">
+                    <div className="flex flex-col items-center justify-center h-48 bg-white/[0.01] border border-slate-900/[0.03] dark:border-white/[0.03] rounded-2xl p-6 text-center">
                       <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -1173,7 +1173,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                     ) : null}
                   </div>
 
-                  <div className="p-4 bg-white/[0.01] border border-white/[0.04] rounded-2xl text-center mt-6">
+                  <div className="p-4 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl text-center mt-6">
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold">Average Cumulative Mastery</span>
                     <p className="text-2xl font-black text-primary mt-1">
                       {heatmapData?.avg_proficiency ? Math.round(heatmapData.avg_proficiency) : 0}%
@@ -1191,7 +1191,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   <h3 className="text-xs font-bold uppercase tracking-widest text-primary">Logged Academic History</h3>
                   <button
                     onClick={loadHistoryData}
-                    className="p-2 border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ rounded-xl bg-white/[0.02] hover:bg-white/[0.04] text-xs transition-all text-gray-300"
+                    className="p-2 border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ rounded-xl bg-slate-900/[0.02] dark:bg-white/[0.02] hover:bg-white/[0.04] text-xs transition-all text-gray-300"
                     title="Reload"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -1209,7 +1209,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                 ) : (
                   <div className="flex flex-col gap-8">
                     {/* Render accuracy progress line chart */}
-                    <div className="h-64 w-full bg-black/20 p-4 border border-white/[0.03] rounded-2xl">
+                    <div className="h-64 w-full bg-white/20 dark:bg-black/20 p-4 border border-slate-900/[0.03] dark:border-white/[0.03] rounded-2xl">
                       <Line
                         data={lineChartData}
                         options={{
@@ -1228,7 +1228,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                     <div className="overflow-x-auto">
                       <table className="w-full text-left text-xs border-collapse">
                         <thead>
-                          <tr className="border-b border-white/[0.06] text-muted-foreground font-bold uppercase tracking-wider text-[9px]">
+                          <tr className="border-b border-slate-900/[0.06] dark:border-white/[0.06] text-muted-foreground font-bold uppercase tracking-wider text-[9px]">
                             <th className="py-3 px-4">Study Set</th>
                             <th className="py-3 px-4">Topic Target</th>
                             <th className="py-3 px-4">Accuracy Rate</th>
@@ -1239,7 +1239,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                         </thead>
                         <tbody>
                           {sessionsHistory.map((sess, i) => (
-                            <tr key={sess.id || i} className="border-b border-white/[0.02] hover:bg-white/[0.01] transition-all">
+                            <tr key={sess.id || i} className="border-b border-slate-900/[0.02] dark:border-white/[0.02] hover:bg-white/[0.01] transition-all">
                               <td className="py-3 px-4 font-mono font-bold text-gray-300">#{sessionsHistory.length - i}</td>
                               <td className="py-3 px-4 font-bold text-slate-900 dark:text-white uppercase tracking-wider">{sess.topic}</td>
                               <td className="py-3 px-4">

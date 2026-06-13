@@ -95,7 +95,7 @@ const AuthView: React.FC<AuthViewProps> = ({
       />
 
       {/* Auth Box wrapper */}
-      <div className="relative z-10 w-full max-w-md bg-white/[0.03] backdrop-blur-2xl border border-white/[0.06] rounded-3xl p-8 md:p-10 shadow-[0_30px_70px_rgba(0,0,0,0.6)] flex flex-col items-center">
+      <div className="relative z-10 w-full max-w-md bg-white/[0.03] backdrop-blur-2xl border border-slate-900/[0.06] dark:border-white/[0.06] rounded-3xl p-8 md:p-10 shadow-[0_30px_70px_rgba(0,0,0,0.6)] flex flex-col items-center">
         {/* Top bar glowing indicator */}
         <div 
           className="absolute top-0 left-10 right-10 h-[2px] transition-all duration-500"
@@ -118,7 +118,7 @@ const AuthView: React.FC<AuthViewProps> = ({
         </button>
 
         {/* Platform selection badge */}
-        <div className="flex gap-2 p-1 bg-white/[0.02] border border-white/[0.05] rounded-xl mt-6 mb-8 w-fit">
+        <div className="flex gap-2 p-1 bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/[0.05] dark:border-white/[0.05] rounded-xl mt-6 mb-8 w-fit">
           <button
             onClick={() => setPlatform("sarvam")}
             className={`px-3 py-1 text-[10px] uppercase font-bold tracking-widest rounded-lg transition-all ${
@@ -164,9 +164,9 @@ const AuthView: React.FC<AuthViewProps> = ({
         </div>
 
         {/* Dynamic sliding switch toggler */}
-        <div className="w-full relative flex p-1 bg-white/[0.02] border border-white/[0.05] rounded-xl mb-6">
+        <div className="w-full relative flex p-1 bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/[0.05] dark:border-white/[0.05] rounded-xl mb-6">
           <div 
-            className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg bg-white/[0.04] border border-white/[0.08] transition-all duration-300 ease-out shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
+            className="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-lg bg-white/[0.04] border border-slate-900/[0.08] dark:border-white/[0.08] transition-all duration-300 ease-out shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
             style={{
               left: activeTab === "login" ? "4px" : "calc(50%)",
             }}
@@ -223,7 +223,7 @@ const AuthView: React.FC<AuthViewProps> = ({
                   placeholder="Meet Ukani"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className={`w-full bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 dark:text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]`}
+                  className={`w-full bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 dark:text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]`}
                 />
               </div>
             </div>
@@ -241,7 +241,7 @@ const AuthView: React.FC<AuthViewProps> = ({
                 placeholder="user@sarvam.ai"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 dark:text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]"
+                className="w-full bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 dark:text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]"
               />
             </div>
           </div>
@@ -258,7 +258,7 @@ const AuthView: React.FC<AuthViewProps> = ({
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 dark:text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]"
+                className="w-full bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 dark:text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]"
               />
             </div>
           </div>

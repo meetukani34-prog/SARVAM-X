@@ -47,7 +47,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ onNavigate }) => {
       {/* Cards Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
         {/* SARVAM-X Card */}
-        <div className="group relative rounded-3xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-transparent backdrop-blur-xl overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:border-primary/25 hover:shadow-[0_30px_80px_rgba(0,0,0,0.5),_0_0_60px_rgba(34,197,94,0.06)]">
+        <div className="group relative rounded-3xl border border-slate-900/[0.06] dark:border-white/[0.06] bg-gradient-to-b from-slate-900/[0.03] dark:from-white/[0.03] to-transparent backdrop-blur-xl overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:border-primary/25 hover:shadow-[0_30px_80px_rgba(0,0,0,0.5),_0_0_60px_rgba(34,197,94,0.06)]">
           {/* Top accent bar */}
           <div className="h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-40 group-hover:opacity-100 transition-opacity duration-500" />
           
@@ -119,7 +119,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ onNavigate }) => {
         </div>
 
         {/* TRINETRA AI Card */}
-        <div className="group relative rounded-3xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-transparent backdrop-blur-xl overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:border-purple/25 hover:shadow-[0_30px_80px_rgba(0,0,0,0.5),_0_0_60px_rgba(168,85,247,0.06)]">
+        <div className="group relative rounded-3xl border border-slate-900/[0.06] dark:border-white/[0.06] bg-gradient-to-b from-slate-900/[0.03] dark:from-white/[0.03] to-transparent backdrop-blur-xl overflow-hidden transition-all duration-700 hover:-translate-y-3 hover:border-purple/25 hover:shadow-[0_30px_80px_rgba(0,0,0,0.5),_0_0_60px_rgba(168,85,247,0.06)]">
           {/* Top accent bar */}
           <div className="h-[2px] bg-gradient-to-r from-transparent via-purple to-transparent opacity-40 group-hover:opacity-100 transition-opacity duration-500" />
 

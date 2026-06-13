@@ -79,10 +79,10 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer className="relative w-full z-10">
       {/* Top divider */}
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-900/10 dark:via-white/10 to-transparent" />
 
       {/* CTA Banner */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-white/[0.02] to-transparent">
+      <div className="relative overflow-hidden bg-gradient-to-b from-slate-900/[0.02] dark:from-white/[0.02] to-transparent">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-64 h-64 rounded-full bg-primary/[0.04] blur-[100px]" />
           <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-64 h-64 rounded-full bg-purple/[0.04] blur-[100px]" />
@@ -107,7 +107,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       </div>
 
       {/* Links Section */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/[0.05] bg-black/20">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-slate-900/[0.05] dark:border-white/[0.05] bg-white/20 dark:bg-black/20">
         {/* Column 1 */}
         <div className="flex flex-col gap-4">
           <h4 className="text-slate-900 dark:text-white font-bold text-sm tracking-wider mb-2">PLATFORMS</h4>
@@ -146,7 +146,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/[0.05] bg-black/40">
+      <div className="border-t border-slate-900/[0.05] dark:border-white/[0.05] bg-white/40 dark:bg-black/40">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="text-slate-900 dark:text-white font-bold text-sm tracking-wider">SARVAM<span className="text-primary">-X</span></span>
@@ -167,7 +167,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       {/* Generic Modal */}
       {activeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50/60 dark:bg-slate-50/60 dark:bg-[#07090e]/60 backdrop-blur-md">
-          <div className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/[0.08] bg-black/40 shadow-[0_0_100px_rgba(0,0,0,0.8)] backdrop-blur-xl animate-in fade-in zoom-in-95 duration-300">
+          <div className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-900/[0.08] dark:border-white/[0.08] bg-white/40 dark:bg-black/40 shadow-[0_0_100px_rgba(0,0,0,0.8)] backdrop-blur-xl animate-in fade-in zoom-in-95 duration-300">
             {/* Top accent line */}
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-70" />
             
@@ -177,7 +177,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="p-8 md:p-10 relative z-10">
               <button 
                 onClick={() => setActiveModal(null)}
-                className="absolute top-6 right-6 p-2 rounded-full bg-white/[0.02] hover:bg-white/[0.1] text-slate-900/ dark:text-white/ hover:text-slate-900 dark:text-white transition-all duration-300"
+                className="absolute top-6 right-6 p-2 rounded-full bg-slate-900/[0.02] dark:bg-white/[0.02] hover:bg-white/[0.1] text-slate-900/ dark:text-white/ hover:text-slate-900 dark:text-white transition-all duration-300"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -185,7 +185,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </button>
               
               <div className="flex items-center gap-4 mb-8">
-                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.05] shadow-inner">
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white/[0.03] border border-slate-900/[0.05] dark:border-white/[0.05] shadow-inner">
                   <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
@@ -216,7 +216,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </div>
               </div>
               
-              <div className="mt-10 pt-6 border-t border-white/[0.05] flex justify-end gap-4">
+              <div className="mt-10 pt-6 border-t border-slate-900/[0.05] dark:border-white/[0.05] flex justify-end gap-4">
                 <button 
                   onClick={() => setActiveModal(null)}
                   className="px-6 py-3 bg-transparent hover:bg-white/[0.05] text-slate-900/ dark:text-white/ hover:text-slate-900 dark:text-white rounded-xl transition-colors font-medium text-sm tracking-wide"

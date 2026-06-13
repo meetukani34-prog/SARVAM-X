@@ -105,7 +105,7 @@ const FeaturesSection: React.FC = () => {
         {features.map((feat, idx) => (
           <div
             key={idx}
-            className="group relative rounded-2xl border border-white/[0.05] bg-white/[0.02] backdrop-blur-sm p-5 sm:p-7 overflow-hidden flex flex-col transition-all duration-500 hover:-translate-y-1 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+            className="group relative rounded-2xl border border-slate-900/[0.05] dark:border-white/[0.05] bg-slate-900/[0.02] dark:bg-white/[0.02] backdrop-blur-sm p-5 sm:p-7 overflow-hidden flex flex-col transition-all duration-500 hover:-translate-y-1 hover:border-slate-900/[0.12] dark:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
           >
             {/* Top accent line */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-purple to-cyan-400 opacity-0 group-hover:opacity-60 transition-opacity duration-500" />

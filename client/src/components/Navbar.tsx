@@ -45,7 +45,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeView, onNavigate }) => {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 lg:px-12 py-3 sm:py-4 transition-all duration-500 ${
           scrolled
-            ? "bg-hero-bg/80 backdrop-blur-xl border-b border-white/[0.06] shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
+            ? "bg-hero-bg/80 backdrop-blur-xl border-b border-slate-900/[0.06] dark:border-white/[0.06] shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
             : "bg-transparent border-b border-transparent"
         }`}
       >
@@ -145,7 +145,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeView, onNavigate }) => {
           {/* Hamburger Menu Button (Mobile) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white hover:border-slate-900/ dark:border-white/ transition-all"
+            className="md:hidden w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-slate-900/[0.02] dark:bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white hover:border-slate-900/ dark:border-white/ transition-all"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (

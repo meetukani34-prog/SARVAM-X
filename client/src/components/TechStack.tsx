@@ -17,7 +17,7 @@ const TechStack: React.FC = () => {
   return (
     <section className="relative py-14 sm:py-24 px-4 sm:px-6 md:px-12 max-w-5xl mx-auto z-10">
       {/* Divider */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] max-w-md h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] max-w-md h-px bg-gradient-to-r from-transparent via-slate-900/10 dark:via-white/10 to-transparent" />
 
       <div className="text-center mb-16">
         <span className="inline-block text-[10px] uppercase font-bold tracking-[0.2em] text-emerald-400/80 border border-emerald-400/15 bg-emerald-400/5 px-4 py-1.5 rounded-full mb-5">
@@ -39,7 +39,7 @@ const TechStack: React.FC = () => {
         {techItems.map((tech, i) => (
           <div
             key={i}
-            className="group flex items-center gap-3 px-5 py-3 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/[0.12] transition-all duration-300 cursor-default"
+            className="group flex items-center gap-3 px-5 py-3 rounded-xl border border-slate-900/[0.06] dark:border-white/[0.06] bg-slate-900/[0.02] dark:bg-white/[0.02] hover:bg-white/[0.05] hover:border-slate-900/[0.12] dark:border-white/[0.12] transition-all duration-300 cursor-default"
           >
             <div className="w-2 h-2 rounded-full bg-primary/60 group-hover:bg-primary group-hover:shadow-[0_0_8px_rgba(34,197,94,0.4)] transition-all duration-300" />
             <div>

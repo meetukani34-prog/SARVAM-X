@@ -237,7 +237,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
     }, 800)
   }
 
-  const bgCard = "bg-white/[0.02] backdrop-blur-2xl border border-white/[0.05] rounded-3xl"
+  const bgCard = "bg-slate-900/[0.02] dark:bg-white/[0.02] backdrop-blur-2xl border border-slate-900/[0.05] dark:border-white/[0.05] rounded-3xl"
   const _themeAccent = "text-purple"
   const _bgAccent = "bg-purple"
 
@@ -317,13 +317,13 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
       {/* Mobile Sidebar Overlay Backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-30 bg-white/60 dark:bg-black/60 backdrop-blur-sm md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Mobile Top Bar */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white/[0.01] border-b border-white/[0.05] z-20">
+      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white/[0.01] border-b border-slate-900/[0.05] dark:border-white/[0.05] z-20">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-purple/10 border border-purple/20 flex items-center justify-center text-purple">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -334,7 +334,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white transition-all"
+          className="w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-slate-900/[0.02] dark:bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white transition-all"
         >
           {sidebarOpen ? (
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -353,7 +353,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-indigo-500/[0.02] blur-[150px] pointer-events-none" />
 
       {/* LEFT SIDEBAR NAVIGATION */}
-      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-slate-50/95 dark:bg-slate-50/95 dark:bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-slate-900/10 dark:border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-slate-50/95 dark:bg-slate-50/95 dark:bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-slate-900/10 dark:border-slate-900/[0.05] dark:border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col gap-8">
           
           {/* Main Suite Brand Logo */}
@@ -401,7 +401,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
         </div>
 
         {/* Workspace selector, profile & actions */}
-        <div className="flex flex-col gap-4 mt-8 md:mt-0 pt-6 border-t border-white/[0.05]">
+        <div className="flex flex-col gap-4 mt-8 md:mt-0 pt-6 border-t border-slate-900/[0.05] dark:border-white/[0.05]">
           <button
             onClick={onSwitchSuite}
             className="w-full py-3 px-4 bg-primary/10 border border-primary/20 text-primary text-xs font-semibold tracking-widest uppercase rounded-xl hover:bg-primary/25 transition-all duration-300 flex items-center justify-center gap-2"
@@ -440,11 +440,11 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
         <div className="animate-fadeIn">
 
           {/* Breadcrumb section */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-4 border-b border-white/[0.04]">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-4 border-b border-slate-900/[0.04] dark:border-white/[0.04]">
             <div className="flex items-center gap-4">
               <button 
                 onClick={onBackToHome} 
-                className="flex items-center justify-center shrink-0 w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-purple/10 hover:border-purple/30 hover:text-purple transition-all duration-300 focus:outline-none shadow-sm group"
+                className="flex items-center justify-center shrink-0 w-12 h-12 rounded-xl bg-white/[0.03] border border-slate-900/[0.08] dark:border-white/[0.08] hover:bg-purple/10 hover:border-purple/30 hover:text-purple transition-all duration-300 focus:outline-none shadow-sm group"
                 title="Exit to Main Website"
               >
                 <svg className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -460,7 +460,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
             </div>
             
             {/* Small 3D animated indicator */}
-            <div className="flex items-center gap-3 bg-white/[0.02] border border-white/[0.05] rounded-xl px-4 py-2 text-[10px] font-bold tracking-widest uppercase">
+            <div className="flex items-center gap-3 bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/[0.05] dark:border-white/[0.05] rounded-xl px-4 py-2 text-[10px] font-bold tracking-widest uppercase">
               <div className="w-5 h-5 overflow-hidden shrink-0">
                 <ThreeModel mode="octahedron" color={0xa855f7} className="w-full h-full" />
               </div>
@@ -550,7 +550,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
               <div className={`${bgCard} p-6 flex flex-col justify-between`}>
                 <h3 className="text-xs font-bold uppercase tracking-widest text-purple mb-4">Integrity Verification</h3>
                 <div className="flex flex-col gap-3.5">
-                  <div className="flex items-center gap-3 p-3 bg-white/[0.01] border border-white/[0.03] rounded-2xl">
+                  <div className="flex items-center gap-3 p-3 bg-white/[0.01] border border-slate-900/[0.03] dark:border-white/[0.03] rounded-2xl">
                     <span className="w-5 h-5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold text-[9px] flex items-center justify-center font-mono shrink-0">✓</span>
                     <div>
                       <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-wider">Zero-Trust Active</p>
@@ -580,7 +580,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                       onChange={(e) => setNewsInput(e.target.value)}
                       placeholder="Paste claims or transcripts here..."
                       rows={8}
-                      className="w-full bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-2xl p-4 text-xs text-slate-900 dark:text-white outline-none resize-none leading-relaxed mb-6"
+                      className="w-full bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-2xl p-4 text-xs text-slate-900 dark:text-white outline-none resize-none leading-relaxed mb-6"
                     />
                   </div>
 
@@ -647,7 +647,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                     </div>
 
                     {/* Analysis parameters list */}
-                    <div className="flex flex-col gap-2.5 text-left text-xs bg-white/[0.01] border border-white/[0.04] p-4 rounded-2xl">
+                    <div className="flex flex-col gap-2.5 text-left text-xs bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] p-4 rounded-2xl">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground font-light">Source Credibility:</span>
                         <span className="font-bold text-slate-900 dark:text-white">{newsResult.sourceCredibility}/100</span>
@@ -686,8 +686,8 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                 <form onSubmit={handleReviewCode} className="flex-1 flex flex-col justify-between">
                   <div>
                     <h3 className="text-xs font-bold uppercase tracking-widest text-purple mb-6">Static Vulnerability scanner</h3>
-                    <div className="relative border border-white/[0.06] bg-black/40 rounded-2xl overflow-hidden mb-6">
-                      <div className="bg-white/[0.02] border-b border-white/[0.04] px-4 py-2 text-[9px] font-mono tracking-widest text-muted-foreground flex justify-between select-none">
+                    <div className="relative border border-slate-900/[0.06] dark:border-white/[0.06] bg-white/40 dark:bg-black/40 rounded-2xl overflow-hidden mb-6">
+                      <div className="bg-slate-900/[0.02] dark:bg-white/[0.02] border-b border-slate-900/[0.04] dark:border-white/[0.04] px-4 py-2 text-[9px] font-mono tracking-widest text-muted-foreground flex justify-between select-none">
                         <span>SECURITY SCRIPTER</span>
                         <button
                           type="button"
@@ -754,11 +754,11 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                     
                     {/* General diagnostic metrics */}
                     <div className="grid grid-cols-2 gap-4 text-center">
-                      <div className="p-3.5 bg-white/[0.01] border border-white/[0.04] rounded-2xl">
+                      <div className="p-3.5 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl">
                         <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-widest block">Complexity</span>
                         <p className="text-lg font-black text-slate-900 dark:text-white mt-1 uppercase">{codeResult.complexity}</p>
                       </div>
-                      <div className="p-3.5 bg-white/[0.01] border border-white/[0.04] rounded-2xl">
+                      <div className="p-3.5 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl">
                         <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-widest block">Threats Found</span>
                         <p className="text-lg font-black text-red-400 mt-1 uppercase">{codeResult.issueCount}</p>
                       </div>
@@ -832,7 +832,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                     SHAP parameters measure the magnitude and vector shift of semantic components relative to a factual validation threshold.
                   </p>
                 </div>
-                <div className="p-4 bg-white/[0.01] border border-white/[0.04] rounded-2xl text-center mt-6">
+                <div className="p-4 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl text-center mt-6">
                   <span className="text-[8px] uppercase tracking-wider text-muted-foreground font-bold">Accuracy confidence</span>
                   <p className="text-xl font-black text-purple mt-1">94.7%</p>
                 </div>
@@ -854,7 +854,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
-                      <tr className="border-b border-white/[0.06] text-muted-foreground font-bold uppercase tracking-wider text-[9px]">
+                      <tr className="border-b border-slate-900/[0.06] dark:border-white/[0.06] text-muted-foreground font-bold uppercase tracking-wider text-[9px]">
                         <th className="py-3 px-4">Audit Type</th>
                         <th className="py-3 px-4">Result State</th>
                         <th className="py-3 px-4">Confidence Indicator</th>
@@ -863,7 +863,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                     </thead>
                     <tbody>
                       {reports.map((rep, idx) => (
-                        <tr key={idx} className="border-b border-white/[0.02] hover:bg-white/[0.01] transition-all">
+                        <tr key={idx} className="border-b border-slate-900/[0.02] dark:border-white/[0.02] hover:bg-white/[0.01] transition-all">
                           <td className="py-3 px-4 font-bold text-slate-900 dark:text-white uppercase tracking-wider">{rep.type}</td>
                           <td className="py-3 px-4">
                             <span className={`px-2 py-0.5 rounded font-bold font-mono text-[9px] uppercase ${

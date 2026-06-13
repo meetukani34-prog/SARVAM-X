@@ -331,7 +331,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
 
       {/* Slide-out Glowing Mentor Widget Panel */}
       <div
-        className={`fixed bottom-20 sm:bottom-24 right-3 sm:right-6 w-[calc(100vw-1.5rem)] sm:w-96 max-w-96 h-[70vh] sm:h-[520px] max-h-[520px] z-50 bg-[#0a0d14]/90 backdrop-blur-2xl border border-white/[0.08] rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.7)] flex flex-col transition-all duration-500 ease-out origin-bottom-right transform ${
+        className={`fixed bottom-20 sm:bottom-24 right-3 sm:right-6 w-[calc(100vw-1.5rem)] sm:w-96 max-w-96 h-[70vh] sm:h-[520px] max-h-[520px] z-50 bg-[#0a0d14]/90 backdrop-blur-2xl border border-slate-900/[0.08] dark:border-white/[0.08] rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.7)] flex flex-col transition-all duration-500 ease-out origin-bottom-right transform ${
           isOpen ? "scale-100 translate-y-0 opacity-100" : "scale-75 translate-y-8 opacity-0 pointer-events-none"
         }`}
       >
@@ -339,7 +339,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-80" />
 
         {/* Top Header Section */}
-        <div className="p-4 bg-white/[0.02] border-b border-white/[0.05] flex items-center justify-between gap-3">
+        <div className="p-4 bg-slate-900/[0.02] dark:bg-white/[0.02] border-b border-slate-900/[0.05] dark:border-white/[0.05] flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             {/* Luminous Avatar 3D viewport */}
             <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 overflow-hidden relative shadow-[0_0_15px_rgba(6,182,212,0.15)]">
@@ -363,7 +363,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
             className={`px-3 py-1.5 rounded-lg border text-[9px] uppercase font-bold tracking-widest flex items-center gap-1.5 duration-300 transition-all ${
               isVisionActive
                 ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.15)]"
-                : "bg-white/[0.02] border-slate-900/ dark:border-white/ text-muted-foreground hover:text-slate-900 dark:text-white"
+                : "bg-slate-900/[0.02] dark:bg-white/[0.02] border-slate-900/ dark:border-white/ text-muted-foreground hover:text-slate-900 dark:text-white"
             }`}
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -375,8 +375,8 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
 
         {/* Video stream container when vision active */}
         <div
-          className={`relative bg-black transition-all duration-500 overflow-hidden flex items-center justify-center ${
-            isVisionActive ? "h-24 border-b border-white/[0.04]" : "h-0"
+          className={`relative bg-white dark:bg-black transition-all duration-500 overflow-hidden flex items-center justify-center ${
+            isVisionActive ? "h-24 border-b border-slate-900/[0.04] dark:border-white/[0.04]" : "h-0"
           }`}
         >
           <video
@@ -389,7 +389,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
           />
           {/* Facial analysis scanline */}
           <div className="absolute top-0 bottom-0 left-0 right-0 pointer-events-none bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent animate-scanline border-b border-cyan-500/20" />
-          <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-md border border-slate-900/ dark:border-white/ flex items-center gap-1.5 shadow-md">
+          <div className="absolute bottom-2 left-2 bg-white/60 dark:bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-md border border-slate-900/ dark:border-white/ flex items-center gap-1.5 shadow-md">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
             <span id="user-emotion-label" className="text-[8px] font-bold text-slate-900 dark:text-white uppercase tracking-widest font-mono">
               USER: {userEmotion.toUpperCase()} {(emotionConfidence * 100).toFixed(0)}%
@@ -403,7 +403,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
             if (chat.role === "system") {
               return (
                 <div key={idx} className="flex justify-center my-1.5">
-                  <span className="bg-white/[0.02] border border-white/[0.06] text-muted-foreground text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest font-mono shadow-sm">
+                  <span className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/[0.06] dark:border-white/[0.06] text-muted-foreground text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest font-mono shadow-sm">
                     {chat.content}
                   </span>
                 </div>
@@ -416,7 +416,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
                 key={idx}
                 className={`max-w-[85%] rounded-2xl p-3.5 text-xs shadow-md border animate-fadeIn ${
                   isAI
-                    ? "bg-white/[0.02] border-white/[0.04] text-gray-200 self-start rounded-tl-none hover:border-cyan-500/20 transition-all duration-300"
+                    ? "bg-slate-900/[0.02] dark:bg-white/[0.02] border-slate-900/[0.04] dark:border-white/[0.04] text-gray-200 self-start rounded-tl-none hover:border-cyan-500/20 transition-all duration-300"
                     : "bg-cyan-500/10 border-cyan-500/20 text-slate-900 dark:text-white self-end rounded-tr-none"
                 }`}
               >
@@ -427,7 +427,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
 
           {phase === "THINKING" && (
             <div className="flex justify-start">
-              <div className="bg-white/[0.02] border border-white/[0.04] rounded-2xl rounded-tl-none p-3 px-4 flex items-center gap-1 text-[10px] text-muted-foreground font-semibold tracking-wider animate-pulse">
+              <div className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl rounded-tl-none p-3 px-4 flex items-center gap-1 text-[10px] text-muted-foreground font-semibold tracking-wider animate-pulse">
                 <span className="w-1 h-1 bg-cyan-400 rounded-full animate-bounce delay-100" />
                 <span className="w-1 h-1 bg-cyan-400 rounded-full animate-bounce delay-200" />
                 <span className="w-1 h-1 bg-cyan-400 rounded-full animate-bounce delay-300" />
@@ -439,7 +439,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
         </div>
 
         {/* Input Bar Form */}
-        <form onSubmit={handleSendMessage} className="p-3 bg-white/[0.01] border-t border-white/[0.05] flex gap-2">
+        <form onSubmit={handleSendMessage} className="p-3 bg-white/[0.01] border-t border-slate-900/[0.05] dark:border-white/[0.05] flex gap-2">
           <input
             type="text"
             id="mentor-input"
@@ -447,7 +447,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
             onChange={(e) => setInputText(e.target.value)}
             disabled={isStreaming}
             placeholder="Sync a question with Luminous..."
-            className="flex-1 bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl px-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder-muted-foreground/50 outline-none transition-all duration-300 disabled:opacity-50"
+            className="flex-1 bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl px-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder-muted-foreground/50 outline-none transition-all duration-300 disabled:opacity-50"
           />
           <button
             type="submit"
