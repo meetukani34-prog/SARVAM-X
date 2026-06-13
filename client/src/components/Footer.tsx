@@ -35,6 +35,45 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         </div>
       </div>
 
+      {/* Links Section */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/[0.05] bg-black/20">
+        {/* Column 1 */}
+        <div className="flex flex-col gap-4">
+          <h4 className="text-white font-bold text-sm tracking-wider mb-2">PLATFORMS</h4>
+          <button onClick={() => onNavigate("sarvam")} className="text-left text-sm text-muted-foreground/70 hover:text-primary transition-colors">SARVAM-X Hub</button>
+          <button onClick={() => onNavigate("trinetra")} className="text-left text-sm text-muted-foreground/70 hover:text-purple transition-colors">TRINETRA Console</button>
+          <a href="#" className="text-left text-sm text-muted-foreground/70 hover:text-white transition-colors">Enterprise API</a>
+          <a href="#" className="text-left text-sm text-muted-foreground/70 hover:text-white transition-colors">Pricing</a>
+        </div>
+        
+        {/* Column 2 */}
+        <div className="flex flex-col gap-4">
+          <h4 className="text-white font-bold text-sm tracking-wider mb-2">RESOURCES</h4>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Documentation</a>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Research Papers</a>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Blog</a>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">System Status</a>
+        </div>
+
+        {/* Column 3 */}
+        <div className="flex flex-col gap-4">
+          <h4 className="text-white font-bold text-sm tracking-wider mb-2">COMPANY</h4>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">About Us</a>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Careers</a>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Press</a>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Contact</a>
+        </div>
+
+        {/* Column 4 */}
+        <div className="flex flex-col gap-4">
+          <h4 className="text-white font-bold text-sm tracking-wider mb-2">LEGAL</h4>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Terms and Conditions</a>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Cookie Policy</a>
+          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Security</a>
+        </div>
+      </div>
+
       {/* Bottom bar */}
       <div className="border-t border-white/[0.05] bg-black/40">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
