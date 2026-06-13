@@ -125,13 +125,15 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
     }, 3000);
 
     try {
-      const res = await api.getTwin(userId)
-      setTwinData(res)
+      // Run both heavy API calls in parallel to cut the 15+ second load time in half
+      const [res, dash] = await Promise.all([
+        api.getTwin(userId),
+        api.getDashboard(userId)
+      ]);
 
-      // Fetch consolidated dashboard metric
-      const dash = await api.getDashboard(userId)
-      setKpis(dash.kpis)
-      setDailyStatus(dash.daily_status)
+      setTwinData(res);
+      setKpis(dash.kpis);
+      setDailyStatus(dash.daily_status);
     } catch (e) {
       console.error("Failed to load digital twin data", e)
       // Provide fallback data so the UI doesn't crash or stay empty if Vercel API fails
