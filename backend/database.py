@@ -81,10 +81,10 @@ def init_db():
     
     # CLEAR ALL DATA (Transition to Live Mode)
     # UNCOMMENT the lines below to wipe existing demo data once
-    c.execute("DELETE FROM sessions")
-    c.execute("DELETE FROM topic_scores")
-    c.execute("DELETE FROM predictions")
-    c.execute("DELETE FROM debug_history")
+    # c.execute("DELETE FROM sessions")
+    # c.execute("DELETE FROM topic_scores")
+    # c.execute("DELETE FROM predictions")
+    # c.execute("DELETE FROM debug_history")
     conn.commit()
     conn.close()
 
