@@ -110,6 +110,7 @@ function App() {
           onSwitchSuite={() => handleNavigate("trinetra")}
           onBackToHome={() => handleNavigate("landing")}
         />
+
       )}
 
       {activeView === "trinetra" && userId && (

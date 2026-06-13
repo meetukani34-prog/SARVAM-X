@@ -37,6 +37,7 @@ interface TrinetraSuiteProps {
   userEmail: string
   onSignOut: () => void
   onSwitchSuite: () => void
+  onBackToHome: () => void
 }
 
 const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
@@ -45,6 +46,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
   userEmail,
   onSignOut,
   onSwitchSuite,
+  onBackToHome,
 }) => {
   const [activeTab, setActiveTab] = useState<"dashboard" | "fakenews" | "coderev" | "xai" | "reports" | "insights">("dashboard")
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -422,11 +424,22 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
 
           {/* Breadcrumb section */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-4 border-b border-white/[0.04]">
-            <div>
-              <span className="text-[9px] uppercase font-bold tracking-widest text-purple/70">Sentinel console / TRINETRA</span>
-              <h2 className="text-2xl font-extrabold tracking-tight mt-1 uppercase">
-                {activeTab === "dashboard" ? "Risk Assessment Dashboard" : activeTab === "fakenews" ? "NLP Misinformation Classifier" : activeTab === "coderev" ? "Static Secure Code Reviewer" : activeTab === "xai" ? "SHAP Explanation matrix" : activeTab === "reports" ? "Logged Audit Registers" : "AI Trend Insights"}
-              </h2>
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={onBackToHome} 
+                className="flex items-center justify-center shrink-0 w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-purple/10 hover:border-purple/30 hover:text-purple transition-all duration-300 focus:outline-none shadow-sm group"
+                title="Exit to Main Website"
+              >
+                <svg className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                </svg>
+              </button>
+              <div>
+                <span className="text-[9px] uppercase font-bold tracking-widest text-purple/70">Sentinel console / TRINETRA</span>
+                <h2 className="text-2xl font-extrabold tracking-tight mt-1 uppercase">
+                  {activeTab === "dashboard" ? "Risk Assessment Dashboard" : activeTab === "fakenews" ? "NLP Misinformation Classifier" : activeTab === "coderev" ? "Static Secure Code Reviewer" : activeTab === "xai" ? "SHAP Explanation matrix" : activeTab === "reports" ? "Logged Audit Registers" : "AI Trend Insights"}
+                </h2>
+              </div>
             </div>
             
             {/* Small 3D animated indicator */}
