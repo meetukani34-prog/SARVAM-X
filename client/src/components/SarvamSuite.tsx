@@ -29,19 +29,99 @@ ChartJS.register(
   BarElement
 )
 
-const subjectTopicsMap: Record<string, string[]> = {
-  "Computer Science Core": ["Algorithms", "Networks", "Operating Systems", "Databases", "Compilers", "Software Engineering"],
-  "Data Structures & Algorithms": ["Arrays & Strings", "Linked Lists", "Trees & Graphs", "Dynamic Programming", "Recursion", "Sorting & Searching"],
-  "Programming Languages": ["Python", "C", "C++", "Java", "JavaScript", "Rust", "Go"],
-  "Cyber Security": ["Network Security", "Cryptography", "Ethical Hacking", "Web Application Security", "Digital Forensics"],
-  "Artificial Intelligence & ML": ["Machine Learning", "Deep Learning", "Natural Language Processing", "Computer Vision", "Reinforcement Learning"],
-  "Data Science & Big Data": ["Data Mining", "Data Visualization", "Big Data", "Statistical Modeling", "Predictive Analytics"],
-  "Mathematics": ["Calculus", "Linear Algebra", "Discrete Mathematics", "Probability", "Statistics", "Number Theory"],
-  "Physics": ["Mechanics", "Electromagnetism", "Thermodynamics", "Quantum Mechanics", "Relativity", "Optics"],
-  "Biology": ["Genetics", "Cell Biology", "Evolution", "Ecology", "Human Anatomy", "Bioinformatics"],
-  "Chemistry": ["Organic Chemistry", "Inorganic Chemistry", "Physical Chemistry", "Biochemistry", "Analytical Chemistry"],
-  "Economics": ["Microeconomics", "Macroeconomics", "Econometrics", "Game Theory", "International Trade"],
-  "Literature": ["American Literature", "British Literature", "World Literature", "Poetry", "Drama", "Literary Theory"]
+const subjectTopicsMap: Record<string, Record<string, string[]>> = {
+  "Programming Languages": {
+    "Python": ["Syntax & Basics", "OOP", "Data Structures", "Generators", "Decorators", "Asyncio"],
+    "C": ["Pointers", "Memory Management", "Structs", "File I/O"],
+    "C++": ["STL", "OOP", "Templates", "Smart Pointers"],
+    "Java": ["OOP", "Collections Framework", "Multithreading", "JVM"],
+    "JavaScript": ["Closures", "Promises & Async", "DOM Manipulation", "ES6+ Features"],
+    "Rust": ["Ownership & Borrowing", "Lifetimes", "Concurrency", "Traits"],
+    "Go": ["Goroutines", "Channels", "Interfaces", "Error Handling"]
+  },
+  "Computer Science Core": {
+    "Algorithms": ["Sorting", "Searching", "Graph Algorithms", "Dynamic Programming"],
+    "Networks": ["OSI Model", "TCP/IP", "Routing Protocols", "Network Security"],
+    "Operating Systems": ["Process Management", "Memory Management", "File Systems", "Concurrency"],
+    "Databases": ["SQL", "NoSQL", "Normalization", "Indexing", "Transactions"],
+    "Compilers": ["Lexical Analysis", "Syntax Analysis", "Code Generation", "Optimization"],
+    "Software Engineering": ["Agile", "Design Patterns", "Testing", "System Design"]
+  },
+  "Data Structures & Algorithms": {
+    "Arrays & Strings": ["Two Pointers", "Sliding Window", "Prefix Sum"],
+    "Linked Lists": ["Singly Linked List", "Doubly Linked List", "Cycle Detection"],
+    "Trees & Graphs": ["BST", "Trie", "DFS", "BFS", "Shortest Path"],
+    "Dynamic Programming": ["Knapsack", "LCS", "Matrix Chain Multiplication"],
+    "Recursion": ["Backtracking", "Divide & Conquer"],
+    "Sorting & Searching": ["Quick Sort", "Merge Sort", "Binary Search"]
+  },
+  "Cyber Security": {
+    "Network Security": ["Firewalls", "VPNs", "Intrusion Detection", "DDoS Mitigation"],
+    "Cryptography": ["Symmetric Encryption", "Asymmetric Encryption", "Hashing", "Digital Signatures"],
+    "Ethical Hacking": ["Reconnaissance", "Exploitation", "Privilege Escalation", "Post-Exploitation"],
+    "Web Application Security": ["SQL Injection", "XSS", "CSRF", "Authentication Flaws"],
+    "Digital Forensics": ["Disk Forensics", "Network Forensics", "Memory Forensics", "Malware Analysis"]
+  },
+  "Artificial Intelligence & ML": {
+    "Machine Learning": ["Supervised Learning", "Unsupervised Learning", "Ensemble Methods", "Model Evaluation"],
+    "Deep Learning": ["Neural Networks", "CNNs", "RNNs", "Transformers"],
+    "Natural Language Processing": ["Tokenization", "Word Embeddings", "Named Entity Recognition", "Sentiment Analysis"],
+    "Computer Vision": ["Image Classification", "Object Detection", "Image Segmentation", "Face Recognition"],
+    "Reinforcement Learning": ["Markov Decision Processes", "Q-Learning", "Policy Gradients", "Multi-Agent RL"]
+  },
+  "Data Science & Big Data": {
+    "Data Mining": ["Association Rules", "Clustering", "Anomaly Detection", "Dimensionality Reduction"],
+    "Data Visualization": ["Matplotlib", "Seaborn", "Tableau", "D3.js"],
+    "Big Data": ["Hadoop", "Spark", "Kafka", "Data Lakes"],
+    "Statistical Modeling": ["Linear Regression", "Logistic Regression", "ANOVA", "Time Series Analysis"],
+    "Predictive Analytics": ["Customer Churn", "Demand Forecasting", "Risk Assessment", "Fraud Detection"]
+  },
+  "Mathematics": {
+    "Calculus": ["Limits", "Derivatives", "Integrals", "Differential Equations"],
+    "Linear Algebra": ["Vectors", "Matrices", "Eigenvalues & Eigenvectors", "Vector Spaces"],
+    "Discrete Mathematics": ["Logic", "Set Theory", "Combinatorics", "Graph Theory"],
+    "Probability": ["Random Variables", "Probability Distributions", "Bayes' Theorem", "Expected Value"],
+    "Statistics": ["Descriptive Statistics", "Inferential Statistics", "Hypothesis Testing", "Confidence Intervals"],
+    "Number Theory": ["Divisibility", "Primes", "Modular Arithmetic", "Cryptography Applications"]
+  },
+  "Physics": {
+    "Mechanics": ["Kinematics", "Newton's Laws", "Work & Energy", "Rotational Motion"],
+    "Electromagnetism": ["Electric Fields", "Magnetic Fields", "Maxwell's Equations", "Circuits"],
+    "Thermodynamics": ["Laws of Thermodynamics", "Heat Transfer", "Entropy", "Statistical Mechanics"],
+    "Quantum Mechanics": ["Wave-Particle Duality", "Schrödinger Equation", "Quantum States", "Spin"],
+    "Relativity": ["Special Relativity", "General Relativity", "Spacetime", "Black Holes"],
+    "Optics": ["Geometric Optics", "Physical Optics", "Interference", "Diffraction"]
+  },
+  "Biology": {
+    "Genetics": ["Mendelian Genetics", "DNA Replication", "Transcription & Translation", "Genetic Engineering"],
+    "Cell Biology": ["Cell Structure", "Membrane Transport", "Cell Cycle", "Cellular Respiration"],
+    "Evolution": ["Natural Selection", "Speciation", "Phylogenetics", "Human Evolution"],
+    "Ecology": ["Ecosystems", "Population Dynamics", "Community Ecology", "Conservation Biology"],
+    "Human Anatomy": ["Skeletal System", "Muscular System", "Nervous System", "Cardiovascular System"],
+    "Bioinformatics": ["Sequence Alignment", "Genomics", "Proteomics", "Structural Biology"]
+  },
+  "Chemistry": {
+    "Organic Chemistry": ["Alkanes", "Alkenes", "Aromatic Compounds", "Reaction Mechanisms"],
+    "Inorganic Chemistry": ["Coordination Compounds", "Transition Metals", "Main Group Elements", "Solid State Chemistry"],
+    "Physical Chemistry": ["Thermodynamics", "Chemical Kinetics", "Quantum Chemistry", "Spectroscopy"],
+    "Biochemistry": ["Proteins", "Enzymes", "Carbohydrates", "Lipids"],
+    "Analytical Chemistry": ["Chromatography", "Mass Spectrometry", "Electrochemistry", "Titration"]
+  },
+  "Economics": {
+    "Microeconomics": ["Supply & Demand", "Consumer Choice", "Theory of the Firm", "Market Structures"],
+    "Macroeconomics": ["GDP", "Inflation", "Unemployment", "Monetary Policy", "Fiscal Policy"],
+    "Econometrics": ["Linear Regression", "Time Series Analysis", "Panel Data", "Instrumental Variables"],
+    "Game Theory": ["Nash Equilibrium", "Extensive Form Games", "Repeated Games", "Mechanism Design"],
+    "International Trade": ["Comparative Advantage", "Trade Barriers", "Exchange Rates", "Balance of Payments"]
+  },
+  "Literature": {
+    "American Literature": ["Transcendentalism", "Realism", "Modernism", "Harlem Renaissance"],
+    "British Literature": ["Romanticism", "Victorian Literature", "Modernism", "Postmodernism"],
+    "World Literature": ["Classical Antiquity", "Postcolonial Literature", "Magical Realism", "Existentialism"],
+    "Poetry": ["Sonnets", "Free Verse", "Epic Poetry", "Haiku"],
+    "Drama": ["Tragedy", "Comedy", "Theatre of the Absurd", "Modern Drama"],
+    "Literary Theory": ["Structuralism", "Deconstruction", "Feminist Criticism", "Psychoanalytic Criticism"]
+  }
 }
 
 interface SarvamSuiteProps {
@@ -102,8 +182,9 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
   const [loadingHeatmap, setLoadingHeatmap] = useState(true)
 
   // Session logger states
-  const [logSubject, setLogSubject] = useState("Computer Science Core")
-  const [logTopic, setLogTopic] = useState(subjectTopicsMap["Computer Science Core"][0])
+  const [logSubject, setLogSubject] = useState("Programming Languages")
+  const [logSubSubject, setLogSubSubject] = useState("Python")
+  const [logTopic, setLogTopic] = useState(subjectTopicsMap["Programming Languages"]["Python"][0])
   const [logAccuracy, setLogAccuracy] = useState(80)
   const [logDuration, setLogDuration] = useState(45)
   const [logProblems, setLogProblems] = useState(6)
@@ -236,7 +317,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
     try {
       const payload: Session = {
         user_id: userId,
-        topic: logTopic,
+        topic: `${logSubSubject} - ${logTopic}`,
         accuracy: Number(logAccuracy),
         duration_min: Number(logDuration),
         problems_solved: Number(logProblems)
@@ -245,7 +326,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
       const res = await api.logSession(payload)
       if (res.success) {
         setLogSuccess("Session logged! Rerouting and training Digital Twin...")
-        setLogTopic("Algorithms")
+        setLogTopic(subjectTopicsMap[logSubject][logSubSubject][0])
         setLogAccuracy(80)
         setLogDuration(45)
         setLogProblems(6)
@@ -524,7 +605,9 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                         onChange={(e) => {
                           const newSubj = e.target.value;
                           setLogSubject(newSubj);
-                          setLogTopic(subjectTopicsMap[newSubj][0]);
+                          const newSubSubj = Object.keys(subjectTopicsMap[newSubj])[0];
+                          setLogSubSubject(newSubSubj);
+                          setLogTopic(subjectTopicsMap[newSubj][newSubSubj][0]);
                         }}
                         className="bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-3 px-4 text-xs outline-none text-white transition-all cursor-pointer"
                       >
@@ -535,13 +618,30 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[9px] text-muted-foreground uppercase font-bold tracking-wider">Academic Topic</label>
+                      <label className="text-[9px] text-muted-foreground uppercase font-bold tracking-wider">Category / Language</label>
+                      <select
+                        value={logSubSubject}
+                        onChange={(e) => {
+                          const newSubSubj = e.target.value;
+                          setLogSubSubject(newSubSubj);
+                          setLogTopic(subjectTopicsMap[logSubject][newSubSubj][0]);
+                        }}
+                        className="bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-3 px-4 text-xs outline-none text-white transition-all cursor-pointer"
+                      >
+                        {Object.keys(subjectTopicsMap[logSubject]).map((ss) => (
+                          <option key={ss} value={ss} className="bg-[#0e121b] text-white">{ss}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[9px] text-muted-foreground uppercase font-bold tracking-wider">Specific Topic</label>
                       <select
                         value={logTopic}
                         onChange={(e) => setLogTopic(e.target.value)}
                         className="bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-3 px-4 text-xs outline-none text-white transition-all cursor-pointer"
                       >
-                        {subjectTopicsMap[logSubject].map((t) => (
+                        {subjectTopicsMap[logSubject][logSubSubject].map((t) => (
                           <option key={t} value={t} className="bg-[#0e121b] text-white">{t}</option>
                         ))}
                       </select>
