@@ -89,7 +89,7 @@ function App() {
           <FeaturesSection />
           <HowItWorks />
           <TechStack />
-          <Footer />
+          <Footer onNavigate={handleNavigate} />
         </>
       )}
 

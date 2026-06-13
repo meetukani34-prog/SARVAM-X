@@ -1,6 +1,10 @@
 import React from "react"
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onNavigate: (view: "landing" | "auth" | "sarvam" | "trinetra", platform?: "sarvam" | "trinetra") => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer className="relative w-full z-10">
       {/* Top divider */}
@@ -19,15 +23,15 @@ const Footer: React.FC = () => {
           <p className="text-sm text-muted-foreground/70 font-light mb-8 max-w-lg mx-auto">
             Join the SARVAM-X intelligence network. Two platforms, one mission — empowering cognition and securing intelligence.
           </p>
-          <a
-            href="auth.html"
+          <button
+            onClick={() => onNavigate("auth", "sarvam")}
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-lg font-bold text-sm uppercase tracking-wider hover:shadow-[0_10px_40px_rgba(34,197,94,0.3)] transition-all duration-300 active:scale-[0.97]"
           >
             Get Started Free
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
-          </a>
+          </button>
         </div>
       </div>
 
@@ -40,9 +44,9 @@ const Footer: React.FC = () => {
             <span className="text-[11px] text-muted-foreground/50 uppercase tracking-wider">AI Intelligence Hub</span>
           </div>
           <div className="flex items-center gap-6 text-[11px] text-muted-foreground/40">
-            <a href="auth.html" className="hover:text-muted-foreground/70 transition-colors">Login</a>
-            <a href="dashboard.html" className="hover:text-muted-foreground/70 transition-colors">Dashboard</a>
-            <a href="trinetra.html" className="hover:text-muted-foreground/70 transition-colors">TRINETRA</a>
+            <button onClick={() => onNavigate("auth", "sarvam")} className="hover:text-muted-foreground/70 transition-colors">Login</button>
+            <button onClick={() => onNavigate("sarvam")} className="hover:text-muted-foreground/70 transition-colors">Dashboard</button>
+            <button onClick={() => onNavigate("trinetra")} className="hover:text-muted-foreground/70 transition-colors">TRINETRA</button>
           </div>
           <div className="text-[10px] text-muted-foreground/30">
             &copy; {new Date().getFullYear()} SARVAM AI. All rights reserved.
