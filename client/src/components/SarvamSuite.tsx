@@ -3,6 +3,7 @@ import { api } from "../lib/api"
 import type { KPI, Session, TwinResponse, HeatmapResponse, WhatIfResponse, DebugResponse } from "../lib/api"
 import ThreeModel from "./ThreeModel"
 import MentorPanel from "./MentorPanel"
+import { useTheme } from "../context/ThemeContext"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -416,7 +417,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
     <div 
       className="flex h-screen bg-slate-50 dark:bg-[#07090e] text-slate-900 dark:text-foreground overflow-hidden font-sans select-none bg-cover bg-center bg-no-repeat bg-fixed transition-all duration-1000"
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(7, 9, 14, 0.75), rgba(7, 9, 14, 0.98)), url('${getBackgroundImage(activeTab)}')`
+        backgroundImage: `linear-gradient(to bottom, ${theme === 'dark' ? 'rgba(7, 9, 14, 0.75), rgba(7, 9, 14, 0.98)' : 'rgba(248, 250, 252, 0.75), rgba(248, 250, 252, 0.98)'}), url('${getBackgroundImage(activeTab)}')`
       }}
     >
 
