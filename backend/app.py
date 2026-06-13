@@ -19,19 +19,29 @@ from models.twin_model import DigitalTwin, WhatIfSimulator
 from models.debugger import CodeDebugger
 from models.explainer import ExplainabilityEngine
 from models.momentum import MomentumEngine
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, set_access_cookies, unset_jwt_cookies
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 # Serve frontend files directly from Flask — no Live Server needed
 FRONTEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'frontend'))
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path='')
-CORS(app)
+CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://localhost:5000", "https://sarvam-x.vercel.app"])
 
-@app.route('/')
-def serve_index():
-    return send_from_directory(FRONTEND_DIR, 'index.html')
+# Security Configurations
+app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'super-secret-sarvam-key-change-me')
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_COOKIE_SECURE'] = False # True in production with HTTPS
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False # Simplified for this demo
+app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 # 1MB max payload
 
-@app.route('/favicon.ico')
-def favicon():
-    return '', 204
+jwt = JWTManager(app)
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://"
+)
 
 # Initialize components
 db.init_db()
@@ -57,9 +67,13 @@ def signup():
     if not user_id:
         return jsonify({"error": "Email already exists"}), 409
         
-    return jsonify({"success": True, "user_id": user_id, "name": name, "email": email})
+    access_token = create_access_token(identity=str(user_id))
+    resp = jsonify({"success": True, "user_id": user_id, "name": name, "email": email})
+    set_access_cookies(resp, access_token)
+    return resp
 
 @app.route('/api/auth/login', methods=['POST'])
+@limiter.limit("5 per minute")
 def login():
     data = request.json or {}
     email = data.get('email')
@@ -72,25 +86,37 @@ def login():
     if not user:
         return jsonify({"error": "Invalid email or password"}), 401
         
-    return jsonify({"success": True, "user_id": user['id'], "name": user['name'], "email": user['email']})
+    access_token = create_access_token(identity=str(user['id']))
+    resp = jsonify({"success": True, "user_id": user['id'], "name": user['name'], "email": user['email']})
+    set_access_cookies(resp, access_token)
+    return resp
+
+@app.route('/api/auth/logout', methods=['POST'])
+def logout():
+    resp = jsonify({"success": True, "message": "Logged out successfully"})
+    unset_jwt_cookies(resp)
+    return resp
 
 @app.route('/api/auth/update', methods=['POST'])
+@jwt_required()
 def update_profile():
     data = request.json or {}
-    user_id = data.get('user_id')
+    user_id = int(get_jwt_identity())
     new_name = data.get('name')
     
-    if not user_id or not new_name:
-        return jsonify({"error": "Missing fields"}), 400
+    if not new_name:
+        return jsonify({"error": "Missing name"}), 400
         
     db.update_user_name(user_id, new_name)
     return jsonify({"success": True, "name": new_name})
 
-@app.route('/api/user/<int:user_id>', methods=['GET'])
-def get_user(user_id):
+@app.route('/api/user/me', methods=['GET'])
+@jwt_required()
+def get_me():
+    user_id = int(get_jwt_identity())
     user = db.fetch_user(user_id)
     if user:
-        return jsonify({"success": True, "name": user['name'], "email": user['email']})
+        return jsonify({"success": True, "user_id": user['id'], "name": user['name'], "email": user['email']})
     return jsonify({"error": "User not found"}), 404
 
 # ─── LLM CONFIGURATION ──────────────────────────────────────────────────────
@@ -141,18 +167,19 @@ def health():
 # ─── SESSION ─────────────────────────────────────────────────────────────────
 
 @app.route('/api/session', methods=['POST'])
+@jwt_required()
 def log_session():
     """Log a study session for a user."""
     print("\n" + "="*50)
     print("!!! RECEIVED SESSION LOG REQUEST !!!")
     try:
-        data = request.get_json(force=True)
+        data = request.json or {}
         print(f"[*] DATA: {data}")
     except Exception as e:
         print(f"[!] ERROR: {e}")
         return jsonify({"success": False, "error": "Invalid JSON"}), 400
         
-    user_id = data.get('user_id', 1)
+    user_id = int(get_jwt_identity())
     topic = data.get('topic', 'General')
     try:
         accuracy = float(data.get('accuracy', 70))
@@ -167,9 +194,11 @@ def log_session():
 
 # ─── DIGITAL TWIN ─────────────────────────────────────────────────────────
 
-@app.route('/api/twin/<int:user_id>', methods=['GET'])
-def get_twin(user_id):
+@app.route('/api/twin', methods=['GET'])
+@jwt_required()
+def get_twin():
     """Return digital twin state for a user."""
+    user_id = int(get_jwt_identity())
     sessions = db.fetch_sessions(user_id)
     topic_scores = db.fetch_topic_scores(user_id)
     user = db.fetch_user(user_id)
@@ -206,10 +235,11 @@ def get_twin(user_id):
 # ─── PREDICT ─────────────────────────────────────────────────────────────────
 
 @app.route('/api/predict', methods=['POST'])
+@jwt_required()
 def predict():
     """Run performance prediction on provided session data."""
     data = request.json or {}
-    user_id = data.get('user_id', 1)
+    user_id = int(get_jwt_identity())
     sessions = db.fetch_sessions(user_id)
 
     twin.train(sessions)
@@ -234,12 +264,14 @@ def predict():
 # ─── DEBUG ──────────────────────────────────────────────────────────────────
 
 @app.route('/api/debug', methods=['POST'])
+@jwt_required()
+@limiter.limit("10 per minute")
 def debug_code():
     """Analyze Python code for errors and suggest fixes."""
     data = request.json or {}
     code = data.get('code', '')
     language = data.get('language', 'python')
-    user_id = data.get('user_id', 1)
+    user_id = int(get_jwt_identity())
 
     if not code.strip():
         return jsonify({"error": "No code provided"}), 400
@@ -259,25 +291,10 @@ def debug_code():
 
         # Execute code if it's Python
         if language == 'python':
-            import subprocess
-            import tempfile
-            try:
-                with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-                    f.write(code)
-                    temp_path = f.name
-                
-                # Run with 3 second timeout
-                exec_res = subprocess.run([sys.executable, temp_path], capture_output=True, text=True, timeout=3)
-                result['exec_out'] = exec_res.stdout
-                result['exec_err'] = exec_res.stderr
-                result['exec_code'] = exec_res.returncode
-                os.unlink(temp_path)
-            except subprocess.TimeoutExpired:
-                result['exec_err'] = "Execution timed out (infinite loop?)."
-                result['exec_code'] = 124
-            except Exception as e:
-                result['exec_err'] = str(e)
-                result['exec_code'] = 1
+            # DEMO MODE: Live execution disabled for security reasons.
+            result['exec_out'] = "Code execution is disabled in this environment for security reasons. Displaying static AST analysis only."
+            result['exec_err'] = ""
+            result['exec_code'] = 0
         else:
             result['exec_out'] = "Execution not supported for this language in demo mode."
             result['exec_code'] = 0
@@ -340,10 +357,10 @@ def _generate_trace_log(errors, language='python'):
 # ─── EXPLAINABILITY ───────────────────────────────────────────────────────────
 
 @app.route('/api/explain', methods=['POST'])
+@jwt_required()
 def explain():
     """Get full XAI breakdown for latest prediction."""
-    data = request.json or {}
-    user_id = data.get('user_id', 1)
+    user_id = int(get_jwt_identity())
     sessions = db.fetch_sessions(user_id)
     topic_scores = db.fetch_topic_scores(user_id)
 
@@ -372,9 +389,11 @@ def explain():
 
 # ─── HEATMAP ──────────────────────────────────────────────────────────────────
 
-@app.route('/api/heatmap/<int:user_id>', methods=['GET'])
-def heatmap(user_id):
+@app.route('/api/heatmap', methods=['GET'])
+@jwt_required()
+def heatmap():
     """Return skill heatmap data."""
+    user_id = int(get_jwt_identity())
     topic_scores = db.fetch_topic_scores(user_id)
 
     # Pivot: {topic: {month: score}}
@@ -412,10 +431,11 @@ def heatmap(user_id):
 # ─── WHAT-IF ─────────────────────────────────────────────────────────────────
 
 @app.route('/api/whatif', methods=['POST'])
+@jwt_required()
 def whatif():
     """Run what-if simulation."""
     data = request.json or {}
-    user_id = data.get('user_id', 1)
+    user_id = int(get_jwt_identity())
     extra_hours = float(data.get('extra_hours_per_day', 1.0))
 
     sessions = db.fetch_sessions(user_id)
@@ -425,9 +445,11 @@ def whatif():
 
 # ─── LEARNING PATH ────────────────────────────────────────────────────────────
 
-@app.route('/api/path/<int:user_id>', methods=['GET'])
-def learning_path(user_id):
+@app.route('/api/path', methods=['GET'])
+@jwt_required()
+def learning_path():
     """Return personalized learning path."""
+    user_id = int(get_jwt_identity())
     sessions = db.fetch_sessions(user_id)
     topic_scores = db.fetch_topic_scores(user_id)
     twin.train(sessions)
@@ -443,9 +465,11 @@ def learning_path(user_id):
 
 # ─── DASHBOARD ────────────────────────────────────────────────────────────────
 
-@app.route('/api/dashboard/<int:user_id>', methods=['GET'])
-def dashboard(user_id):
+@app.route('/api/dashboard', methods=['GET'])
+@jwt_required()
+def dashboard():
     """Return all dashboard metrics in one call."""
+    user_id = int(get_jwt_identity())
     sessions = db.fetch_sessions(user_id)
     topic_scores = db.fetch_topic_scores(user_id)
     user = db.fetch_user(user_id)
@@ -503,9 +527,11 @@ def dashboard(user_id):
 
 # ─── HISTORY ──────────────────────────────────────────────────────────────────
 
-@app.route('/api/history/<int:user_id>', methods=['GET'])
-def get_history(user_id):
+@app.route('/api/history', methods=['GET'])
+@jwt_required()
+def get_history():
     """Return all session history for a user."""
+    user_id = int(get_jwt_identity())
     sessions = db.fetch_sessions(user_id)
     return jsonify({
         "success": True,
@@ -514,9 +540,11 @@ def get_history(user_id):
 
 # ─── MOMENTUM ─────────────────────────────────────────────────────────────────
 
-@app.route('/api/momentum/<int:user_id>', methods=['GET'])
-def get_momentum(user_id):
+@app.route('/api/momentum', methods=['GET'])
+@jwt_required()
+def get_momentum():
     """Return full momentum analytics for the Cognitive Mirror."""
+    user_id = int(get_jwt_identity())
     sessions = db.fetch_sessions(user_id)
     topic_scores = db.fetch_topic_scores(user_id)
     state = momentum_engine.calculate(sessions, topic_scores)
@@ -525,10 +553,12 @@ def get_momentum(user_id):
 # ─── COGNITIVE MIRROR CHAT ────────────────────────────────────────────────────
 
 @app.route('/api/chat', methods=['POST'])
+@jwt_required()
+@limiter.limit("10 per minute")
 def chat():
     """Stream a response from the Cognitive Mirror LLM."""
     data = request.json or {}
-    user_id = data.get('user_id', 1)
+    user_id = int(get_jwt_identity())
     message = data.get('message', '')
     history = data.get('history', [])  # [{role, content}, ...]
 

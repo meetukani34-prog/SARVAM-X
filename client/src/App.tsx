@@ -13,6 +13,7 @@ import Footer from "./components/Footer"
 import AuthView from "./components/AuthView"
 import SarvamSuite from "./components/SarvamSuite"
 import TrinetraSuite from "./components/TrinetraSuite"
+import { api } from "./lib/api"
 
 type ViewType = "landing" | "auth" | "sarvam" | "trinetra"
 
@@ -26,36 +27,37 @@ function App() {
   const [userEmail, setUserEmail] = useState("")
 
   // Check auth session on load and on view change
-  const syncSession = () => {
-    if (typeof window !== "undefined") {
-      const uid = localStorage.getItem("sarvam_uid")
-      const name = localStorage.getItem("sarvam_name") || ""
-      const email = localStorage.getItem("sarvam_email") || ""
-
-      if (uid) {
-        setUserId(Number(uid))
-        setUserName(name)
-        setUserEmail(email)
-      } else {
-        setUserId(null)
-        setUserName("")
-        setUserEmail("")
+  const syncSession = async () => {
+    try {
+      const res = await api.getMe()
+      if (res.success) {
+        setUserId(res.user_id)
+        setUserName(res.name)
+        setUserEmail(res.email)
+        return true
       }
+    } catch (err) {
+      setUserId(null)
+      setUserName("")
+      setUserEmail("")
     }
+    return false
   }
 
   useEffect(() => {
     syncSession()
   }, [activeView])
 
-  const handleNavigate = (view: ViewType, platform: "sarvam" | "trinetra" = "sarvam") => {
+  const handleNavigate = async (view: ViewType, platform: "sarvam" | "trinetra" = "sarvam") => {
     setAuthPlatform(platform)
     
     // Redirect if trying to access secure portals unauthenticated
-    const uid = localStorage.getItem("sarvam_uid")
-    if ((view === "sarvam" || view === "trinetra") && !uid) {
-      setActiveView("auth")
-      return
+    if (view === "sarvam" || view === "trinetra") {
+      const isAuthenticated = await syncSession()
+      if (!isAuthenticated) {
+        setActiveView("auth")
+        return
+      }
     }
 
     setActiveView(view)
@@ -63,15 +65,18 @@ function App() {
   }
 
   const handleAuthSuccess = (platform: "sarvam" | "trinetra") => {
-    syncSession()
-    setActiveView(platform)
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    syncSession().then(() => {
+      setActiveView(platform)
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    })
   }
 
-  const handleSignOut = () => {
-    localStorage.removeItem("sarvam_uid")
-    localStorage.removeItem("sarvam_name")
-    localStorage.removeItem("sarvam_email")
+  const handleSignOut = async () => {
+    try {
+      await api.logout()
+    } catch (err) {
+      console.error("Logout error", err)
+    }
     setUserId(null)
     setUserName("")
     setUserEmail("")

@@ -15,17 +15,11 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def init_db():
     # Tables are created manually in Supabase SQL editor.
-    # We can just verify connection by fetching the researcher user.
+    # We can just verify connection by fetching a user.
     try:
-        res = supabase.table("users").select("id").eq("id", 1).execute()
-        if not res.data:
-            default_pwd = generate_password_hash("password123")
-            supabase.table("users").insert({
-                "id": 1,
-                "name": "Researcher",
-                "email": "researcher@sarvam.ai",
-                "password": default_pwd
-            }).execute()
+        res = supabase.table("users").select("id").limit(1).execute()
+        if res.data is None:
+            print("Warning: Database connection verified but no users found.")
     except Exception as e:
         print("Supabase Init Error:", e)
 

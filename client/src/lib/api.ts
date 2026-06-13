@@ -174,7 +174,8 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     'Content-Type': 'application/json',
     ...options.headers,
   };
-  const response = await fetch(url, { ...options, headers });
+  // Send cookies with requests for JWT auth
+  const response = await fetch(url, { ...options, headers, credentials: 'include' });
   if (!response.ok) {
     const errBody = await response.json().catch(() => ({}));
     throw new Error(errBody.error || `HTTP error! status: ${response.status}`);
@@ -197,16 +198,22 @@ export const api = {
       body: JSON.stringify({ email, password }),
     });
   },
-
-  async updateProfile(userId: number, name: string): Promise<{ success: boolean; name: string }> {
-    return request<{ success: boolean; name: string }>('/api/auth/update', {
+  
+  async logout(): Promise<{ success: boolean; message: string }> {
+    return request<{ success: boolean; message: string }>('/api/auth/logout', {
       method: 'POST',
-      body: JSON.stringify({ user_id: userId, name }),
     });
   },
 
-  async getUser(userId: number): Promise<{ success: boolean; name: string; email: string }> {
-    return request<{ success: boolean; name: string; email: string }>(`/api/user/${userId}`);
+  async updateProfile(name: string): Promise<{ success: boolean; name: string }> {
+    return request<{ success: boolean; name: string }>('/api/auth/update', {
+      method: 'POST',
+      body: JSON.stringify({ name }),
+    });
+  },
+
+  async getMe(): Promise<{ success: boolean; user_id: number; name: string; email: string }> {
+    return request<{ success: boolean; user_id: number; name: string; email: string }>('/api/user/me');
   },
 
   // Health
@@ -223,65 +230,65 @@ export const api = {
   },
 
   // Digital Twin details
-  async getTwin(userId: number): Promise<TwinResponse> {
-    return request<TwinResponse>(`/api/twin/${userId}`);
+  async getTwin(): Promise<TwinResponse> {
+    return request<TwinResponse>(`/api/twin`);
   },
 
   // Predict endpoint
-  async predict(userId: number): Promise<PredictResponse> {
+  async predict(): Promise<PredictResponse> {
     return request<PredictResponse>('/api/predict', {
       method: 'POST',
-      body: JSON.stringify({ user_id: userId }),
+      body: JSON.stringify({}),
     });
   },
 
   // Debug Code (Python execution etc.)
-  async debugCode(code: string, language: string = 'python', userId: number = 1): Promise<DebugResponse> {
+  async debugCode(code: string, language: string = 'python'): Promise<DebugResponse> {
     return request<DebugResponse>('/api/debug', {
       method: 'POST',
-      body: JSON.stringify({ code, language, user_id: userId }),
+      body: JSON.stringify({ code, language }),
     });
   },
 
   // Explainability narrative
-  async getExplanation(userId: number): Promise<ExplainResponse> {
+  async getExplanation(): Promise<ExplainResponse> {
     return request<ExplainResponse>('/api/explain', {
       method: 'POST',
-      body: JSON.stringify({ user_id: userId }),
+      body: JSON.stringify({}),
     });
   },
 
   // Skill Heatmap
-  async getHeatmap(userId: number): Promise<HeatmapResponse> {
-    return request<HeatmapResponse>(`/api/heatmap/${userId}`);
+  async getHeatmap(): Promise<HeatmapResponse> {
+    return request<HeatmapResponse>(`/api/heatmap`);
   },
 
   // What-If Simulator
-  async runWhatIf(userId: number, extraHours: number): Promise<WhatIfResponse> {
+  async runWhatIf(extraHours: number): Promise<WhatIfResponse> {
     return request<WhatIfResponse>('/api/whatif', {
       method: 'POST',
-      body: JSON.stringify({ user_id: userId, extra_hours_per_day: extraHours }),
+      body: JSON.stringify({ extra_hours_per_day: extraHours }),
     });
   },
 
   // Learning Path
-  async getLearningPath(userId: number): Promise<LearningPathResponse> {
-    return request<LearningPathResponse>(`/api/path/${userId}`);
+  async getLearningPath(): Promise<LearningPathResponse> {
+    return request<LearningPathResponse>(`/api/path`);
   },
 
   // Comprehensive Dashboard fetch
-  async getDashboard(userId: number): Promise<DashboardResponse> {
-    return request<DashboardResponse>(`/api/dashboard/${userId}`);
+  async getDashboard(): Promise<DashboardResponse> {
+    return request<DashboardResponse>(`/api/dashboard`);
   },
 
   // Session History
-  async getHistory(userId: number): Promise<HistoryResponse> {
-    return request<HistoryResponse>(`/api/history/${userId}`);
+  async getHistory(): Promise<HistoryResponse> {
+    return request<HistoryResponse>(`/api/history`);
   },
 
   // Cognitive Mirror Momentum state
-  async getMomentum(userId: number): Promise<MomentumResponse> {
-    return request<MomentumResponse>(`/api/momentum/${userId}`);
+  async getMomentum(): Promise<MomentumResponse> {
+    return request<MomentumResponse>(`/api/momentum`);
   },
 
   // Stream helper for chat endpoint

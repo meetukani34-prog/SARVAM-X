@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react"
 import ThreeModel from "./ThreeModel"
 import { api } from "../lib/api"
 
+import DOMPurify from 'dompurify'
+
 // Access global faceapi loaded via CDN script in index.html
 declare const faceapi: any
 
@@ -301,7 +303,11 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
     let formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary font-semibold">$1</strong>')
     // Code blocks matches
     formatted = formatted.replace(/`([^`]+)`/g, '<code class="bg-primary/10 text-cyan-400 font-mono text-xs px-1.5 py-0.5 rounded border border-primary/20">$1</code>')
-    return <div dangerouslySetInnerHTML={{ __html: formatted }} className="leading-relaxed text-sm text-gray-200" />
+    
+    // Sanitize to prevent XSS
+    const cleanHtml = DOMPurify.sanitize(formatted)
+    
+    return <div dangerouslySetInnerHTML={{ __html: cleanHtml }} className="leading-relaxed text-sm text-gray-200" />
   }
 
   return (

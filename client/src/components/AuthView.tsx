@@ -37,9 +37,6 @@ const AuthView: React.FC<AuthViewProps> = ({
       if (activeTab === "login") {
         const res = await api.login(email, password)
         if (res.success) {
-          localStorage.setItem("sarvam_uid", String(res.user_id))
-          localStorage.setItem("sarvam_name", res.name)
-          localStorage.setItem("sarvam_email", res.email)
           setSuccessMsg(`Welcome back, ${res.name}! Syncing neural matrix...`)
           setTimeout(() => {
             onAuthSuccess(platform)
@@ -48,9 +45,6 @@ const AuthView: React.FC<AuthViewProps> = ({
       } else {
         const res = await api.signup(name, email, password)
         if (res.success) {
-          localStorage.setItem("sarvam_uid", String(res.user_id))
-          localStorage.setItem("sarvam_name", res.name)
-          localStorage.setItem("sarvam_email", res.email)
           setSuccessMsg("Account successfully created! Initializing digital twin...")
           setTimeout(() => {
             onAuthSuccess(platform)

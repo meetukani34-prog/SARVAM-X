@@ -66,9 +66,21 @@ class CodeDebugger:
         }
 
     def analyze(self, code: str, language: str = 'python') -> dict:
+        if len(code) > 10000:
+            return {
+                "errors": [{"type": "InputTooLarge", "line": 0, "severity": "CRITICAL", "message": "Code exceeds 10,000 characters."}],
+                "fixes": [], "complexity": 100, "efficiency": 0, "lines_analyzed": 0, "error_count": 1
+            }
+            
         errors = []
         fixes = []
         lines = code.split('\n')
+        
+        if len(lines) > 500:
+            return {
+                "errors": [{"type": "TooManyLines", "line": 0, "severity": "CRITICAL", "message": "Code exceeds 500 lines."}],
+                "fixes": [], "complexity": 100, "efficiency": 0, "lines_analyzed": 0, "error_count": 1
+            }
 
         # 1. Syntax analysis via AST (Python only)
         syntax_error = None
@@ -85,6 +97,7 @@ class CodeDebugger:
         # 2. Pattern-based error detection
         patterns = self.error_patterns.get(language, [])
         for i, line in enumerate(lines, 1):
+            if len(line) > 500: continue # Skip ultra-long lines to avoid ReDoS
             for pattern, etype, severity, suggestion in patterns:
                 if re.search(pattern, line):
                     err = {

@@ -225,7 +225,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
 
     try {
       // Fetch consolidated dashboard metric (now includes all Twin data) to cut down Vercel cold start by half!
-      const dash = await api.getDashboard(userId)
+      const dash = await api.getDashboard()
 
       setTwinData(dash);
       setKpis(dash.kpis);
@@ -243,7 +243,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
   const loadHeatmapData = async () => {
     setLoadingHeatmap(true)
     try {
-      const res = await api.getHeatmap(userId)
+      const res = await api.getHeatmap()
       setHeatmapData(res)
     } catch (e) {
       console.error("Heatmap load error", e)
@@ -256,7 +256,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
   const loadHistoryData = async () => {
     setLoadingHistory(true)
     try {
-      const res = await api.getHistory(userId)
+      const res = await api.getHistory()
       if (res.success) {
         setSessionsHistory(res.sessions)
       }
@@ -280,7 +280,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
   const handleSimulate = async () => {
     setSimulating(true)
     try {
-      const res = await api.runWhatIf(userId, simHours)
+      const res = await api.runWhatIf(simHours)
       setSimData(res)
     } catch (e) {
       console.error(e)
@@ -309,7 +309,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
         { time: "0.4s", level: "INFO", message: "Tokenizing inputs..." }
       ])
 
-      const res = await api.debugCode(debugCodeInput, debugLanguage, userId)
+      const res = await api.debugCode(debugCodeInput, debugLanguage)
       setDebugResult(res)
       
       if (res.trace_log) {
