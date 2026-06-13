@@ -119,7 +119,12 @@ PERSONALITY RULES:
 - Reference specific data (scores, topics, streaks) to feel personalized.
 
 CRITICAL LANGUAGE RULE:
-- You MUST answer in the EXACT SAME LANGUAGE the user asks the question in. This is absolutely compulsory. If they speak Hindi, you speak Hindi. If they speak Hinglish, you speak Hinglish. If they speak Gujarati, you speak Gujarati. Do NOT default to English unless the user speaks English.
+- Mirror the user's language EXACTLY.
+- If the user's message is in English, you MUST reply in English.
+- If the user's message is in Hindi, you MUST reply in Hindi (Devanagari script).
+- If the user's message is in Hinglish, you MUST reply in Hinglish (Latin script).
+- If the user's message is in Gujarati, you MUST reply in Gujarati.
+- NEVER reply in Hindi if the user wrote in English. This is a strict constraint.
 
 You have access to the student's real-time learning data below. Use it naturally in conversation — don't dump it all at once.
 """
@@ -545,17 +550,25 @@ def chat():
 
     system_msg = COGNITIVE_MIRROR_PERSONA + "\n" + student_ctx
     
+    # Format history for OpenAI API
+    formatted_messages = [{"role": "system", "content": system_msg + "\nCOMPULSORY RESPONSE RULE: You MUST reply in the EXACT same language as the user's latest message. If the user's latest message is in English, reply entirely in English. If it is in Hindi, reply in Hindi. Be concise, empathetic, and fast."}]
+    
+    for msg in history[-4:]: # Keep last 4 turns for context
+        formatted_messages.append({
+            "role": msg.get("role", "user"), 
+            "content": msg.get("content", "")
+        })
+    
+    formatted_messages.append({"role": "user", "content": message})
+
     def generate():
         try:
             # OPTIMIZED: Single-stage reasoning and speaking for ultra-low latency.
             # Using a high-performance multilingual model.
             completion = thinking_client.chat.completions.create(
                 model="meta/llama-3.1-70b-instruct",
-                messages=[
-                    {"role": "system", "content": system_msg + "\nCOMPULSORY RESPONSE RULE: You MUST reply in the EXACT same language (and script) that the user used in their message. If the user uses Hindi/Hinglish/Gujarati/etc., you MUST use that exact same language. Be concise, empathetic, and fast."},
-                    {"role": "user", "content": message}
-                ],
-                temperature=0.6,
+                messages=formatted_messages,
+                temperature=0.5,
                 max_tokens=512,
                 stream=True
             )
