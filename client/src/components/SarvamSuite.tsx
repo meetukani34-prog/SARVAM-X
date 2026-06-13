@@ -660,7 +660,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           onChange={(e) => setDebugLanguage(e.target.value)}
                           className="bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-2 px-4 text-[10px] uppercase font-bold tracking-widest text-white outline-none cursor-pointer"
                         >
-                          {["python", "javascript", "cpp", "rust", "go", "java"].map((lang) => (
+                          {["python", "javascript", "typescript", "cpp", "c", "csharp", "rust", "go", "java", "ruby", "php", "swift", "kotlin", "scala"].map((lang) => (
                             <option key={lang} value={lang} className="bg-[#0e121b] text-white">{lang.toUpperCase()}</option>
                           ))}
                         </select>
