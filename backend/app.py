@@ -557,7 +557,10 @@ def chat():
             "content": msg.get("content", "")
         })
     
-    formatted_messages.append({"role": "user", "content": message})
+    formatted_messages.append({
+        "role": "user", 
+        "content": f"{message}\n\n[SYSTEM ENFORCEMENT: Reply EXACTLY in the language and script of the text above. Do NOT inherit the language from the conversation history.]"
+    })
 
     def generate():
         try:
