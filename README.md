@@ -54,6 +54,8 @@ graph TD
 ## 🌟 Key Features
 
 ### 1. SARVAM Cognitive Suite
+![SARVAM-X Interface](client/public/bg-sarvam.png)
+
 - **Digital Twin**: Generates a virtual model of the student's proficiency, calculating predicted test scores and knowledge gaps using mock study sessions.
 - **Explainable AI (XAI)**: Visualizes model inputs using SHAP values (accuracy, hours, subject weight) to show *why* the AI predicts a certain score.
 - **What-If Simulator**: Interactive range sliders that simulate how adding extra hours or increasing focus shifts future mastery paths.
@@ -61,9 +63,21 @@ graph TD
 - **Cognitive Mirror (AI Mentor)**: Stream-to-text chat console offering low-latency feedback. Integrates a webcam feed running `face-api.js` to detect facial emotions and adapt the mentor's tone dynamically.
 
 ### 2. TRINETRA Secure Sentinel
+![TRINETRA Interface](client/public/bg-trinetra.png)
+
 - **NLP Fake News Detector**: Evaluates text for misinformation, highlighting sensationalism and factual probability using gauge charts.
 - **Explainable Sentiment**: Shows XAI indicators explaining positive/negative lexical framing.
 - **Static Code Vulnerability Scanner**: Analyzes code files for buffer overflows, hardcoded credentials, SQL injection patterns, and command injection, generating risk registers.
+
+---
+
+## 📸 Resource Previews
+
+Here are some of the modular resource previews integrated into the platform UI:
+
+| Documentation | Research Papers | Blog & Insights | System Status |
+|:---:|:---:|:---:|:---:|
+| <img src="client/public/doc_photo.png" width="200" /> | <img src="client/public/research_photo.png" width="200" /> | <img src="client/public/blog_photo.png" width="200" /> | <img src="client/public/status_photo.png" width="200" /> |
 
 ---
 
