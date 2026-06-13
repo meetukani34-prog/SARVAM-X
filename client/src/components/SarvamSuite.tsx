@@ -159,6 +159,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<"dashboard" | "debugger" | "xai" | "heatmap" | "history">("dashboard")
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { theme } = useTheme()
 
   const getVelocityNum = (val: any): number => {
     if (Array.isArray(val)) {
