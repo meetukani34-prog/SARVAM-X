@@ -559,7 +559,7 @@ def chat():
     
     formatted_messages.append({
         "role": "user", 
-        "content": f"{message}\n\n[SYSTEM ENFORCEMENT: Reply EXACTLY in the language and script of the text above. Do NOT inherit the language from the conversation history.]"
+        "content": f"{message}\n\n[SYSTEM ENFORCEMENT: Reply EXACTLY in the language and script of the text above. Do NOT inherit the language from the conversation history. If the user only uses English words (even if their grammar is bad, e.g. 'i solve again'), you MUST reply in pure English. Do NOT reply in Hinglish unless they explicitly use Hindi vocabulary like 'kya', 'hai', 'aap'.]"
     })
 
     def generate():
