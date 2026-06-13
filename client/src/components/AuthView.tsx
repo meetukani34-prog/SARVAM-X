@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { api } from "../lib/api"
 import ThreeModel from "./ThreeModel"
+import { useTheme } from "../context/ThemeContext"
 
 
 interface AuthViewProps {
@@ -16,6 +17,7 @@ const AuthView: React.FC<AuthViewProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<"login" | "signup">("login")
   const [platform, setPlatform] = useState<"sarvam" | "trinetra">(initialPlatform)
+  const { theme } = useTheme()
   
   // Form fields
   const [name, setName] = useState("")
@@ -73,9 +75,9 @@ const AuthView: React.FC<AuthViewProps> = ({
 
   return (
     <div 
-      className="relative min-h-screen flex items-center justify-center bg-[#07090e] px-4 py-12 overflow-hidden select-none bg-cover bg-center bg-no-repeat bg-fixed"
+      className="relative min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#07090e] px-4 py-12 overflow-hidden select-none bg-cover bg-center bg-no-repeat bg-fixed"
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(7, 9, 14, 0.75), rgba(7, 9, 14, 0.98)), url('${isSarvam ? "/bg-sarvam.png" : "/bg-trinetra.png"}')`
+        backgroundImage: `linear-gradient(to bottom, ${theme === 'dark' ? 'rgba(7, 9, 14, 0.75), rgba(7, 9, 14, 0.98)' : 'rgba(248, 250, 252, 0.75), rgba(248, 250, 252, 0.98)'}), url('${isSarvam ? "/bg-sarvam.png" : "/bg-trinetra.png"}')`
       }}
     >
       {/* 3D background element */}

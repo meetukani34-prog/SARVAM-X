@@ -80,7 +80,7 @@ function App() {
 
   // Render view router
   return (
-    <div className="bg-[#07090e] min-h-screen text-foreground relative selection:bg-primary selection:text-primary-foreground overflow-x-hidden">
+    <div className="bg-slate-50 dark:bg-[#07090e] min-h-screen text-slate-900 dark:text-foreground relative selection:bg-primary selection:text-primary-foreground overflow-x-hidden">
       {activeView === "landing" && (
         <>
           <Navbar activeView="landing" onNavigate={handleNavigate} />

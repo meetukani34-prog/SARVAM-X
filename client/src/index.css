@@ -3,6 +3,36 @@
 
 @layer base {
   :root {
+    /* Light Mode Variables */
+    --background: 210 40% 98%; /* slate-50 */
+    --foreground: 222.2 84% 4.9%; /* slate-900 */
+
+    --primary: 142.1 76.2% 36.3%; /* green-600 */
+    --primary-foreground: 355.7 100% 97.3%;
+
+    --secondary: 210 40% 96.1%; /* slate-100 */
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%; /* slate-500 */
+
+    --accent: 142.1 76.2% 36.3%;
+    --accent-foreground: 355.7 100% 97.3%;
+
+    --destructive: 0 84.2% 60.2%;
+
+    --border: 214.3 31.8% 91.4%; /* slate-200 */
+    --input: 214.3 31.8% 91.4%;
+    --ring: 142.1 76.2% 36.3%;
+
+    --radius: 0.5rem;
+
+    --nav-button: 210 40% 96.1%;
+    --hero-bg: 0 0% 100%; /* white */
+  }
+
+  .dark {
+    /* Original Dark Mode Variables */
     --background: 0 0% 10%;
     --foreground: 0 0% 96%;
 
