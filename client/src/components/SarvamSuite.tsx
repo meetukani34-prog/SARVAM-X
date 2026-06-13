@@ -29,6 +29,17 @@ ChartJS.register(
   BarElement
 )
 
+const subjectTopicsMap: Record<string, string[]> = {
+  "Computer Science": ["Algorithms", "Networks", "Operating Systems", "Databases", "Compilers", "Web Security", "Artificial Intelligence", "Software Engineering", "Cryptography"],
+  "Mathematics": ["Calculus", "Linear Algebra", "Discrete Mathematics", "Probability", "Statistics", "Number Theory"],
+  "Physics": ["Mechanics", "Electromagnetism", "Thermodynamics", "Quantum Mechanics", "Relativity", "Optics"],
+  "Biology": ["Genetics", "Cell Biology", "Evolution", "Ecology", "Human Anatomy", "Bioinformatics"],
+  "Data Science": ["Machine Learning", "Data Mining", "Data Visualization", "Big Data", "Natural Language Processing", "Deep Learning"],
+  "Chemistry": ["Organic Chemistry", "Inorganic Chemistry", "Physical Chemistry", "Biochemistry", "Analytical Chemistry"],
+  "Economics": ["Microeconomics", "Macroeconomics", "Econometrics", "Game Theory", "International Trade"],
+  "Literature": ["American Literature", "British Literature", "World Literature", "Poetry", "Drama", "Literary Theory"]
+}
+
 interface SarvamSuiteProps {
   userId: number
   userName: string
@@ -87,7 +98,8 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
   const [loadingHeatmap, setLoadingHeatmap] = useState(true)
 
   // Session logger states
-  const [logTopic, setLogTopic] = useState("Algorithms")
+  const [logSubject, setLogSubject] = useState("Computer Science")
+  const [logTopic, setLogTopic] = useState(subjectTopicsMap["Computer Science"][0])
   const [logAccuracy, setLogAccuracy] = useState(80)
   const [logDuration, setLogDuration] = useState(45)
   const [logProblems, setLogProblems] = useState(6)
@@ -500,13 +512,30 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   )}
                   <form onSubmit={handleLogSession} className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1.5">
+                      <label className="text-[9px] text-muted-foreground uppercase font-bold tracking-wider">Academic Subject</label>
+                      <select
+                        value={logSubject}
+                        onChange={(e) => {
+                          const newSubj = e.target.value;
+                          setLogSubject(newSubj);
+                          setLogTopic(subjectTopicsMap[newSubj][0]);
+                        }}
+                        className="bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-3 px-4 text-xs outline-none text-white transition-all cursor-pointer"
+                      >
+                        {Object.keys(subjectTopicsMap).map((s) => (
+                          <option key={s} value={s} className="bg-[#0e121b] text-white">{s}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
                       <label className="text-[9px] text-muted-foreground uppercase font-bold tracking-wider">Academic Topic</label>
                       <select
                         value={logTopic}
                         onChange={(e) => setLogTopic(e.target.value)}
                         className="bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-3 px-4 text-xs outline-none text-white transition-all cursor-pointer"
                       >
-                        {["Algorithms", "Networks", "Operating Systems", "Databases", "Compilers", "Web Security"].map((t) => (
+                        {subjectTopicsMap[logSubject].map((t) => (
                           <option key={t} value={t} className="bg-[#0e121b] text-white">{t}</option>
                         ))}
                       </select>
