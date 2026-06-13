@@ -1,0 +1,86 @@
+================================================================================
+  SARVAM-X: PROJECT DEVELOPMENT JOURNEY & DEEP TECHNICAL DOCUMENTATION
+================================================================================
+
+1. PROJECT OVERVIEW & ARCHITECTURE
+--------------------------------------------------------------------------------
+SARVAM-X is a modern, split-stack interdisciplinary application that unifies two major systems:
+- SARVAM Cognitive Suite: A personalized AI learning portal.
+- TRINETRA Secure Sentinel: A cybersecurity and threat-verification portal.
+
+The architecture connects multiple distributed layers:
+- Frontend (Client): A premium React Single Page Application (SPA) handling heavy graphics and local neural AI.
+- Backend (API): A Python Flask server handling machine learning, AST parsing, and database transactions.
+- Storage: SQLite3 for local, lightweight relational data persistence.
+- Generative AI: NVIDIA NIM endpoints (Llama-3.1 70B Instruct) for low-latency streaming dialogue.
+- Deployment: Vercel Global Edge Network utilizing serverless functions.
+
+2. TECHNOLOGIES USED & DEEP DIVE
+--------------------------------------------------------------------------------
+[ FRONTEND STACK ]
+- React 18 & Vite: Core UI framework with extremely fast Hot Module Replacement (HMR).
+- TypeScript 5: For strict type-checking across API calls and UI components.
+- Tailwind CSS v4: Used for modern, glassmorphic, and highly responsive styling.
+- Three.js: Used natively for rendering offline 3D rotating particle meshes (ThreeModel.tsx) to provide premium aesthetics without heavy third-party CDNs.
+- Chart.js (react-chartjs-2): Powers the data visualization for the learning dashboard (Radar charts, Bar charts).
+- face-api.js: A local JavaScript neural network library used for on-device emotional mapping without sending video to a server.
+
+[ BACKEND STACK & MACHINE LEARNING ]
+- Python 3.10+ & Flask 3: Provides the REST API and streaming endpoints.
+- SQLite3: Relational data storage customized to work in ephemeral serverless environments.
+- Scikit-Learn: Used locally to train a predictive estimator for the Digital Twin feature based on student sessions.
+- SHAP (SHapley Additive exPlanations): Provides the Explainable AI (XAI) mathematics, calculating the exact weight of each feature (focus hours, topic accuracy) to explain *why* the AI predicted a certain score.
+- Python AST Module: Used in `debugger.py` to parse code into Abstract Syntax Trees for deep vulnerability scanning.
+- OpenAI Client & NVIDIA NIM: Configured to ping `meta/llama-3.1-70b-instruct` for the Cognitive Mirror persona.
+
+3. HOW IT WAS BUILT (COMPONENT BREAKDOWN & PHASES)
+--------------------------------------------------------------------------------
+PHASE 1: Database & Data Engineering
+- Designed the SQLite schema (`database.py`) with tables for users, study sessions, and topic scores. 
+- Created queries to fetch historical momentum and session averages.
+
+PHASE 2: Predictive Machine Learning (Digital Twin)
+- Built `twin_model.py` which takes historical session data and trains a local model on-the-fly.
+- Built `explainer.py` to convert SHAP values into readable text narratives (e.g., explaining if "low focus hours" or "low accuracy in Math" is dragging the score down).
+- Built a What-If Simulator that allows users to adjust UI sliders (like "extra study hours") and re-runs the prediction instantly.
+
+PHASE 3: Autonomous AST Debugger (Cybersecurity & Learning)
+- Built `debugger.py` to analyze code structurally rather than just using regex.
+- Feature: Big-O Complexity Calculator: The AST walker recursively finds the maximum loop depth to estimate algorithmic complexity (O(1), O(n), O(n^2)).
+- Feature: Syntax & Logical Rules: Uses AST to detect mutable default arguments in functions and bare `except:` clauses.
+- Feature: Multi-Language Regex Scanner: Scans JavaScript, C++, C, Rust, Go, and Ruby for known vulnerabilities like `eval()`, `gets()`, and `unwrap()` panics.
+
+PHASE 4: Cognitive Mirror Chat API (app.py)
+- Built a streaming LLM endpoint (`/api/chat`). 
+- It aggregates the student's emotional state (detected by the webcam), learning momentum, and predicted scores, injecting them into the Llama-3.1 System Prompt.
+- Uses Server-Sent Events (SSE) via `yield "data: ..."` to stream text back to the React UI token-by-token for a real-time typing effect.
+
+PHASE 5: Production & Serverless Configuration
+- Configured Vite (`vite.config.ts`) to dynamically build to a `../frontend` folder when running locally, or `dist` when on Vercel.
+- Configured `vercel.json` reverse proxy rules to intercept `/api` routes and direct them to the serverless Flask functions.
+
+4. MAJOR PROBLEMS FACED AND HOW THEY WERE SOLVED
+--------------------------------------------------------------------------------
+PROBLEM A: The Serverless Ephemeral File System (Database Issue)
+- The Challenge: Vercel uses AWS Lambda (Serverless), meaning the filesystem is stateless, read-only, and containers are destroyed after use. Our SQLite database couldn't save user sessions.
+- The Solution: We dynamically check if the app is running in the Vercel production environment. If true, the code re-routes the SQLite `sarvam.db` connection to the `/tmp/` directory, which is the only writable directory in serverless containers. Database tables auto-initialize globally upon cold starts.
+
+PROBLEM B: Cross-Origin Resource Sharing (CORS) & Routing
+- The Challenge: Running a React frontend on port 5173 and a Flask backend on port 5000 causes strict browser CORS policy blocking.
+- The Solution: We created a unified monorepo architecture. `vercel.json` acts as a reverse-proxy, routing all `/api` requests to Python, and everything else to the static Vite client. Locally, Vite proxies requests, and Flask serves the compiled frontend assets directly.
+
+PROBLEM C: 3D Graphics Performance & Offline Availability
+- The Challenge: The landing page initially used a 3D scene from an external Spline CDN. It slowed down initial page loads and failed completely if the network was slow (adding 2.5MB to the bundle).
+- The Solution: We removed the Spline CDN and wrote a completely local vanilla Three.js particle field (`ThreeModel.tsx`). This slashed the bundle size and renders at 60FPS instantly, even offline.
+
+PROBLEM D: Client-Side Privacy for Emotion AI
+- The Challenge: Continuously streaming webcam video to a Python backend to analyze facial expressions wastes massive bandwidth, has high latency, and is a severe privacy risk.
+- The Solution: We utilized `face-api.js` to load a tiny neural network directly into the browser. The emotion classification (Happy, Sad, Angry) happens entirely locally. Only the text result (e.g., "Emotion: Sad") is sent to the LLM backend, preserving bandwidth and 100% user privacy.
+
+5. BEST PRACTICES & LESSONS LEARNED
+--------------------------------------------------------------------------------
+- Never commit API keys (NVIDIA NIM) directly; always use Environment Variables.
+- Global diagnostic UI overlays in React (`main.tsx`) are crucial to catch render-crashing bugs early rather than facing a blank white screen.
+- Serverless architecture requires stateless thinking: state must be handled dynamically, and execution timeouts must be respected.
+- Explainability (XAI) is vital in AI tools. Students don't just want a predicted score; they need to know the mathematical reasoning behind it to trust the system.
+================================================================================
