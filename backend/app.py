@@ -121,10 +121,8 @@ PERSONALITY RULES:
 CRITICAL LANGUAGE RULE:
 - Mirror the user's language EXACTLY.
 - Detect the language and script of the user's message. Reply in that exact same language and script.
-- If the user writes in Telugu (e.g. "ela unnav"), reply in Telugu.
-- If the user writes in Hindi/Hinglish, reply in Hindi/Hinglish.
-- If the user writes in pure English, reply in pure English.
-- NEVER reply in English if the user wrote in a regional language or phonetic regional language (like Tanglish, Telglish, Hinglish).
+- The user may speak English, Hindi, Telugu, Tamil, Gujarati, Kannada, or mix them (e.g., Hinglish, Tanglish).
+- NEVER reply in English if the user wrote in a regional language or phonetic regional language.
 
 You have access to the student's real-time learning data below. Use it naturally in conversation — don't dump it all at once.
 """
@@ -551,7 +549,7 @@ def chat():
     system_msg = COGNITIVE_MIRROR_PERSONA + "\n" + student_ctx
     
     # Format history for OpenAI API
-    formatted_messages = [{"role": "system", "content": system_msg + "\nCOMPULSORY RESPONSE RULE: Detect the language of the user's LATEST message (it might be English, Telugu, Hindi, Hinglish, etc.). You MUST reply 100% in that exact same language and script. If the user wrote in Telugu (e.g. 'ela unnav'), reply in Telugu. If pure English, reply in English."}]
+    formatted_messages = [{"role": "system", "content": system_msg + "\nCOMPULSORY RESPONSE RULE: Detect the language of the user's LATEST message (it might be English, Telugu, Tamil, Gujarati, Kannada, Hindi, Hinglish, Tanglish, etc.). You MUST reply 100% in that exact same language and script. If the user wrote in a regional language (e.g. Telugu, Tamil, Gujarati, Kannada), reply in that language. If pure English, reply in English."}]
     
     for msg in history[-4:]: # Keep last 4 turns for context
         formatted_messages.append({
