@@ -31,96 +31,111 @@ ChartJS.register(
 
 const subjectTopicsMap: Record<string, Record<string, string[]>> = {
   "Programming Languages": {
-    "Python": ["Syntax & Basics", "OOP", "Data Structures", "Generators", "Decorators", "Asyncio"],
-    "C": ["Pointers", "Memory Management", "Structs", "File I/O"],
-    "C++": ["STL", "OOP", "Templates", "Smart Pointers"],
-    "Java": ["OOP", "Collections Framework", "Multithreading", "JVM"],
-    "JavaScript": ["Closures", "Promises & Async", "DOM Manipulation", "ES6+ Features"],
-    "Rust": ["Ownership & Borrowing", "Lifetimes", "Concurrency", "Traits"],
-    "Go": ["Goroutines", "Channels", "Interfaces", "Error Handling"]
+    "Python": ["Syntax & Basics", "OOP", "Data Structures", "Generators", "Decorators", "Asyncio", "Meta-programming", "Type Hinting", "Context Managers", "Regular Expressions"],
+    "C": ["Pointers", "Memory Management", "Structs", "File I/O", "Macros", "Bit Manipulation", "Function Pointers", "Multithreading (pthreads)"],
+    "C++": ["STL", "OOP", "Templates", "Smart Pointers", "Move Semantics", "Lambda Expressions", "Concurrency", "Memory Management", "RAII"],
+    "Java": ["OOP", "Collections Framework", "Multithreading", "JVM Architecture", "Streams API", "Generics", "Spring Boot Basics", "Exception Handling"],
+    "JavaScript": ["Closures", "Promises & Async", "DOM Manipulation", "ES6+ Features", "Prototypal Inheritance", "Event Loop", "Modules", "Web APIs"],
+    "TypeScript": ["Interfaces", "Generics", "Utility Types", "Decorators", "Type Inference", "Advanced Types", "Modules"],
+    "Rust": ["Ownership & Borrowing", "Lifetimes", "Concurrency", "Traits", "Macros", "Error Handling", "Cargo", "Smart Pointers"],
+    "Go": ["Goroutines", "Channels", "Interfaces", "Error Handling", "Slices", "Maps", "Concurrency Patterns", "Testing"],
+    "Ruby": ["Blocks & Procs", "Mixins", "Metaprogramming", "OOP", "Rails Basics", "ActiveRecord"],
+    "Swift": ["Optionals", "Protocols", "Closures", "Structs vs Classes", "SwiftUI Basics", "Concurrency (async/await)"],
+    "Kotlin": ["Coroutines", "Null Safety", "Extension Functions", "Data Classes", "Flows", "Jetpack Compose Basics"]
   },
   "Computer Science Core": {
-    "Algorithms": ["Sorting", "Searching", "Graph Algorithms", "Dynamic Programming"],
-    "Networks": ["OSI Model", "TCP/IP", "Routing Protocols", "Network Security"],
-    "Operating Systems": ["Process Management", "Memory Management", "File Systems", "Concurrency"],
-    "Databases": ["SQL", "NoSQL", "Normalization", "Indexing", "Transactions"],
-    "Compilers": ["Lexical Analysis", "Syntax Analysis", "Code Generation", "Optimization"],
-    "Software Engineering": ["Agile", "Design Patterns", "Testing", "System Design"]
+    "Algorithms": ["Sorting", "Searching", "Graph Algorithms", "Dynamic Programming", "Greedy Algorithms", "Backtracking", "Divide & Conquer", "String Matching"],
+    "Networks": ["OSI Model", "TCP/IP", "Routing Protocols", "Network Security", "DNS", "HTTP/HTTPS", "WebSockets", "Subnetting"],
+    "Operating Systems": ["Process Management", "Memory Management", "File Systems", "Concurrency", "Deadlocks", "Scheduling Algorithms", "Virtualization", "IPC"],
+    "Databases": ["SQL", "NoSQL", "Normalization", "Indexing", "Transactions", "ACID Properties", "Replication", "Sharding", "Query Optimization"],
+    "Compilers": ["Lexical Analysis", "Syntax Analysis", "Code Generation", "Optimization", "Parsing (LL/LR)", "Abstract Syntax Trees"],
+    "Software Engineering": ["Agile Methodologies", "Design Patterns", "Testing (TDD/BDD)", "System Design", "CI/CD", "Version Control", "Microservices architecture", "UML"],
+    "Distributed Systems": ["CAP Theorem", "Consensus Algorithms", "Message Queues", "RPC", "Distributed Caching", "Clock Synchronization"]
   },
   "Data Structures & Algorithms": {
-    "Arrays & Strings": ["Two Pointers", "Sliding Window", "Prefix Sum"],
-    "Linked Lists": ["Singly Linked List", "Doubly Linked List", "Cycle Detection"],
-    "Trees & Graphs": ["BST", "Trie", "DFS", "BFS", "Shortest Path"],
-    "Dynamic Programming": ["Knapsack", "LCS", "Matrix Chain Multiplication"],
-    "Recursion": ["Backtracking", "Divide & Conquer"],
-    "Sorting & Searching": ["Quick Sort", "Merge Sort", "Binary Search"]
+    "Arrays & Strings": ["Two Pointers", "Sliding Window", "Prefix Sum", "Hash Maps", "Kadane's Algorithm", "String Reversal", "Palindrome Checks"],
+    "Linked Lists": ["Singly Linked List", "Doubly Linked List", "Cycle Detection", "Reversing", "Merge K Sorted Lists"],
+    "Trees & Graphs": ["BST", "Trie", "DFS", "BFS", "Shortest Path (Dijkstra/Bellman-Ford)", "Minimum Spanning Tree", "Topological Sort", "Segment Trees"],
+    "Dynamic Programming": ["Knapsack", "LCS", "Matrix Chain Multiplication", "Memoization", "Tabulation", "State Space Reduction"],
+    "Recursion": ["Backtracking", "Divide & Conquer", "Tail Recursion", "Permutations & Combinations"],
+    "Sorting & Searching": ["Quick Sort", "Merge Sort", "Binary Search", "Heap Sort", "Counting Sort", "Radix Sort"],
+    "Advanced Data Structures": ["Fenwick Tree", "Disjoint Set (Union-Find)", "Bloom Filters", "Skip Lists", "B-Trees"]
   },
   "Cyber Security": {
-    "Network Security": ["Firewalls", "VPNs", "Intrusion Detection", "DDoS Mitigation"],
-    "Cryptography": ["Symmetric Encryption", "Asymmetric Encryption", "Hashing", "Digital Signatures"],
-    "Ethical Hacking": ["Reconnaissance", "Exploitation", "Privilege Escalation", "Post-Exploitation"],
-    "Web Application Security": ["SQL Injection", "XSS", "CSRF", "Authentication Flaws"],
-    "Digital Forensics": ["Disk Forensics", "Network Forensics", "Memory Forensics", "Malware Analysis"]
+    "Network Security": ["Firewalls", "VPNs", "Intrusion Detection", "DDoS Mitigation", "Packet Sniffing", "Zero Trust Architecture"],
+    "Cryptography": ["Symmetric Encryption", "Asymmetric Encryption", "Hashing", "Digital Signatures", "PKI", "Quantum Cryptography"],
+    "Ethical Hacking": ["Reconnaissance", "Exploitation", "Privilege Escalation", "Post-Exploitation", "Social Engineering", "Penetration Testing"],
+    "Web Application Security": ["SQL Injection", "XSS", "CSRF", "Authentication Flaws", "OWASP Top 10", "CORS", "Security Headers"],
+    "Digital Forensics": ["Disk Forensics", "Network Forensics", "Memory Forensics", "Malware Analysis", "Incident Response"],
+    "Cloud Security": ["IAM", "VPC Security", "Container Security", "Serverless Security", "Cloud Compliance"]
   },
   "Artificial Intelligence & ML": {
-    "Machine Learning": ["Supervised Learning", "Unsupervised Learning", "Ensemble Methods", "Model Evaluation"],
-    "Deep Learning": ["Neural Networks", "CNNs", "RNNs", "Transformers"],
-    "Natural Language Processing": ["Tokenization", "Word Embeddings", "Named Entity Recognition", "Sentiment Analysis"],
-    "Computer Vision": ["Image Classification", "Object Detection", "Image Segmentation", "Face Recognition"],
-    "Reinforcement Learning": ["Markov Decision Processes", "Q-Learning", "Policy Gradients", "Multi-Agent RL"]
+    "Machine Learning": ["Supervised Learning", "Unsupervised Learning", "Ensemble Methods", "Model Evaluation", "Feature Engineering", "Bias-Variance Tradeoff"],
+    "Deep Learning": ["Neural Networks", "CNNs", "RNNs", "Transformers", "Autoencoders", "GANs", "Transfer Learning"],
+    "Natural Language Processing": ["Tokenization", "Word Embeddings", "Named Entity Recognition", "Sentiment Analysis", "LLMs", "Seq2Seq Models"],
+    "Computer Vision": ["Image Classification", "Object Detection", "Image Segmentation", "Face Recognition", "Optical Flow", "Pose Estimation"],
+    "Reinforcement Learning": ["Markov Decision Processes", "Q-Learning", "Policy Gradients", "Multi-Agent RL", "Deep Q-Networks (DQN)", "Actor-Critic Methods"],
+    "MLOps": ["Model Deployment", "Data Pipelines", "Model Monitoring", "A/B Testing", "Feature Stores", "Experiment Tracking"]
   },
   "Data Science & Big Data": {
-    "Data Mining": ["Association Rules", "Clustering", "Anomaly Detection", "Dimensionality Reduction"],
-    "Data Visualization": ["Matplotlib", "Seaborn", "Tableau", "D3.js"],
-    "Big Data": ["Hadoop", "Spark", "Kafka", "Data Lakes"],
-    "Statistical Modeling": ["Linear Regression", "Logistic Regression", "ANOVA", "Time Series Analysis"],
-    "Predictive Analytics": ["Customer Churn", "Demand Forecasting", "Risk Assessment", "Fraud Detection"]
+    "Data Mining": ["Association Rules", "Clustering", "Anomaly Detection", "Dimensionality Reduction", "Frequent Itemsets"],
+    "Data Visualization": ["Matplotlib", "Seaborn", "Tableau", "D3.js", "PowerBI", "Plotly"],
+    "Big Data": ["Hadoop", "Spark", "Kafka", "Data Lakes", "MapReduce", "Flink", "Cassandra"],
+    "Statistical Modeling": ["Linear Regression", "Logistic Regression", "ANOVA", "Time Series Analysis", "Bayesian Inference", "Markov Chains"],
+    "Predictive Analytics": ["Customer Churn", "Demand Forecasting", "Risk Assessment", "Fraud Detection", "Recommendation Systems"],
+    "Data Engineering": ["ETL/ELT", "Data Warehousing", "Airflow", "Snowflake", "dbt", "Data Governance"]
   },
   "Mathematics": {
-    "Calculus": ["Limits", "Derivatives", "Integrals", "Differential Equations"],
-    "Linear Algebra": ["Vectors", "Matrices", "Eigenvalues & Eigenvectors", "Vector Spaces"],
-    "Discrete Mathematics": ["Logic", "Set Theory", "Combinatorics", "Graph Theory"],
-    "Probability": ["Random Variables", "Probability Distributions", "Bayes' Theorem", "Expected Value"],
-    "Statistics": ["Descriptive Statistics", "Inferential Statistics", "Hypothesis Testing", "Confidence Intervals"],
-    "Number Theory": ["Divisibility", "Primes", "Modular Arithmetic", "Cryptography Applications"]
+    "Calculus": ["Limits", "Derivatives", "Integrals", "Differential Equations", "Multivariable Calculus", "Series & Sequences"],
+    "Linear Algebra": ["Vectors", "Matrices", "Eigenvalues & Eigenvectors", "Vector Spaces", "SVD", "Orthogonality"],
+    "Discrete Mathematics": ["Logic", "Set Theory", "Combinatorics", "Graph Theory", "Boolean Algebra", "Relations & Functions"],
+    "Probability": ["Random Variables", "Probability Distributions", "Bayes' Theorem", "Expected Value", "Central Limit Theorem", "Markov Chains"],
+    "Statistics": ["Descriptive Statistics", "Inferential Statistics", "Hypothesis Testing", "Confidence Intervals", "A/B Testing", "Regression Analysis"],
+    "Number Theory": ["Divisibility", "Primes", "Modular Arithmetic", "Cryptography Applications", "Diophantine Equations"],
+    "Optimization": ["Linear Programming", "Convex Optimization", "Gradient Descent", "Simplex Method", "Nonlinear Programming"]
   },
   "Physics": {
-    "Mechanics": ["Kinematics", "Newton's Laws", "Work & Energy", "Rotational Motion"],
-    "Electromagnetism": ["Electric Fields", "Magnetic Fields", "Maxwell's Equations", "Circuits"],
-    "Thermodynamics": ["Laws of Thermodynamics", "Heat Transfer", "Entropy", "Statistical Mechanics"],
-    "Quantum Mechanics": ["Wave-Particle Duality", "Schrödinger Equation", "Quantum States", "Spin"],
-    "Relativity": ["Special Relativity", "General Relativity", "Spacetime", "Black Holes"],
-    "Optics": ["Geometric Optics", "Physical Optics", "Interference", "Diffraction"]
+    "Mechanics": ["Kinematics", "Newton's Laws", "Work & Energy", "Rotational Motion", "Fluid Mechanics", "Orbital Mechanics"],
+    "Electromagnetism": ["Electric Fields", "Magnetic Fields", "Maxwell's Equations", "Circuits", "Electromagnetic Waves", "Induction"],
+    "Thermodynamics": ["Laws of Thermodynamics", "Heat Transfer", "Entropy", "Statistical Mechanics", "Kinetic Theory", "Phase Transitions"],
+    "Quantum Mechanics": ["Wave-Particle Duality", "Schrödinger Equation", "Quantum States", "Spin", "Entanglement", "Perturbation Theory"],
+    "Relativity": ["Special Relativity", "General Relativity", "Spacetime", "Black Holes", "Cosmology", "Time Dilation"],
+    "Optics": ["Geometric Optics", "Physical Optics", "Interference", "Diffraction", "Polarization", "Lasers"],
+    "Particle Physics": ["Standard Model", "Fermions & Bosons", "Quantum Chromodynamics", "Higgs Boson", "Dark Matter"]
   },
   "Biology": {
-    "Genetics": ["Mendelian Genetics", "DNA Replication", "Transcription & Translation", "Genetic Engineering"],
-    "Cell Biology": ["Cell Structure", "Membrane Transport", "Cell Cycle", "Cellular Respiration"],
-    "Evolution": ["Natural Selection", "Speciation", "Phylogenetics", "Human Evolution"],
-    "Ecology": ["Ecosystems", "Population Dynamics", "Community Ecology", "Conservation Biology"],
-    "Human Anatomy": ["Skeletal System", "Muscular System", "Nervous System", "Cardiovascular System"],
-    "Bioinformatics": ["Sequence Alignment", "Genomics", "Proteomics", "Structural Biology"]
+    "Genetics": ["Mendelian Genetics", "DNA Replication", "Transcription & Translation", "Genetic Engineering", "CRISPR", "Epigenetics"],
+    "Cell Biology": ["Cell Structure", "Membrane Transport", "Cell Cycle", "Cellular Respiration", "Photosynthesis", "Apoptosis"],
+    "Evolution": ["Natural Selection", "Speciation", "Phylogenetics", "Human Evolution", "Population Genetics", "Adaptation"],
+    "Ecology": ["Ecosystems", "Population Dynamics", "Community Ecology", "Conservation Biology", "Biomes", "Climate Change"],
+    "Human Anatomy": ["Skeletal System", "Muscular System", "Nervous System", "Cardiovascular System", "Respiratory System", "Digestive System"],
+    "Bioinformatics": ["Sequence Alignment", "Genomics", "Proteomics", "Structural Biology", "Phylogenetic Trees", "Systems Biology"],
+    "Microbiology": ["Bacteria", "Viruses", "Fungi", "Immunology", "Antibiotic Resistance", "Pathogenesis"]
   },
   "Chemistry": {
-    "Organic Chemistry": ["Alkanes", "Alkenes", "Aromatic Compounds", "Reaction Mechanisms"],
-    "Inorganic Chemistry": ["Coordination Compounds", "Transition Metals", "Main Group Elements", "Solid State Chemistry"],
-    "Physical Chemistry": ["Thermodynamics", "Chemical Kinetics", "Quantum Chemistry", "Spectroscopy"],
-    "Biochemistry": ["Proteins", "Enzymes", "Carbohydrates", "Lipids"],
-    "Analytical Chemistry": ["Chromatography", "Mass Spectrometry", "Electrochemistry", "Titration"]
+    "Organic Chemistry": ["Alkanes", "Alkenes", "Aromatic Compounds", "Reaction Mechanisms", "Stereochemistry", "Polymers"],
+    "Inorganic Chemistry": ["Coordination Compounds", "Transition Metals", "Main Group Elements", "Solid State Chemistry", "Organometallics"],
+    "Physical Chemistry": ["Thermodynamics", "Chemical Kinetics", "Quantum Chemistry", "Spectroscopy", "Electrochemistry", "Surface Chemistry"],
+    "Biochemistry": ["Proteins", "Enzymes", "Carbohydrates", "Lipids", "Metabolic Pathways", "Nucleic Acids"],
+    "Analytical Chemistry": ["Chromatography", "Mass Spectrometry", "Electrochemistry", "Titration", "NMR Spectroscopy", "Thermal Analysis"],
+    "Materials Science": ["Crystallography", "Nanomaterials", "Semiconductors", "Polymers", "Composite Materials"]
   },
   "Economics": {
-    "Microeconomics": ["Supply & Demand", "Consumer Choice", "Theory of the Firm", "Market Structures"],
-    "Macroeconomics": ["GDP", "Inflation", "Unemployment", "Monetary Policy", "Fiscal Policy"],
-    "Econometrics": ["Linear Regression", "Time Series Analysis", "Panel Data", "Instrumental Variables"],
-    "Game Theory": ["Nash Equilibrium", "Extensive Form Games", "Repeated Games", "Mechanism Design"],
-    "International Trade": ["Comparative Advantage", "Trade Barriers", "Exchange Rates", "Balance of Payments"]
+    "Microeconomics": ["Supply & Demand", "Consumer Choice", "Theory of the Firm", "Market Structures", "Welfare Economics", "Externalities"],
+    "Macroeconomics": ["GDP", "Inflation", "Unemployment", "Monetary Policy", "Fiscal Policy", "Economic Growth Models"],
+    "Econometrics": ["Linear Regression", "Time Series Analysis", "Panel Data", "Instrumental Variables", "Causal Inference", "Forecasting"],
+    "Game Theory": ["Nash Equilibrium", "Extensive Form Games", "Repeated Games", "Mechanism Design", "Auction Theory", "Evolutionary Game Theory"],
+    "International Trade": ["Comparative Advantage", "Trade Barriers", "Exchange Rates", "Balance of Payments", "Tariffs", "Currency Unions"],
+    "Behavioral Economics": ["Heuristics & Biases", "Prospect Theory", "Nudge Theory", "Time Inconsistency", "Social Preferences"],
+    "Finance": ["Corporate Finance", "Asset Pricing", "Derivatives", "Portfolio Management", "Risk Management"]
   },
   "Literature": {
-    "American Literature": ["Transcendentalism", "Realism", "Modernism", "Harlem Renaissance"],
-    "British Literature": ["Romanticism", "Victorian Literature", "Modernism", "Postmodernism"],
-    "World Literature": ["Classical Antiquity", "Postcolonial Literature", "Magical Realism", "Existentialism"],
-    "Poetry": ["Sonnets", "Free Verse", "Epic Poetry", "Haiku"],
-    "Drama": ["Tragedy", "Comedy", "Theatre of the Absurd", "Modern Drama"],
-    "Literary Theory": ["Structuralism", "Deconstruction", "Feminist Criticism", "Psychoanalytic Criticism"]
+    "American Literature": ["Transcendentalism", "Realism", "Modernism", "Harlem Renaissance", "Southern Gothic", "Contemporary"],
+    "British Literature": ["Romanticism", "Victorian Literature", "Modernism", "Postmodernism", "Elizabethan Era", "Restoration"],
+    "World Literature": ["Classical Antiquity", "Postcolonial Literature", "Magical Realism", "Existentialism", "Russian Literature", "Asian Literature"],
+    "Poetry": ["Sonnets", "Free Verse", "Epic Poetry", "Haiku", "Spoken Word", "Romantic Poetry"],
+    "Drama": ["Tragedy", "Comedy", "Theatre of the Absurd", "Modern Drama", "Shakespearean Plays", "Greek Tragedy"],
+    "Literary Theory": ["Structuralism", "Deconstruction", "Feminist Criticism", "Psychoanalytic Criticism", "Marxist Criticism", "New Historicism"]
   }
 }
 
