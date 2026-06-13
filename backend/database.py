@@ -3,9 +3,12 @@ import json
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from supabase import create_client, Client
+from dotenv import load_dotenv
 
-SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://axwkorbsbhquxdgzmxnf.supabase.co")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4d2tvcmJzYmhxdXhkZ3pteG5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNTA5NjUsImV4cCI6MjA5NjkyNjk2NX0.wntj_jumT7998fc-22BNR8XhcbnueXfMFMCzd326Ljk")
+load_dotenv()
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
 
 # Initialize Supabase client
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)

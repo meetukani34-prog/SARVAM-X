@@ -7,9 +7,12 @@ import json
 from flask import Flask, request, jsonify, Response, stream_with_context, send_from_directory
 from flask_cors import CORS
 from openai import OpenAI
+from dotenv import load_dotenv
 
 # Add parent dir to path for models
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+load_dotenv()
 
 import database as db
 from models.twin_model import DigitalTwin, WhatIfSimulator
@@ -85,9 +88,7 @@ def update_profile():
 
 @app.route('/api/user/<int:user_id>', methods=['GET'])
 def get_user(user_id):
-    conn = db.get_conn()
-    user = conn.execute("SELECT id, name, email FROM users WHERE id=?", (user_id,)).fetchone()
-    conn.close()
+    user = db.fetch_user(user_id)
     if user:
         return jsonify({"success": True, "name": user['name'], "email": user['email']})
     return jsonify({"error": "User not found"}), 404
@@ -96,13 +97,13 @@ def get_user(user_id):
 # Thinking Client (Complex Reasoning)
 thinking_client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
-    api_key="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"
+    api_key=os.environ.get("NVIDIA_THINKING_API_KEY", "")
 )
 
 # Speaking Client (Multilingual Articulation)
 speaking_client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
-    api_key="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"
+    api_key=os.environ.get("NVIDIA_SPEAKING_API_KEY", "")
 )
 
 COGNITIVE_MIRROR_PERSONA = """You are the SARVAM-X Cognitive Mirror — a weightless, empathetic AI learning companion.
