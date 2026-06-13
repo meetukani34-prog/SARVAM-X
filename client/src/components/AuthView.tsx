@@ -72,7 +72,12 @@ const AuthView: React.FC<AuthViewProps> = ({
 
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-[#07090e] px-4 py-12 overflow-hidden select-none">
+    <div 
+      className="relative min-h-screen flex items-center justify-center bg-[#07090e] px-4 py-12 overflow-hidden select-none bg-cover bg-center bg-no-repeat bg-fixed"
+      style={{
+        backgroundImage: `linear-gradient(to bottom, rgba(7, 9, 14, 0.75), rgba(7, 9, 14, 0.98)), url('${isSarvam ? "/bg-sarvam.png" : "/bg-trinetra.png"}')`
+      }}
+    >
       {/* 3D background element */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
         <ThreeModel mode="rings" color={isSarvam ? 0x10b981 : 0xa855f7} className="w-full h-full" />

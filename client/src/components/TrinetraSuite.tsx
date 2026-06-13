@@ -295,7 +295,12 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
   }
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-white flex flex-col md:flex-row relative overflow-hidden select-none">
+    <div 
+      className="flex h-screen bg-[#07090e] text-white overflow-hidden font-sans select-none bg-cover bg-center bg-no-repeat bg-fixed"
+      style={{
+        backgroundImage: "linear-gradient(to bottom, rgba(7, 9, 14, 0.75), rgba(7, 9, 14, 0.98)), url('/bg-trinetra.png')"
+      }}
+    >
 
       {/* Mobile Sidebar Overlay Backdrop */}
       {sidebarOpen && (
