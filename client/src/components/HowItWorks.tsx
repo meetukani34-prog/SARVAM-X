@@ -33,7 +33,7 @@ const steps = [
 
 const HowItWorks: React.FC = () => {
   return (
-    <section id="workflow" className="relative py-28 px-6 md:px-12 max-w-6xl mx-auto z-10">
+    <section id="workflow" className="relative py-16 sm:py-28 px-4 sm:px-6 md:px-12 max-w-6xl mx-auto z-10">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-20">
         <span className="inline-block text-[10px] uppercase font-bold tracking-[0.2em] text-cyan-400/80 border border-cyan-400/15 bg-cyan-400/5 px-4 py-1.5 rounded-full mb-5">

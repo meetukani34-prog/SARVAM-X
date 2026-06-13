@@ -14,7 +14,7 @@ const HeroSection: React.FC = () => {
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-hero-bg to-transparent z-[1] pointer-events-none" />
 
       {/* Content Container */}
-      <div className="relative z-10 pointer-events-none w-full max-w-[90%] lg:max-w-3xl px-6 md:px-12 lg:px-16 pb-10 pt-32 md:pt-40">
+      <div className="relative z-10 pointer-events-none w-full max-w-[90%] lg:max-w-3xl px-4 sm:px-6 md:px-12 lg:px-16 pb-10 pt-24 sm:pt-32 md:pt-40">
         {/* Badge */}
         <div
           className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest mb-6 opacity-0 animate-fade-up"
@@ -51,14 +51,14 @@ const HeroSection: React.FC = () => {
         >
           <a
             href="#platforms"
-            className="group relative bg-primary text-primary-foreground px-8 py-4 text-sm font-bold rounded-lg cursor-pointer transition-all duration-300 hover:shadow-[0_10px_40px_rgba(34,197,94,0.3)] active:scale-[0.97] pointer-events-auto select-none text-center uppercase tracking-wider overflow-hidden"
+            className="group relative bg-primary text-primary-foreground px-5 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold rounded-lg cursor-pointer transition-all duration-300 hover:shadow-[0_10px_40px_rgba(34,197,94,0.3)] active:scale-[0.97] pointer-events-auto select-none text-center uppercase tracking-wider overflow-hidden"
           >
             <span className="relative z-10">Explore Platforms</span>
             <div className="absolute inset-0 bg-gradient-to-r from-primary via-emerald-400 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </a>
           <a
             href="#features"
-            className="bg-white/5 text-foreground border border-white/15 px-8 py-4 text-sm font-bold rounded-lg cursor-pointer hover:bg-white/10 hover:border-white/25 transition-all duration-300 active:scale-[0.97] pointer-events-auto select-none text-center uppercase tracking-wider backdrop-blur-sm"
+            className="bg-white/5 text-foreground border border-white/15 px-5 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold rounded-lg cursor-pointer hover:bg-white/10 hover:border-white/25 transition-all duration-300 active:scale-[0.97] pointer-events-auto select-none text-center uppercase tracking-wider backdrop-blur-sm"
           >
             Learn More
           </a>
@@ -66,7 +66,7 @@ const HeroSection: React.FC = () => {
 
         {/* Trust metrics */}
         <div
-          className="flex flex-wrap gap-8 mt-10 md:mt-14 opacity-0 animate-fade-up"
+          className="flex flex-wrap gap-5 sm:gap-8 mt-8 sm:mt-10 md:mt-14 opacity-0 animate-fade-up"
           style={{ animationDelay: "0.8s" }}
         >
           {[

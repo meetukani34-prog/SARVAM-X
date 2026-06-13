@@ -15,7 +15,7 @@ const techItems = [
 
 const TechStack: React.FC = () => {
   return (
-    <section className="relative py-24 px-6 md:px-12 max-w-5xl mx-auto z-10">
+    <section className="relative py-14 sm:py-24 px-4 sm:px-6 md:px-12 max-w-5xl mx-auto z-10">
       {/* Divider */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] max-w-md h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 

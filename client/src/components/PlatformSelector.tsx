@@ -22,7 +22,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ onNavigate }) => {
   }
 
   return (
-    <section id="platforms" className="relative py-28 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center z-10">
+    <section id="platforms" className="relative py-16 sm:py-28 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center z-10">
       {/* Background Accents */}
       <div className="absolute top-1/3 left-0 w-[500px] h-[500px] rounded-full bg-primary/[0.03] blur-[150px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] rounded-full bg-purple/[0.03] blur-[150px] pointer-events-none" />
@@ -54,7 +54,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ onNavigate }) => {
           {/* Corner Glow */}
           <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-primary/8 blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none" />
 
-          <div className="p-8 md:p-10">
+          <div className="p-5 sm:p-8 md:p-10">
             {/* Header Area */}
             <div className="flex items-start gap-4 mb-8">
               <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(34,197,94,0.15)] transition-all duration-500">
@@ -63,7 +63,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ onNavigate }) => {
                 </svg>
               </div>
               <div>
-                <div className="flex items-center gap-3 mb-1">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-1">
                   <h3 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-white">
                     SARVAM<span className="text-primary">-X</span>
                   </h3>
@@ -84,7 +84,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ onNavigate }) => {
             </p>
 
             {/* Feature Columns */}
-            <div className="grid grid-cols-2 gap-x-6 gap-y-3 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2.5 sm:gap-y-3 mb-8 sm:mb-10">
               {[
                 "Digital Twin Cognitive Simulation",
                 "Multi-Language Code Debugger",
@@ -126,7 +126,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ onNavigate }) => {
           {/* Corner Glow */}
           <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-purple/8 blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none" />
 
-          <div className="p-8 md:p-10">
+          <div className="p-5 sm:p-8 md:p-10">
             {/* Header Area */}
             <div className="flex items-start gap-4 mb-8">
               <div className="w-16 h-16 rounded-2xl bg-purple/10 border border-purple/20 flex items-center justify-center text-purple shrink-0 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] transition-all duration-500">
@@ -135,7 +135,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ onNavigate }) => {
                 </svg>
               </div>
               <div>
-                <div className="flex items-center gap-3 mb-1">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-1">
                   <h3 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-white">
                     TRINETRA<span className="text-purple"> AI</span>
                   </h3>
@@ -156,7 +156,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ onNavigate }) => {
             </p>
 
             {/* Feature Columns */}
-            <div className="grid grid-cols-2 gap-x-6 gap-y-3 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-2.5 sm:gap-y-3 mb-8 sm:mb-10">
               {[
                 "NLP Fake News Analyzer",
                 "AI Code Reviewer & Scanner",

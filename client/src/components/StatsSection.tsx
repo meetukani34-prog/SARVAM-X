@@ -91,7 +91,7 @@ const StatsSection: React.FC = () => {
   ]
 
   return (
-    <section className="relative py-20 px-6 md:px-12 z-10">
+    <section className="relative py-12 sm:py-20 px-4 sm:px-6 md:px-12 z-10">
       {/* Divider line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] max-w-5xl h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 

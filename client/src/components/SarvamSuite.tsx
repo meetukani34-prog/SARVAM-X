@@ -45,6 +45,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
   onSwitchSuite,
 }) => {
   const [activeTab, setActiveTab] = useState<"dashboard" | "debugger" | "xai" | "heatmap" | "history">("dashboard")
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const getVelocityNum = (val: any): number => {
     if (Array.isArray(val)) {
@@ -280,6 +281,40 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
 
   return (
     <div className="min-h-screen bg-[#07090e] text-white flex flex-col md:flex-row relative overflow-hidden select-none">
+
+      {/* Mobile Sidebar Overlay Backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Mobile Top Bar */}
+      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white/[0.01] border-b border-white/[0.05] z-20">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.467 5.99 5.99 0 0 0-1.925 3.546 5.974 5.974 0 0 1-2.133-1A3.75 3.75 0 0 0 12 18Z" />
+            </svg>
+          </div>
+          <h1 className="text-xs font-bold tracking-widest uppercase">SARVAM<span className="text-primary">-X</span></h1>
+        </div>
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="w-9 h-9 rounded-lg border border-white/10 bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-white transition-all"
+        >
+          {sidebarOpen ? (
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          )}
+        </button>
+      </div>
       
       {/* Background radial overlays */}
       <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full bg-emerald-500/[0.02] blur-[150px] pointer-events-none" />
@@ -289,7 +324,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
       <MentorPanel userId={userId} />
 
       {/* LEFT SIDEBAR NAVIGATION */}
-      <aside className="w-full md:w-64 shrink-0 bg-white/[0.01] border-b md:border-b-0 md:border-r border-white/[0.05] p-6 flex flex-col justify-between z-10">
+      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col gap-8">
           
           {/* Main Suite Brand Logo */}
@@ -318,7 +353,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
               return (
                 <button
                   key={nav.id}
-                  onClick={() => setActiveTab(nav.id as any)}
+                  onClick={() => { setActiveTab(nav.id as any); setSidebarOpen(false); }}
                   className={`w-full py-3 px-4 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center gap-3.5 ${
                     isSelected
                       ? "bg-primary/10 border border-primary/20 text-primary shadow-[0_0_15px_rgba(34,197,94,0.06)]"
@@ -371,7 +406,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
       </aside>
 
       {/* CORE DISPLAY VIEWPORTS */}
-      <main className="flex-1 p-6 md:p-10 z-10 overflow-y-auto max-w-6xl mx-auto w-full">
+      <main className="flex-1 p-4 sm:p-6 md:p-10 z-10 overflow-y-auto max-w-6xl mx-auto w-full">
         {loadingTwin ? (
           <div className="h-[70vh] flex flex-col items-center justify-center gap-4 text-center">
             <div className="w-16 h-16 rounded-2xl overflow-hidden opacity-60">
@@ -424,7 +459,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-4 border-t border-white/[0.05] pt-6 mt-6 text-center">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4 border-t border-white/[0.05] pt-4 sm:pt-6 mt-4 sm:mt-6 text-center">
                     <div>
                       <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold">Predicted Score</span>
                       <p className="text-xl font-extrabold text-white mt-1">{twinData?.predicted_score ? Math.round(twinData.predicted_score) : 70}%</p>
@@ -513,7 +548,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                 </div>
 
                 {/* KPI Metrics row */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 lg:col-span-3">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:col-span-3">
                   {[
                     { label: "Problems Solved", val: kpis.total_problems, unit: "Ques", color: "text-primary" },
                     { label: "Focus Investment", val: kpis.focus_hours, unit: "Hours", color: "text-cyan-400" },
@@ -667,7 +702,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                 </div>
 
                 {/* Scanning trace logs Terminal emulator */}
-                <div className={`${bgCard} p-6 flex flex-col justify-between h-[500px]`}>
+                <div className={`${bgCard} p-4 sm:p-6 flex flex-col justify-between h-[400px] sm:h-[500px]`}>
                   <div>
                     <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-4">AST Trace Terminal</h3>
                     <div className="bg-black/50 border border-white/[0.05] rounded-2xl p-4 h-96 overflow-y-auto font-mono text-[10px] text-gray-300 flex flex-col gap-2 shadow-inner">
@@ -742,7 +777,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                         {debugResult.fixes && debugResult.fixes.length > 0 ? (
                           debugResult.fixes.map((fix, i) => (
                             <div key={i} className="p-4 bg-white/[0.01] border border-white/[0.04] rounded-2xl flex flex-col gap-3">
-                              <div className="grid grid-cols-2 gap-4">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                 <div className="p-3 bg-red-500/[0.03] border border-red-500/10 rounded-xl font-mono text-[10px] text-red-400 truncate">
                                   <span className="text-[8px] block text-muted-foreground uppercase font-bold tracking-wider mb-1 font-sora">ORIGINAL</span>
                                   {fix.original}

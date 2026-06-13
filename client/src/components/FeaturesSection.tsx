@@ -80,12 +80,12 @@ const FeaturesSection: React.FC = () => {
   ]
 
   return (
-    <section id="features" className="relative py-28 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center z-10">
+    <section id="features" className="relative py-16 sm:py-28 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center z-10">
       {/* Ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/[0.02] blur-[200px] pointer-events-none" />
 
       {/* Title */}
-      <div className="text-center max-w-2xl mb-20">
+      <div className="text-center max-w-2xl mb-12 sm:mb-20">
         <span className="inline-block text-[10px] uppercase font-bold tracking-[0.2em] text-purple/80 border border-purple/15 bg-purple/5 px-4 py-1.5 rounded-full mb-5">
           Capabilities
         </span>
@@ -105,7 +105,7 @@ const FeaturesSection: React.FC = () => {
         {features.map((feat, idx) => (
           <div
             key={idx}
-            className="group relative rounded-2xl border border-white/[0.05] bg-white/[0.02] backdrop-blur-sm p-7 overflow-hidden flex flex-col transition-all duration-500 hover:-translate-y-1 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+            className="group relative rounded-2xl border border-white/[0.05] bg-white/[0.02] backdrop-blur-sm p-5 sm:p-7 overflow-hidden flex flex-col transition-all duration-500 hover:-translate-y-1 hover:border-white/[0.12] hover:bg-white/[0.04] hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
           >
             {/* Top accent line */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-purple to-cyan-400 opacity-0 group-hover:opacity-60 transition-opacity duration-500" />

@@ -309,7 +309,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
       {/* Floating Action Button (FAB) Trigger */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.5)] border transition-all duration-500 hover:scale-110 hover:-translate-y-1 ${
+        className={`fixed bottom-4 sm:bottom-6 right-3 sm:right-6 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.5)] border transition-all duration-500 hover:scale-110 hover:-translate-y-1 ${
           isOpen
             ? "bg-red-500/20 border-red-500/40 text-red-400 shadow-[0_0_30px_rgba(239,68,68,0.2)]"
             : "bg-primary/20 border-primary/40 text-primary shadow-[0_0_30px_rgba(34,197,94,0.2)]"
@@ -331,7 +331,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
 
       {/* Slide-out Glowing Mentor Widget Panel */}
       <div
-        className={`fixed bottom-24 right-6 w-96 h-[520px] z-50 bg-[#0a0d14]/90 backdrop-blur-2xl border border-white/[0.08] rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.7)] flex flex-col transition-all duration-500 ease-out origin-bottom-right transform ${
+        className={`fixed bottom-20 sm:bottom-24 right-3 sm:right-6 w-[calc(100vw-1.5rem)] sm:w-96 max-w-96 h-[70vh] sm:h-[520px] max-h-[520px] z-50 bg-[#0a0d14]/90 backdrop-blur-2xl border border-white/[0.08] rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.7)] flex flex-col transition-all duration-500 ease-out origin-bottom-right transform ${
           isOpen ? "scale-100 translate-y-0 opacity-100" : "scale-75 translate-y-8 opacity-0 pointer-events-none"
         }`}
       >

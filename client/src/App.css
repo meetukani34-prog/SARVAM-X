@@ -83,3 +83,35 @@
   border-color: rgba(168, 85, 247, 0.2);
   box-shadow: 0 0 40px rgba(168, 85, 247, 0.03);
 }
+
+/* Mobile-specific improvements */
+@media (max-width: 640px) {
+  /* Hide scrollbar on mobile for cleaner look */
+  ::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+
+  /* Prevent tap highlight on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth touch scrolling */
+  html {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent text size adjust on rotation */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+/* Safe area padding for notched phones */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

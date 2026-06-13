@@ -47,6 +47,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
   onSwitchSuite,
 }) => {
   const [activeTab, setActiveTab] = useState<"dashboard" | "fakenews" | "coderev" | "xai" | "reports" | "insights">("dashboard")
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   
   // Fake News states
   const [newsInput, setNewsInput] = useState("")
@@ -293,13 +294,47 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
 
   return (
     <div className="min-h-screen bg-[#07090e] text-white flex flex-col md:flex-row relative overflow-hidden select-none">
+
+      {/* Mobile Sidebar Overlay Backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Mobile Top Bar */}
+      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white/[0.01] border-b border-white/[0.05] z-20">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-purple/10 border border-purple/20 flex items-center justify-center text-purple">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+            </svg>
+          </div>
+          <h1 className="text-xs font-bold tracking-widest uppercase">TRINETRA<span className="text-purple"> AI</span></h1>
+        </div>
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="w-9 h-9 rounded-lg border border-white/10 bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-white transition-all"
+        >
+          {sidebarOpen ? (
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          )}
+        </button>
+      </div>
       
       {/* Background glowing rings overlay */}
       <div className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full bg-purple-500/[0.02] blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-indigo-500/[0.02] blur-[150px] pointer-events-none" />
 
       {/* LEFT SIDEBAR NAVIGATION */}
-      <aside className="w-full md:w-64 shrink-0 bg-white/[0.01] border-b md:border-b-0 md:border-r border-white/[0.05] p-6 flex flex-col justify-between z-10">
+      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col gap-8">
           
           {/* Main Suite Brand Logo */}
@@ -329,7 +364,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
               return (
                 <button
                   key={nav.id}
-                  onClick={() => setActiveTab(nav.id as any)}
+                  onClick={() => { setActiveTab(nav.id as any); setSidebarOpen(false); }}
                   className={`w-full py-3 px-4 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center gap-3.5 ${
                     isSelected
                       ? "bg-purple/10 border border-purple/20 text-purple shadow-[0_0_15px_rgba(168,85,247,0.06)]"
@@ -382,7 +417,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
       </aside>
 
       {/* CORE DISPLAY VIEWPORTS */}
-      <main className="flex-1 p-6 md:p-10 z-10 overflow-y-auto max-w-6xl mx-auto w-full">
+      <main className="flex-1 p-4 sm:p-6 md:p-10 z-10 overflow-y-auto max-w-6xl mx-auto w-full">
         <div className="animate-fadeIn">
 
           {/* Breadcrumb section */}
@@ -447,7 +482,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
               </div>
 
               {/* KPI indicators grid */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 lg:col-span-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:col-span-3">
                 {[
                   { label: "Scans Completed", val: reports.length + 8, unit: "Audits", color: "text-purple" },
                   { label: "Vulnerabilities Blocked", val: reports.filter(r => r.result.includes("Fake") || r.result.includes("Risks")).length + 3, unit: "Threats", color: "text-red-400" },
@@ -467,7 +502,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
               </div>
 
               {/* Quick action triggers */}
-              <div className={`${bgCard} lg:col-span-2 p-6 md:p-8 flex items-center justify-between gap-6`}>
+              <div className={`${bgCard} lg:col-span-2 p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6`}>
                 <div>
                   <h3 className="text-xs font-bold uppercase tracking-widest text-purple mb-2">Automate Content Audits</h3>
                   <p className="text-xs text-muted-foreground font-light leading-relaxed max-w-lg">
