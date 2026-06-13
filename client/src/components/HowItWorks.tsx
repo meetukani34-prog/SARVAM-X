@@ -67,7 +67,7 @@ const HowItWorks: React.FC = () => {
                     <div className={`inline-block text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border mb-3 ${s.color}`}>
                       Step {s.step}
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">{s.title}</h3>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{s.title}</h3>
                     <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">{s.desc}</p>
                   </div>
 
@@ -93,7 +93,7 @@ const HowItWorks: React.FC = () => {
                     <div className={`inline-block text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full border mb-2 ${s.color}`}>
                       Step {s.step}
                     </div>
-                    <h3 className="text-lg font-bold text-white mb-1.5">{s.title}</h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1.5">{s.title}</h3>
                     <p className="text-sm text-muted-foreground/80 font-light leading-relaxed">{s.desc}</p>
                   </div>
                 </div>

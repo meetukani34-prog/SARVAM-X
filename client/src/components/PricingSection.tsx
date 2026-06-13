@@ -78,7 +78,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({ onNavigate }) => {
               </li>
               <li className="flex items-center gap-3 text-slate-800 dark:text-white/90 text-sm">
                 <svg className="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                10,000 API Requests / day
+                1,000 API Requests / day
               </li>
               <li className="flex items-center gap-3 text-slate-800 dark:text-white/90 text-sm">
                 <svg className="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>

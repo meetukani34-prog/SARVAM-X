@@ -334,7 +334,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="w-9 h-9 rounded-lg border border-white/10 bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-white transition-all"
+          className="w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white transition-all"
         >
           {sidebarOpen ? (
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -353,7 +353,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-indigo-500/[0.02] blur-[150px] pointer-events-none" />
 
       {/* LEFT SIDEBAR NAVIGATION */}
-      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-slate-50/95 dark:bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-slate-900/10 dark:border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-slate-50/95 dark:bg-slate-50/95 dark:bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-slate-900/10 dark:border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col gap-8">
           
           {/* Main Suite Brand Logo */}
@@ -387,7 +387,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                   className={`w-full py-3 px-4 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center gap-3.5 ${
                     isSelected
                       ? "bg-purple/10 border border-purple/20 text-purple shadow-[0_0_15px_rgba(168,85,247,0.06)]"
-                      : "border border-transparent text-muted-foreground hover:text-white"
+                      : "border border-transparent text-muted-foreground hover:text-slate-900 dark:text-white"
                   }`}
                 >
                   <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -418,7 +418,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                 {userName.charAt(0)}
               </div>
               <div className="min-w-0">
-                <p className="text-[10px] font-bold truncate text-white leading-tight uppercase tracking-wider">{userName}</p>
+                <p className="text-[10px] font-bold truncate text-slate-900 dark:text-white leading-tight uppercase tracking-wider">{userName}</p>
                 <span className="text-[8px] text-muted-foreground truncate block font-light">{userEmail}</span>
               </div>
             </div>
@@ -522,7 +522,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                   <div key={i} className={`${bgCard} p-5 flex items-center justify-between`}>
                     <div>
                       <span className="text-[9px] uppercase tracking-widest text-muted-foreground font-bold">{stat.label}</span>
-                      <p className="text-xl font-black mt-2 text-white">
+                      <p className="text-xl font-black mt-2 text-slate-900 dark:text-white">
                         {stat.val} <span className="text-xs font-medium text-muted-foreground">{stat.unit}</span>
                       </p>
                     </div>
@@ -541,7 +541,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                 </div>
                 <button
                   onClick={() => setActiveTab("fakenews")}
-                  className="px-6 py-3.5 bg-purple hover:shadow-[0_0_20px_rgba(168,85,247,0.25)] text-white font-bold rounded-xl transition-all duration-300 text-[10px] uppercase tracking-widest shrink-0"
+                  className="px-6 py-3.5 bg-purple hover:shadow-[0_0_20px_rgba(168,85,247,0.25)] text-slate-900 dark:text-white font-bold rounded-xl transition-all duration-300 text-[10px] uppercase tracking-widest shrink-0"
                 >
                   Verify NLP
                 </button>
@@ -553,7 +553,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                   <div className="flex items-center gap-3 p-3 bg-white/[0.01] border border-white/[0.03] rounded-2xl">
                     <span className="w-5 h-5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold text-[9px] flex items-center justify-center font-mono shrink-0">✓</span>
                     <div>
-                      <p className="text-[10px] font-bold text-white uppercase tracking-wider">Zero-Trust Active</p>
+                      <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-wider">Zero-Trust Active</p>
                       <span className="text-[8px] text-muted-foreground block font-light">LocalStorage state authentication verified</span>
                     </div>
                   </div>
@@ -580,14 +580,14 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                       onChange={(e) => setNewsInput(e.target.value)}
                       placeholder="Paste claims or transcripts here..."
                       rows={8}
-                      className="w-full bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-2xl p-4 text-xs text-white outline-none resize-none leading-relaxed mb-6"
+                      className="w-full bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-2xl p-4 text-xs text-slate-900 dark:text-white outline-none resize-none leading-relaxed mb-6"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={analyzingNews || !newsInput.trim()}
-                    className="w-full py-3.5 bg-purple hover:shadow-[0_0_20px_rgba(168,85,247,0.25)] text-white font-bold rounded-xl transition-all duration-300 text-[10px] uppercase tracking-widest disabled:opacity-40 flex items-center justify-center gap-2"
+                    className="w-full py-3.5 bg-purple hover:shadow-[0_0_20px_rgba(168,85,247,0.25)] text-slate-900 dark:text-white font-bold rounded-xl transition-all duration-300 text-[10px] uppercase tracking-widest disabled:opacity-40 flex items-center justify-center gap-2"
                   >
                     {analyzingNews ? (
                       <>
@@ -641,7 +641,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                         />
                       </svg>
                       <div className="absolute text-center flex flex-col items-center">
-                        <span className="text-2xl font-black text-white">{newsResult.confidence}%</span>
+                        <span className="text-2xl font-black text-slate-900 dark:text-white">{newsResult.confidence}%</span>
                         <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mt-0.5">Confidence</span>
                       </div>
                     </div>
@@ -650,7 +650,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                     <div className="flex flex-col gap-2.5 text-left text-xs bg-white/[0.01] border border-white/[0.04] p-4 rounded-2xl">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground font-light">Source Credibility:</span>
-                        <span className="font-bold text-white">{newsResult.sourceCredibility}/100</span>
+                        <span className="font-bold text-slate-900 dark:text-white">{newsResult.sourceCredibility}/100</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-muted-foreground font-light">Semantic Manipulation:</span>
@@ -724,7 +724,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                   <button
                     type="submit"
                     disabled={scanningCode || !codeInput.trim()}
-                    className="w-full py-3.5 bg-purple hover:shadow-[0_0_20px_rgba(168,85,247,0.25)] text-white font-bold rounded-xl transition-all duration-300 text-[10px] uppercase tracking-widest disabled:opacity-40 flex items-center justify-center gap-2"
+                    className="w-full py-3.5 bg-purple hover:shadow-[0_0_20px_rgba(168,85,247,0.25)] text-slate-900 dark:text-white font-bold rounded-xl transition-all duration-300 text-[10px] uppercase tracking-widest disabled:opacity-40 flex items-center justify-center gap-2"
                   >
                     {scanningCode ? (
                       <>
@@ -756,7 +756,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                     <div className="grid grid-cols-2 gap-4 text-center">
                       <div className="p-3.5 bg-white/[0.01] border border-white/[0.04] rounded-2xl">
                         <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-widest block">Complexity</span>
-                        <p className="text-lg font-black text-white mt-1 uppercase">{codeResult.complexity}</p>
+                        <p className="text-lg font-black text-slate-900 dark:text-white mt-1 uppercase">{codeResult.complexity}</p>
                       </div>
                       <div className="p-3.5 bg-white/[0.01] border border-white/[0.04] rounded-2xl">
                         <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-widest block">Threats Found</span>
@@ -783,7 +783,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                               <span>{iss.icon} {iss.title}</span>
                               <span className="text-[8px] font-mono opacity-80 uppercase">{iss.level}</span>
                             </div>
-                            <p className="text-[11px] text-white leading-relaxed font-light mt-1">{iss.desc}</p>
+                            <p className="text-[11px] text-slate-900 dark:text-white leading-relaxed font-light mt-1">{iss.desc}</p>
                           </div>
                         )
                       })}
@@ -864,7 +864,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                     <tbody>
                       {reports.map((rep, idx) => (
                         <tr key={idx} className="border-b border-white/[0.02] hover:bg-white/[0.01] transition-all">
-                          <td className="py-3 px-4 font-bold text-white uppercase tracking-wider">{rep.type}</td>
+                          <td className="py-3 px-4 font-bold text-slate-900 dark:text-white uppercase tracking-wider">{rep.type}</td>
                           <td className="py-3 px-4">
                             <span className={`px-2 py-0.5 rounded font-bold font-mono text-[9px] uppercase ${
                               rep.result.includes("Fake") || rep.result.includes("Risk")

@@ -346,7 +346,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
               <ThreeModel mode="dodecahedron" color={0x00f2ff} className="w-full h-full" />
             </div>
             <div>
-              <h3 className="text-xs font-bold text-white uppercase tracking-wider">Luminous Mentor</h3>
+              <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Luminous Mentor</h3>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className={`w-1.5 h-1.5 rounded-full ${phase !== "IDLE" ? "bg-cyan-400 animate-ping" : "bg-emerald-400 animate-pulse"}`} />
                 <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-widest">
@@ -363,7 +363,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
             className={`px-3 py-1.5 rounded-lg border text-[9px] uppercase font-bold tracking-widest flex items-center gap-1.5 duration-300 transition-all ${
               isVisionActive
                 ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.15)]"
-                : "bg-white/[0.02] border-white/10 text-muted-foreground hover:text-white"
+                : "bg-white/[0.02] border-slate-900/ dark:border-white/ text-muted-foreground hover:text-slate-900 dark:text-white"
             }`}
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -389,9 +389,9 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
           />
           {/* Facial analysis scanline */}
           <div className="absolute top-0 bottom-0 left-0 right-0 pointer-events-none bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent animate-scanline border-b border-cyan-500/20" />
-          <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-md border border-white/10 flex items-center gap-1.5 shadow-md">
+          <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-md px-2.5 py-0.5 rounded-md border border-slate-900/ dark:border-white/ flex items-center gap-1.5 shadow-md">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-            <span id="user-emotion-label" className="text-[8px] font-bold text-white uppercase tracking-widest font-mono">
+            <span id="user-emotion-label" className="text-[8px] font-bold text-slate-900 dark:text-white uppercase tracking-widest font-mono">
               USER: {userEmotion.toUpperCase()} {(emotionConfidence * 100).toFixed(0)}%
             </span>
           </div>
@@ -417,7 +417,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
                 className={`max-w-[85%] rounded-2xl p-3.5 text-xs shadow-md border animate-fadeIn ${
                   isAI
                     ? "bg-white/[0.02] border-white/[0.04] text-gray-200 self-start rounded-tl-none hover:border-cyan-500/20 transition-all duration-300"
-                    : "bg-cyan-500/10 border-cyan-500/20 text-white self-end rounded-tr-none"
+                    : "bg-cyan-500/10 border-cyan-500/20 text-slate-900 dark:text-white self-end rounded-tr-none"
                 }`}
               >
                 {isAI ? renderFormattedBubble(chat.content) : <div>{chat.content}</div>}
@@ -447,7 +447,7 @@ const MentorPanel: React.FC<MentorPanelProps> = ({ userId }) => {
             onChange={(e) => setInputText(e.target.value)}
             disabled={isStreaming}
             placeholder="Sync a question with Luminous..."
-            className="flex-1 bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl px-4 py-2.5 text-xs text-white placeholder-muted-foreground/50 outline-none transition-all duration-300 disabled:opacity-50"
+            className="flex-1 bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl px-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder-muted-foreground/50 outline-none transition-all duration-300 disabled:opacity-50"
           />
           <button
             type="submit"

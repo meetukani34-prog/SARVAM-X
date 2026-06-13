@@ -116,7 +116,7 @@ const FeaturesSection: React.FC = () => {
             </div>
 
             {/* Text */}
-            <h3 className="text-base font-bold text-white mb-2.5">{feat.title}</h3>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2.5">{feat.title}</h3>
             <p className="text-xs text-muted-foreground/70 leading-relaxed font-light flex-1">{feat.desc}</p>
           </div>
         ))}

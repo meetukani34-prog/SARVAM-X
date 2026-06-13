@@ -43,7 +43,7 @@ const TechStack: React.FC = () => {
           >
             <div className="w-2 h-2 rounded-full bg-primary/60 group-hover:bg-primary group-hover:shadow-[0_0_8px_rgba(34,197,94,0.4)] transition-all duration-300" />
             <div>
-              <span className="text-sm font-semibold text-white">{tech.name}</span>
+              <span className="text-sm font-semibold text-slate-900 dark:text-white">{tech.name}</span>
               <span className="text-[10px] text-muted-foreground/50 ml-2 uppercase tracking-wider">{tech.desc}</span>
             </div>
           </div>

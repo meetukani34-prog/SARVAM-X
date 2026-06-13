@@ -102,7 +102,7 @@ const StatsSection: React.FC = () => {
             <div
               key={i}
               ref={ref}
-              className="group relative flex flex-col items-center text-center p-6 md:p-8 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500"
+              className="group relative flex flex-col items-center text-center p-6 md:p-8 rounded-2xl border border-slate-900/ dark:border-white/ bg-white/[0.02] hover:bg-white/[0.04] hover:border-slate-900/ dark:border-white/ transition-all duration-500"
             >
               {/* Icon */}
               <div className={`${stat.color} mb-4 opacity-60 group-hover:opacity-100 transition-opacity`}>

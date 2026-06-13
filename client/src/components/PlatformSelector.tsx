@@ -64,7 +64,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ onNavigate }) => {
               </div>
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-1">
-                  <h3 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-white">
+                  <h3 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-slate-900 dark:text-white">
                     SARVAM<span className="text-primary">-X</span>
                   </h3>
                   <span className="text-[9px] uppercase font-bold tracking-widest text-primary border border-primary/20 bg-primary/5 px-2.5 py-1 rounded-full">
@@ -136,7 +136,7 @@ const PlatformSelector: React.FC<PlatformSelectorProps> = ({ onNavigate }) => {
               </div>
               <div>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-1">
-                  <h3 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-white">
+                  <h3 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-slate-900 dark:text-white">
                     TRINETRA<span className="text-purple"> AI</span>
                   </h3>
                   <span className="text-[9px] uppercase font-bold tracking-widest text-purple border border-purple/20 bg-purple/5 px-2.5 py-1 rounded-full">

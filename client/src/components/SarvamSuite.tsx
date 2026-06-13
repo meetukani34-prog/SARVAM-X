@@ -440,7 +440,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="w-9 h-9 rounded-lg border border-white/10 bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-white transition-all"
+          className="w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white transition-all"
         >
           {sidebarOpen ? (
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -462,7 +462,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
       <MentorPanel userId={userId} />
 
       {/* LEFT SIDEBAR NAVIGATION */}
-      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-slate-50/95 dark:bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-slate-900/10 dark:border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-slate-50/95 dark:bg-slate-50/95 dark:bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-slate-900/10 dark:border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col gap-8">
           
           {/* Main Suite Brand Logo - clickable to go back to landing page */}
@@ -477,7 +477,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
               </svg>
             </div>
             <div>
-              <h1 className="text-sm font-bold tracking-widest uppercase group-hover:text-white transition-colors">SARVAM<span className="text-primary">-X</span></h1>
+              <h1 className="text-sm font-bold tracking-widest uppercase group-hover:text-slate-900 dark:text-white transition-colors">SARVAM<span className="text-primary">-X</span></h1>
               <span className="text-[8px] font-bold text-primary tracking-widest uppercase border border-primary/20 bg-primary/5 px-2 py-0.5 rounded mt-0.5 inline-block group-hover:bg-primary/10 transition-colors">COGNITIVE HUB</span>
             </div>
           </button>
@@ -499,7 +499,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   className={`w-full py-3 px-4 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all duration-300 flex items-center gap-3.5 ${
                     isSelected
                       ? "bg-primary/10 border border-primary/20 text-primary shadow-[0_0_15px_rgba(34,197,94,0.06)]"
-                      : "border border-transparent text-muted-foreground hover:text-white"
+                      : "border border-transparent text-muted-foreground hover:text-slate-900 dark:text-white"
                   }`}
                 >
                   <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -530,7 +530,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                 {userName.charAt(0)}
               </div>
               <div className="min-w-0">
-                <p className="text-[10px] font-bold truncate text-white leading-tight uppercase tracking-wider">{userName}</p>
+                <p className="text-[10px] font-bold truncate text-slate-900 dark:text-white leading-tight uppercase tracking-wider">{userName}</p>
                 <span className="text-[8px] text-muted-foreground truncate block font-light">{userEmail}</span>
               </div>
             </div>
@@ -620,7 +620,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   <div className="grid grid-cols-3 gap-2 sm:gap-4 border-t border-white/[0.05] pt-4 sm:pt-6 mt-4 sm:mt-6 text-center">
                     <div>
                       <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold">Predicted Score</span>
-                      <p className="text-xl font-extrabold text-white mt-1">{twinData?.predicted_score ? Math.round(twinData.predicted_score) : 70}%</p>
+                      <p className="text-xl font-extrabold text-slate-900 dark:text-white mt-1">{twinData?.predicted_score ? Math.round(twinData.predicted_score) : 70}%</p>
                     </div>
                     <div>
                       <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold">Learning Streak</span>
@@ -628,7 +628,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                     </div>
                     <div>
                       <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold">Velocity Rate</span>
-                      <p className="text-xl font-extrabold text-white mt-1">{getVelocityNum(twinData?.velocity).toFixed(2)}x</p>
+                      <p className="text-xl font-extrabold text-slate-900 dark:text-white mt-1">{getVelocityNum(twinData?.velocity).toFixed(2)}x</p>
                     </div>
                   </div>
                 </div>
@@ -653,10 +653,10 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           setLogSubSubject(newSubSubj);
                           setLogTopic(subjectTopicsMap[newSubj][newSubSubj][0]);
                         }}
-                        className="bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-3 px-4 text-xs outline-none text-white transition-all cursor-pointer"
+                        className="bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
                       >
                         {Object.keys(subjectTopicsMap).map((s) => (
-                          <option key={s} value={s} className="bg-[#0e121b] text-white">{s}</option>
+                          <option key={s} value={s} className="bg-[#0e121b] text-slate-900 dark:text-white">{s}</option>
                         ))}
                       </select>
                     </div>
@@ -670,10 +670,10 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           setLogSubSubject(newSubSubj);
                           setLogTopic(subjectTopicsMap[logSubject][newSubSubj][0]);
                         }}
-                        className="bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-3 px-4 text-xs outline-none text-white transition-all cursor-pointer"
+                        className="bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
                       >
                         {Object.keys(subjectTopicsMap[logSubject]).map((ss) => (
-                          <option key={ss} value={ss} className="bg-[#0e121b] text-white">{ss}</option>
+                          <option key={ss} value={ss} className="bg-[#0e121b] text-slate-900 dark:text-white">{ss}</option>
                         ))}
                       </select>
                     </div>
@@ -683,10 +683,10 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                       <select
                         value={logTopic}
                         onChange={(e) => setLogTopic(e.target.value)}
-                        className="bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-3 px-4 text-xs outline-none text-white transition-all cursor-pointer"
+                        className="bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs outline-none text-slate-900 dark:text-white transition-all cursor-pointer"
                       >
                         {subjectTopicsMap[logSubject][logSubSubject].map((t) => (
-                          <option key={t} value={t} className="bg-[#0e121b] text-white">{t}</option>
+                          <option key={t} value={t} className="bg-[#0e121b] text-slate-900 dark:text-white">{t}</option>
                         ))}
                       </select>
                     </div>
@@ -702,7 +702,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                         max="100"
                         value={logAccuracy}
                         onChange={(e) => setLogAccuracy(Number(e.target.value))}
-                        className="w-full accent-primary h-1 bg-white/10 rounded-lg cursor-pointer transition-all"
+                        className="w-full accent-primary h-1 bg-slate-900/ dark:bg-white/ rounded-lg cursor-pointer transition-all"
                       />
                     </div>
 
@@ -715,7 +715,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           max="300"
                           value={logDuration}
                           onChange={(e) => setLogDuration(Number(e.target.value))}
-                          className="bg-white/[0.02] border border-white/10 rounded-xl py-3 px-4 text-xs text-white outline-none"
+                          className="bg-white/[0.02] border border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs text-slate-900 dark:text-white outline-none"
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
@@ -726,7 +726,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           max="50"
                           value={logProblems}
                           onChange={(e) => setLogProblems(Number(e.target.value))}
-                          className="bg-white/[0.02] border border-white/10 rounded-xl py-3 px-4 text-xs text-white outline-none"
+                          className="bg-white/[0.02] border border-slate-900/ dark:border-white/ rounded-xl py-3 px-4 text-xs text-slate-900 dark:text-white outline-none"
                         />
                       </div>
                     </div>
@@ -752,7 +752,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                     <div key={idx} className={`${bgCard} p-5 flex items-center justify-between`}>
                       <div>
                         <span className="text-[9px] uppercase tracking-widest text-muted-foreground font-bold">{stat.label}</span>
-                        <p className="text-2xl font-black mt-2 text-white">
+                        <p className="text-2xl font-black mt-2 text-slate-900 dark:text-white">
                           {stat.val} <span className="text-xs font-medium text-muted-foreground">{stat.unit}</span>
                         </p>
                       </div>
@@ -786,7 +786,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                         step="0.5"
                         value={simHours}
                         onChange={(e) => setSimHours(Number(e.target.value))}
-                        className="w-full accent-primary h-1 bg-white/10 rounded-lg cursor-pointer"
+                        className="w-full accent-primary h-1 bg-slate-900/ dark:bg-white/ rounded-lg cursor-pointer"
                       />
                     </div>
                   </div>
@@ -794,7 +794,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   <div className="grid grid-cols-2 gap-4 border-t border-white/[0.05] pt-6 mt-6">
                     <div className="p-4 bg-white/[0.01] border border-white/[0.03] rounded-2xl text-center">
                       <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold">Standard Score</span>
-                      <p className="text-xl font-extrabold text-white mt-1">{simData?.original_score ? Math.round(simData.original_score) : 70}%</p>
+                      <p className="text-xl font-extrabold text-slate-900 dark:text-white mt-1">{simData?.original_score ? Math.round(simData.original_score) : 70}%</p>
                     </div>
                     <div className="p-4 bg-white/[0.01] border border-primary/15 rounded-2xl text-center">
                       <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold">Simulated Projection</span>
@@ -813,7 +813,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           <div key={i} className="flex gap-3 items-start p-3 bg-white/[0.01] border border-white/[0.03] rounded-2xl">
                             <span className="w-5 h-5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-[9px] flex items-center justify-center font-mono shrink-0">!</span>
                             <div>
-                              <p className="text-xs font-bold text-white uppercase tracking-wider">{topic}</p>
+                              <p className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">{topic}</p>
                               <span className="text-[9px] text-muted-foreground font-light leading-normal block mt-0.5">Weak Mastery mapping detected. Invest additional problems.</span>
                             </div>
                           </div>
@@ -831,7 +831,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                     </div>
                     <div>
                       <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest">Cognitive State</span>
-                      <p className="text-[10px] font-bold text-white uppercase tracking-wider">Sync Mapping Active</p>
+                      <p className="text-[10px] font-bold text-slate-900 dark:text-white uppercase tracking-wider">Sync Mapping Active</p>
                     </div>
                   </div>
                 </div>
@@ -852,10 +852,10 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                         <select
                           value={debugLanguage}
                           onChange={(e) => setDebugLanguage(e.target.value)}
-                          className="bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-2 px-4 text-[10px] uppercase font-bold tracking-widest text-white outline-none cursor-pointer"
+                          className="bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-2 px-4 text-[10px] uppercase font-bold tracking-widest text-slate-900 dark:text-white outline-none cursor-pointer"
                         >
                           {["python", "javascript", "typescript", "cpp", "c", "csharp", "rust", "go", "java", "ruby", "php", "swift", "kotlin", "scala"].map((lang) => (
-                            <option key={lang} value={lang} className="bg-[#0e121b] text-white">{lang.toUpperCase()}</option>
+                            <option key={lang} value={lang} className="bg-[#0e121b] text-slate-900 dark:text-white">{lang.toUpperCase()}</option>
                           ))}
                         </select>
                       </div>
@@ -953,7 +953,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                                   {err.severity}
                                 </span>
                               </div>
-                              <p className="text-xs text-white leading-normal font-light">{err.message}</p>
+                              <p className="text-xs text-slate-900 dark:text-white leading-normal font-light">{err.message}</p>
                             </div>
                           ))
                         ) : (
@@ -1055,7 +1055,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                       </div>
                       <div className="flex justify-between items-center p-3 bg-white/[0.01] border border-white/[0.04] rounded-2xl">
                         <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Predictor Confidence</span>
-                        <span className="text-xs font-bold text-white">93.2%</span>
+                        <span className="text-xs font-bold text-slate-900 dark:text-white">93.2%</span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-white/[0.01] border border-white/[0.04] rounded-2xl">
                         <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Anomalous Risk Factor</span>
@@ -1105,7 +1105,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           const row = heatmapData.grid[t] || {}
                           return (
                             <div key={t} className="grid grid-cols-5 gap-3 items-center">
-                              <div className="col-span-2 text-xs font-bold text-white uppercase tracking-wider truncate">{t}</div>
+                              <div className="col-span-2 text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider truncate">{t}</div>
                               {heatmapData.months.map((m) => {
                                 const score = row[m] || 0
                                 // Gradient cell colors
@@ -1115,7 +1115,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                                   ? "bg-primary/20 border-primary/30 text-primary"
                                   : score > 0
                                   ? "bg-cyan-500/15 border-cyan-500/35 text-cyan-300"
-                                  : "bg-white/[0.02] border-white/5 text-muted-foreground/30"
+                                  : "bg-white/[0.02] border-slate-900/ dark:border-white/ text-muted-foreground/30"
                                 return (
                                   <div
                                     key={m}
@@ -1138,7 +1138,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
                       </div>
-                      <p className="text-sm font-bold text-white mb-1">No Study Data Logged</p>
+                      <p className="text-sm font-bold text-slate-900 dark:text-white mb-1">No Study Data Logged</p>
                       <p className="text-xs text-muted-foreground max-w-sm">
                         Your skill heatmap is currently empty. Head over to the <span className="text-primary font-semibold">Cognitive Twin</span> dashboard and log some study sessions to start mapping your knowledge matrix.
                       </p>
@@ -1162,7 +1162,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           <div key={i} className="flex flex-col gap-2">
                             <div className="flex justify-between text-[10px] font-bold uppercase tracking-wider">
                               <span className="text-muted-foreground">{seg.label}</span>
-                              <span className="text-white">{seg.val}%</span>
+                              <span className="text-slate-900 dark:text-white">{seg.val}%</span>
                             </div>
                             <div className="bg-white/[0.03] h-1.5 rounded-full overflow-hidden">
                               <div className={`${seg.color} h-full rounded-full`} style={{ width: `${seg.val}%` }} />
@@ -1191,7 +1191,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                   <h3 className="text-xs font-bold uppercase tracking-widest text-primary">Logged Academic History</h3>
                   <button
                     onClick={loadHistoryData}
-                    className="p-2 border border-white/10 hover:border-white/20 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] text-xs transition-all text-gray-300"
+                    className="p-2 border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ rounded-xl bg-white/[0.02] hover:bg-white/[0.04] text-xs transition-all text-gray-300"
                     title="Reload"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -1241,7 +1241,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                           {sessionsHistory.map((sess, i) => (
                             <tr key={sess.id || i} className="border-b border-white/[0.02] hover:bg-white/[0.01] transition-all">
                               <td className="py-3 px-4 font-mono font-bold text-gray-300">#{sessionsHistory.length - i}</td>
-                              <td className="py-3 px-4 font-bold text-white uppercase tracking-wider">{sess.topic}</td>
+                              <td className="py-3 px-4 font-bold text-slate-900 dark:text-white uppercase tracking-wider">{sess.topic}</td>
                               <td className="py-3 px-4">
                                 <span className={`px-2 py-0.5 rounded font-bold font-mono text-[10px] ${
                                   sess.accuracy >= 90 ? "text-emerald-400 bg-emerald-500/10" : sess.accuracy >= 70 ? "text-primary bg-primary/10" : "text-cyan-400 bg-cyan-500/10"
@@ -1250,7 +1250,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                                 </span>
                               </td>
                               <td className="py-3 px-4 text-gray-300">{sess.duration_min} Min</td>
-                              <td className="py-3 px-4 font-bold text-white">{sess.problems_solved} Qs</td>
+                              <td className="py-3 px-4 font-bold text-slate-900 dark:text-white">{sess.problems_solved} Qs</td>
                               <td className="py-3 px-4 text-muted-foreground font-light">
                                 {sess.timestamp ? new Date(sess.timestamp).toLocaleString() : "-"}
                               </td>

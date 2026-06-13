@@ -109,7 +109,7 @@ const AuthView: React.FC<AuthViewProps> = ({
         {/* Back Link */}
         <button 
           onClick={onBackToHome}
-          className="absolute top-6 left-6 text-xs text-muted-foreground hover:text-white transition-colors flex items-center gap-2"
+          className="absolute top-6 left-6 text-xs text-muted-foreground hover:text-slate-900 dark:text-white transition-colors flex items-center gap-2"
         >
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -124,7 +124,7 @@ const AuthView: React.FC<AuthViewProps> = ({
             className={`px-3 py-1 text-[10px] uppercase font-bold tracking-widest rounded-lg transition-all ${
               isSarvam 
                 ? "bg-primary/10 text-primary border border-primary/20" 
-                : "text-muted-foreground hover:text-white border border-transparent"
+                : "text-muted-foreground hover:text-slate-900 dark:text-white border border-transparent"
             }`}
           >
             SARVAM-X
@@ -134,7 +134,7 @@ const AuthView: React.FC<AuthViewProps> = ({
             className={`px-3 py-1 text-[10px] uppercase font-bold tracking-widest rounded-lg transition-all ${
               !isSarvam 
                 ? "bg-purple/10 text-purple border border-purple/20" 
-                : "text-muted-foreground hover:text-white border border-transparent"
+                : "text-muted-foreground hover:text-slate-900 dark:text-white border border-transparent"
             }`}
           >
             TRINETRA AI
@@ -145,7 +145,7 @@ const AuthView: React.FC<AuthViewProps> = ({
         <div className="text-center mb-8 flex flex-col items-center">
           <div className="w-12 h-12 rounded-xl mb-4 relative flex items-center justify-center">
             {/* Small spinning or pulsing 3D element placeholder */}
-            <div className="absolute inset-0 rounded-xl overflow-hidden opacity-80 border border-white/10">
+            <div className="absolute inset-0 rounded-xl overflow-hidden opacity-80 border border-slate-900/ dark:border-white/">
               <ThreeModel 
                 mode={isSarvam ? "dodecahedron" : "octahedron"} 
                 color={isSarvam ? 0x10b981 : 0xa855f7}
@@ -153,7 +153,7 @@ const AuthView: React.FC<AuthViewProps> = ({
               />
             </div>
           </div>
-          <h2 className="text-xl font-bold text-white tracking-tight uppercase">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight uppercase">
             {isSarvam ? "SARVAM" : "TRINETRA"}<span className={themeColor}>{isSarvam ? "-X" : " AI"}</span> Portal
           </h2>
           <p className="text-xs text-muted-foreground mt-1.5 font-light leading-relaxed">
@@ -174,7 +174,7 @@ const AuthView: React.FC<AuthViewProps> = ({
           <button
             onClick={() => { setActiveTab("login"); setErrorMsg(""); }}
             className={`relative z-10 w-1/2 text-center py-2.5 text-xs font-semibold tracking-wider transition-colors uppercase ${
-              activeTab === "login" ? "text-white" : "text-muted-foreground hover:text-white"
+              activeTab === "login" ? "text-slate-900 dark:text-white" : "text-muted-foreground hover:text-slate-900 dark:text-white"
             }`}
           >
             Login
@@ -182,7 +182,7 @@ const AuthView: React.FC<AuthViewProps> = ({
           <button
             onClick={() => { setActiveTab("signup"); setErrorMsg(""); }}
             className={`relative z-10 w-1/2 text-center py-2.5 text-xs font-semibold tracking-wider transition-colors uppercase ${
-              activeTab === "signup" ? "text-white" : "text-muted-foreground hover:text-white"
+              activeTab === "signup" ? "text-slate-900 dark:text-white" : "text-muted-foreground hover:text-slate-900 dark:text-white"
             }`}
           >
             Register
@@ -223,7 +223,7 @@ const AuthView: React.FC<AuthViewProps> = ({
                   placeholder="Meet Ukani"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className={`w-full bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-3 pl-11 pr-4 text-sm text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]`}
+                  className={`w-full bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 dark:text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]`}
                 />
               </div>
             </div>
@@ -241,7 +241,7 @@ const AuthView: React.FC<AuthViewProps> = ({
                 placeholder="user@sarvam.ai"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-3 pl-11 pr-4 text-sm text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]"
+                className="w-full bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 dark:text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]"
               />
             </div>
           </div>
@@ -258,7 +258,7 @@ const AuthView: React.FC<AuthViewProps> = ({
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/30 rounded-xl py-3 pl-11 pr-4 text-sm text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]"
+                className="w-full bg-white/[0.02] border border-slate-900/ dark:border-white/ hover:border-slate-900/ dark:border-white/ focus:border-slate-900/ dark:border-white/ rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 dark:text-white placeholder-muted-foreground/40 outline-none transition-all duration-300 focus:shadow-[0_0_15px_rgba(255,255,255,0.03)]"
               />
             </div>
           </div>

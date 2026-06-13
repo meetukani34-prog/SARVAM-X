@@ -90,11 +90,11 @@ const Navbar: React.FC<NavbarProps> = ({ activeView, onNavigate }) => {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg bg-nav-button/30 hover:bg-nav-button/50 border border-white/5 transition-colors"
+            className="p-2 rounded-lg bg-nav-button/30 hover:bg-nav-button/50 border border-slate-900/ dark:border-white/ transition-colors"
             aria-label="Toggle theme"
           >
             {theme === "dark" ? (
-              <svg className="w-5 h-5 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-slate-900/ dark:text-white/" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
             ) : (
@@ -145,7 +145,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeView, onNavigate }) => {
           {/* Hamburger Menu Button (Mobile) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden w-9 h-9 rounded-lg border border-white/10 bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-white hover:border-white/20 transition-all"
+            className="md:hidden w-9 h-9 rounded-lg border border-slate-900/ dark:border-white/ bg-white/[0.02] flex items-center justify-center text-muted-foreground hover:text-slate-900 dark:text-white hover:border-slate-900/ dark:border-white/ transition-all"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
@@ -163,7 +163,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeView, onNavigate }) => {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 z-40 bg-[#07090e]/95 backdrop-blur-2xl md:hidden transition-all duration-500 ${
+        className={`fixed inset-0 z-40 bg-slate-50/95 dark:bg-[#07090e]/95 backdrop-blur-2xl md:hidden transition-all duration-500 ${
           mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
@@ -176,7 +176,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeView, onNavigate }) => {
               key={link}
               href={`#${link.toLowerCase()}`}
               onClick={() => handleMobileNav(`#${link.toLowerCase()}`)}
-              className="text-xl font-bold text-white/80 hover:text-primary uppercase tracking-[0.2em] transition-all duration-300"
+              className="text-xl font-bold text-slate-900/ dark:text-white/ hover:text-primary uppercase tracking-[0.2em] transition-all duration-300"
               style={{ animationDelay: `${i * 0.05}s` }}
             >
               {link}
