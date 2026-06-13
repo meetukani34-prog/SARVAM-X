@@ -145,6 +145,7 @@ interface SarvamSuiteProps {
   userEmail: string
   onSignOut: () => void
   onSwitchSuite: () => void
+  onBackToHome: () => void
 }
 
 const SarvamSuite: React.FC<SarvamSuiteProps> = ({
@@ -153,6 +154,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
   userEmail,
   onSignOut,
   onSwitchSuite,
+  onBackToHome
 }) => {
   const [activeTab, setActiveTab] = useState<"dashboard" | "debugger" | "xai" | "heatmap" | "history">("dashboard")
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -447,18 +449,22 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
       <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col gap-8">
           
-          {/* Main Suite Brand Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shadow-[0_0_15px_rgba(34,197,94,0.15)]">
+          {/* Main Suite Brand Logo - clickable to go back to landing page */}
+          <button 
+            onClick={onBackToHome}
+            className="flex items-center gap-3 text-left group transition-all"
+            title="Return to Main Landing Page"
+          >
+            <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shadow-[0_0_15px_rgba(34,197,94,0.15)] group-hover:bg-primary/20 transition-all">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.467 5.99 5.99 0 0 0-1.925 3.546 5.974 5.974 0 0 1-2.133-1A3.75 3.75 0 0 0 12 18Z" />
               </svg>
             </div>
             <div>
-              <h1 className="text-sm font-bold tracking-widest uppercase">SARVAM<span className="text-primary">-X</span></h1>
-              <span className="text-[8px] font-bold text-primary tracking-widest uppercase border border-primary/20 bg-primary/5 px-2 py-0.5 rounded mt-0.5 inline-block">COGNITIVE HUB</span>
+              <h1 className="text-sm font-bold tracking-widest uppercase group-hover:text-white transition-colors">SARVAM<span className="text-primary">-X</span></h1>
+              <span className="text-[8px] font-bold text-primary tracking-widest uppercase border border-primary/20 bg-primary/5 px-2 py-0.5 rounded mt-0.5 inline-block group-hover:bg-primary/10 transition-colors">COGNITIVE HUB</span>
             </div>
-          </div>
+          </button>
 
           {/* Navigation Links list */}
           <nav className="flex flex-col gap-2">
@@ -545,17 +551,15 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
             {/* Breadcrumb section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-4 border-b border-white/[0.04]">
               <div className="flex items-center gap-4">
-                {activeTab !== "dashboard" && (
-                  <button 
-                    onClick={() => setActiveTab("dashboard")} 
-                    className="flex items-center justify-center shrink-0 w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all duration-300 focus:outline-none shadow-sm"
-                    title="Back to Dashboard"
-                  >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                    </svg>
-                  </button>
-                )}
+                <button 
+                  onClick={onBackToHome} 
+                  className="flex items-center justify-center shrink-0 w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all duration-300 focus:outline-none shadow-sm group"
+                  title="Exit to Main Website"
+                >
+                  <svg className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                  </svg>
+                </button>
                 <div>
                   <span className="text-[9px] uppercase font-bold tracking-widest text-primary/70">Console / SARVAM-X</span>
                   <h2 className="text-2xl font-extrabold tracking-tight mt-1 uppercase">

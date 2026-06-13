@@ -108,6 +108,7 @@ function App() {
           userEmail={userEmail}
           onSignOut={handleSignOut}
           onSwitchSuite={() => handleNavigate("trinetra")}
+          onBackToHome={() => handleNavigate("landing")}
         />
       )}
 
@@ -118,6 +119,7 @@ function App() {
           userEmail={userEmail}
           onSignOut={handleSignOut}
           onSwitchSuite={() => handleNavigate("sarvam")}
+          onBackToHome={() => handleNavigate("landing")}
         />
       )}
     </div>
