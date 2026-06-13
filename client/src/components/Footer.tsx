@@ -15,6 +15,67 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     setActiveModal(title);
   };
 
+  const modalContent: Record<string, { desc: string; extra: string; img?: string }> = {
+    "Enterprise API": {
+      desc: "Our Enterprise API provides low-latency, high-throughput access to SARVAM-X's cognitive models.",
+      extra: "Integrate seamlessly into your existing pipelines with comprehensive SDKs and dedicated support channels."
+    },
+    "Pricing": {
+      desc: "Transparent and scalable pricing tailored to your computational needs. Pay only for the intelligence you utilize.",
+      extra: "Contact our sales team for custom volume discounts and enterprise SLAs."
+    },
+    "Documentation": {
+      desc: "Comprehensive guides, API references, and tutorials for developers building on SARVAM-X.",
+      extra: "Explore deep technical specifications and integration patterns.",
+      img: "/doc_photo.png"
+    },
+    "Research Papers": {
+      desc: "Access our latest peer-reviewed research on cognitive architectures, explainable AI, and neural network safety.",
+      extra: "Stay at the forefront of artificial intelligence breakthroughs.",
+      img: "/research_photo.png"
+    },
+    "Blog": {
+      desc: "The latest news, product updates, and technical insights from the engineering teams at SARVAM-X.",
+      extra: "Read case studies on how industry leaders are leveraging our digital twins.",
+      img: "/blog_photo.png"
+    },
+    "System Status": {
+      desc: "Real-time uptime metrics and operational status for all SARVAM-X Hubs and TRINETRA Consoles.",
+      extra: "Current status: All systems nominal. 99.999% uptime maintained across global edge locations.",
+      img: "/status_photo.png"
+    },
+    "Careers": {
+      desc: "Join our team of visionary researchers, engineers, and designers building the future of cognitive intelligence.",
+      extra: "View open positions and learn about our remote-first, high-performance culture."
+    },
+    "Press": {
+      desc: "Official press releases, media kits, and brand assets for SARVAM-X.",
+      extra: "For media inquiries, please contact press@sarvam-x.ai."
+    },
+    "Contact": {
+      desc: "Get in touch with our global support and sales teams.",
+      extra: "We offer 24/7 priority support for Enterprise clients via your TRINETRA portal."
+    },
+    "Privacy Policy": {
+      desc: "We adhere strictly to global data protection frameworks (GDPR, CCPA). Your data is never used to train base models without explicit consent.",
+      extra: "Review our zero-trust architecture and cryptographic security protocols."
+    },
+    "Terms and Conditions": {
+      desc: "The legal framework governing your use of the SARVAM-X intelligence network and associated services.",
+      extra: "Includes usage limits, acceptable use policies, and liability clauses."
+    },
+    "Cookie Policy": {
+      desc: "Details on how we use tracking technologies to ensure security and optimize performance on our platforms.",
+      extra: "You have full control over your telemetry preferences via the main dashboard."
+    },
+    "Security": {
+      desc: "Our infrastructure features SOC2 compliance, end-to-end encryption, and continuous automated penetration testing.",
+      extra: "Report vulnerabilities through our bug bounty program."
+    }
+  };
+
+  const currentContent = activeModal ? modalContent[activeModal] || { desc: "Information currently unavailable.", extra: "Please check back later." } : null;
+
   return (
     <footer className="relative w-full z-10">
       {/* Top divider */}
@@ -135,19 +196,24 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </div>
               </div>
               
-              <div className="text-white/70 space-y-5 max-h-[50vh] overflow-y-auto pr-4 text-sm md:text-base leading-relaxed font-light">
+              <div className="text-white/70 space-y-5 max-h-[50vh] overflow-y-auto pr-4 text-sm md:text-base leading-relaxed font-light custom-scrollbar">
+                {currentContent?.img && (
+                  <div className="w-full h-48 rounded-xl overflow-hidden border border-white/10 mb-6 shadow-lg">
+                    <img src={currentContent.img} alt={activeModal || "Resource"} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                  </div>
+                )}
                 <p>
-                  Welcome to the <strong className="text-white font-medium">{activeModal}</strong> document. This is a secure portal displaying requested regulatory and informational guidelines. In a fully initialized environment, this module contains authenticated compliance details.
+                  Viewing documentation for: <strong className="text-white font-medium">{activeModal}</strong>.
                 </p>
                 <p>
-                  SARVAM-X architecture enforces strict adherence to global privacy frameworks. Our cognitive and neural network models are designed with a zero-trust policy, ensuring that all data remains encrypted at rest and in transit.
+                  {currentContent?.desc}
+                </p>
+                <p>
+                  {currentContent?.extra}
                 </p>
                 <div className="p-4 rounded-xl bg-primary/[0.03] border border-primary/10 text-primary/90 text-sm">
                   <span className="font-semibold">Notice:</span> All activities within the SARVAM-X Hub and TRINETRA Console are monitored for quality and security assurance purposes.
                 </div>
-                <p>
-                  For immediate escalation or deeper clarification regarding this <strong className="text-white font-medium">{activeModal}</strong> policy, please access the Enterprise Support gateway via your primary dashboard.
-                </p>
               </div>
               
               <div className="mt-10 pt-6 border-t border-white/[0.05] flex justify-end gap-4">
