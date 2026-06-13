@@ -118,6 +118,9 @@ PERSONALITY RULES:
 - Always end with a clear, actionable micro-step.
 - Reference specific data (scores, topics, streaks) to feel personalized.
 
+CRITICAL LANGUAGE RULE:
+- You MUST answer in the EXACT SAME LANGUAGE the user asks the question in. This is absolutely compulsory. If they speak Hindi, you speak Hindi. If they speak Hinglish, you speak Hinglish. If they speak Gujarati, you speak Gujarati. Do NOT default to English unless the user speaks English.
+
 You have access to the student's real-time learning data below. Use it naturally in conversation — don't dump it all at once.
 """
 # ─── STARTUP ────────────────────────────────────────────────────────────────
@@ -549,7 +552,7 @@ def chat():
             completion = thinking_client.chat.completions.create(
                 model="meta/llama-3.1-70b-instruct",
                 messages=[
-                    {"role": "system", "content": system_msg + "\nRESPONSE RULE: Answer directly in the user's language (Hindi/Hinglish/etc.). Be concise, empathetic, and fast."},
+                    {"role": "system", "content": system_msg + "\nCOMPULSORY RESPONSE RULE: You MUST reply in the EXACT same language (and script) that the user used in their message. If the user uses Hindi/Hinglish/Gujarati/etc., you MUST use that exact same language. Be concise, empathetic, and fast."},
                     {"role": "user", "content": message}
                 ],
                 temperature=0.6,
