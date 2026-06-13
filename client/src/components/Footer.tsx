@@ -105,40 +105,65 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
       {/* Generic Modal */}
       {activeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-[#0b0e14] border border-white/10 rounded-2xl p-8 max-w-2xl w-full relative shadow-2xl animate-in fade-in zoom-in duration-300">
-            <button 
-              onClick={() => setActiveModal(null)}
-              className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            <h2 className="text-2xl font-bold text-white mb-6 tracking-wide">{activeModal}</h2>
-            <div className="text-muted-foreground/80 space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-              <p>
-                Welcome to the {activeModal} page. This is a placeholder popup for the {activeModal} section. 
-                In a full production environment, this would contain the detailed text, legal jargon, or 
-                company information specific to this topic.
-              </p>
-              <p>
-                SARVAM-X is committed to maintaining the highest standards of transparency and security. 
-                All data processed by our cognitive hubs and sentinel consoles complies with global 
-                data protection regulations.
-              </p>
-              <p>
-                For any immediate inquiries regarding {activeModal}, please contact our support team 
-                through the main dashboard or via the Enterprise API portal.
-              </p>
-            </div>
-            <div className="mt-8 flex justify-end">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#07090e]/60 backdrop-blur-md">
+          <div className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/[0.08] bg-black/40 shadow-[0_0_100px_rgba(0,0,0,0.8)] backdrop-blur-xl animate-in fade-in zoom-in-95 duration-300">
+            {/* Top accent line */}
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-70" />
+            
+            {/* Ambient background glow inside modal */}
+            <div className="absolute -top-32 -right-32 w-64 h-64 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
+            
+            <div className="p-8 md:p-10 relative z-10">
               <button 
                 onClick={() => setActiveModal(null)}
-                className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium text-sm"
+                className="absolute top-6 right-6 p-2 rounded-full bg-white/[0.02] hover:bg-white/[0.1] text-white/50 hover:text-white transition-all duration-300"
               >
-                Close
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
+              
+              <div className="flex items-center gap-4 mb-8">
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.05] shadow-inner">
+                  <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-white tracking-wide">{activeModal}</h2>
+                  <p className="text-xs text-primary/70 uppercase tracking-widest font-semibold mt-1">SARVAM-X Intelligence Network</p>
+                </div>
+              </div>
+              
+              <div className="text-white/70 space-y-5 max-h-[50vh] overflow-y-auto pr-4 text-sm md:text-base leading-relaxed font-light">
+                <p>
+                  Welcome to the <strong className="text-white font-medium">{activeModal}</strong> document. This is a secure portal displaying requested regulatory and informational guidelines. In a fully initialized environment, this module contains authenticated compliance details.
+                </p>
+                <p>
+                  SARVAM-X architecture enforces strict adherence to global privacy frameworks. Our cognitive and neural network models are designed with a zero-trust policy, ensuring that all data remains encrypted at rest and in transit.
+                </p>
+                <div className="p-4 rounded-xl bg-primary/[0.03] border border-primary/10 text-primary/90 text-sm">
+                  <span className="font-semibold">Notice:</span> All activities within the SARVAM-X Hub and TRINETRA Console are monitored for quality and security assurance purposes.
+                </div>
+                <p>
+                  For immediate escalation or deeper clarification regarding this <strong className="text-white font-medium">{activeModal}</strong> policy, please access the Enterprise Support gateway via your primary dashboard.
+                </p>
+              </div>
+              
+              <div className="mt-10 pt-6 border-t border-white/[0.05] flex justify-end gap-4">
+                <button 
+                  onClick={() => setActiveModal(null)}
+                  className="px-6 py-3 bg-transparent hover:bg-white/[0.05] text-white/70 hover:text-white rounded-xl transition-colors font-medium text-sm tracking-wide"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={() => setActiveModal(null)}
+                  className="px-8 py-3 bg-primary text-primary-foreground hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] rounded-xl transition-all duration-300 font-bold text-sm uppercase tracking-wider"
+                >
+                  Acknowledge
+                </button>
+              </div>
             </div>
           </div>
         </div>
