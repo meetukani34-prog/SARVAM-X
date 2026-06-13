@@ -1,10 +1,20 @@
-import React from "react"
+import React, { useState } from "react"
 
 interface FooterProps {
   onNavigate: (view: "landing" | "auth" | "sarvam" | "trinetra", platform?: "sarvam" | "trinetra") => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+
+  const handleLinkClick = (e: React.MouseEvent, title: string) => {
+    e.preventDefault();
+    if (title === "About Us") {
+      return;
+    }
+    setActiveModal(title);
+  };
+
   return (
     <footer className="relative w-full z-10">
       {/* Top divider */}
@@ -42,35 +52,35 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <h4 className="text-white font-bold text-sm tracking-wider mb-2">PLATFORMS</h4>
           <button onClick={() => onNavigate("sarvam")} className="text-left text-sm text-muted-foreground/70 hover:text-primary transition-colors">SARVAM-X Hub</button>
           <button onClick={() => onNavigate("trinetra")} className="text-left text-sm text-muted-foreground/70 hover:text-purple transition-colors">TRINETRA Console</button>
-          <a href="#" className="text-left text-sm text-muted-foreground/70 hover:text-white transition-colors">Enterprise API</a>
-          <a href="#" className="text-left text-sm text-muted-foreground/70 hover:text-white transition-colors">Pricing</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Enterprise API")} className="text-left text-sm text-muted-foreground/70 hover:text-white transition-colors">Enterprise API</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Pricing")} className="text-left text-sm text-muted-foreground/70 hover:text-white transition-colors">Pricing</a>
         </div>
         
         {/* Column 2 */}
         <div className="flex flex-col gap-4">
           <h4 className="text-white font-bold text-sm tracking-wider mb-2">RESOURCES</h4>
-          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Documentation</a>
-          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Research Papers</a>
-          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Blog</a>
-          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">System Status</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Documentation")} className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Documentation</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Research Papers")} className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Research Papers</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Blog")} className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Blog</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "System Status")} className="text-sm text-muted-foreground/70 hover:text-white transition-colors">System Status</a>
         </div>
 
         {/* Column 3 */}
         <div className="flex flex-col gap-4">
           <h4 className="text-white font-bold text-sm tracking-wider mb-2">COMPANY</h4>
           <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">About Us</a>
-          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Careers</a>
-          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Press</a>
-          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Contact</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Careers")} className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Careers</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Press")} className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Press</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Contact")} className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Contact</a>
         </div>
 
         {/* Column 4 */}
         <div className="flex flex-col gap-4">
           <h4 className="text-white font-bold text-sm tracking-wider mb-2">LEGAL</h4>
-          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Privacy Policy</a>
-          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Terms and Conditions</a>
-          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Cookie Policy</a>
-          <a href="#" className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Security</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Privacy Policy")} className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Terms and Conditions")} className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Terms and Conditions</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Cookie Policy")} className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Cookie Policy</a>
+          <a href="#" onClick={(e) => handleLinkClick(e, "Security")} className="text-sm text-muted-foreground/70 hover:text-white transition-colors">Security</a>
         </div>
       </div>
 
@@ -92,6 +102,47 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </div>
         </div>
       </div>
+
+      {/* Generic Modal */}
+      {activeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-[#0b0e14] border border-white/10 rounded-2xl p-8 max-w-2xl w-full relative shadow-2xl animate-in fade-in zoom-in duration-300">
+            <button 
+              onClick={() => setActiveModal(null)}
+              className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h2 className="text-2xl font-bold text-white mb-6 tracking-wide">{activeModal}</h2>
+            <div className="text-muted-foreground/80 space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+              <p>
+                Welcome to the {activeModal} page. This is a placeholder popup for the {activeModal} section. 
+                In a full production environment, this would contain the detailed text, legal jargon, or 
+                company information specific to this topic.
+              </p>
+              <p>
+                SARVAM-X is committed to maintaining the highest standards of transparency and security. 
+                All data processed by our cognitive hubs and sentinel consoles complies with global 
+                data protection regulations.
+              </p>
+              <p>
+                For any immediate inquiries regarding {activeModal}, please contact our support team 
+                through the main dashboard or via the Enterprise API portal.
+              </p>
+            </div>
+            <div className="mt-8 flex justify-end">
+              <button 
+                onClick={() => setActiveModal(null)}
+                className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors font-medium text-sm"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </footer>
   )
 }
