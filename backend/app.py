@@ -52,6 +52,15 @@ debugger = CodeDebugger()
 explainer = ExplainabilityEngine()
 momentum_engine = MomentumEngine()
 
+# ─── GLOBAL ERROR HANDLER ────────────────────────────────────────────────────
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    """Return JSON for any unhandled exception instead of a bare 500."""
+    import traceback
+    traceback.print_exc()
+    return jsonify({"error": str(e), "type": type(e).__name__}), 500
+
 # ─── AUTHENTICATION ─────────────────────────────────────────────────────────
 
 @app.route('/api/auth/signup', methods=['POST'])
