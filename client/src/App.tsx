@@ -6,6 +6,7 @@ import PlatformSelector from "./components/PlatformSelector"
 import FeaturesSection from "./components/FeaturesSection"
 import HowItWorks from "./components/HowItWorks"
 import TechStack from "./components/TechStack"
+import PricingSection from "./components/PricingSection"
 import Footer from "./components/Footer"
 
 // Newly created components
@@ -88,6 +89,7 @@ function App() {
           <PlatformSelector onNavigate={handleNavigate} />
           <FeaturesSection />
           <HowItWorks />
+          <PricingSection onNavigate={handleNavigate} />
           <TechStack />
           <Footer onNavigate={handleNavigate} />
         </>
