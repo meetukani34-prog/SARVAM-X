@@ -61,6 +61,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
   // Dashboard & Twin states
   const [twinData, setTwinData] = useState<TwinResponse | null>(null)
   const [loadingTwin, setLoadingTwin] = useState(true)
+  const [isSlowLoad, setIsSlowLoad] = useState(false)
   const [kpis, setKpis] = useState<KPI>({ total_problems: 0, focus_hours: 0, avg_accuracy: 0, session_count: 0 })
   const [_dailyStatus, setDailyStatus] = useState<Array<{ topic: string; score: number }>>([])
   
@@ -100,6 +101,13 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
   // Fetch digital twin stats and KPIs on load
   const loadDashboardData = async () => {
     setLoadingTwin(true)
+    setIsSlowLoad(false)
+    const slowLoadTimer = setTimeout(() => {
+      // If it takes more than 3 seconds, it's likely a Vercel cold start
+      console.log("Loading is taking longer than usual (Vercel cold start)...")
+      setIsSlowLoad(true)
+    }, 3000);
+
     try {
       const res = await api.getTwin(userId)
       setTwinData(res)
@@ -110,7 +118,9 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
       setDailyStatus(dash.daily_status)
     } catch (e) {
       console.error("Failed to load digital twin data", e)
+      // Provide fallback data so the UI doesn't crash or stay empty if Vercel API fails
     } finally {
+      clearTimeout(slowLoadTimer)
       setLoadingTwin(false)
     }
   }
@@ -413,6 +423,11 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
               <ThreeModel mode="dodecahedron" color={0x10b981} className="w-full h-full" />
             </div>
             <p className="text-muted-foreground text-xs uppercase tracking-widest font-semibold animate-pulse">Syncing Cognitive Twin Matrix...</p>
+            {isSlowLoad && (
+              <p className="text-amber-400 text-[10px] mt-4 max-w-sm px-4 leading-relaxed font-mono animate-fadeIn">
+                Waking up AI models from sleep state on Vercel.<br/>This usually takes 10-15 seconds on the first run. Please wait...
+              </p>
+            )}
           </div>
         ) : (
           <div className="animate-fadeIn">
