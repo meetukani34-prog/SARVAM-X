@@ -20,7 +20,7 @@ load_dotenv()
 
 thinking_client = OpenAI(
   base_url="https://integrate.api.nvidia.com/v1",
-  api_key=os.environ.get("NVIDIA_THINKING_API_KEY")
+  api_key=os.environ.get("NVIDIA_THINKING_API_KEY", "missing-key")
 )
 
 import database as db
@@ -287,12 +287,11 @@ def predict():
 # ─── FAKE NEWS ANALYSIS ───────────────────────────────────────────────────────
 
 @app.route('/api/fakenews/analyze', methods=['POST'])
-@jwt_required()
 @limiter.limit("10 per minute")
 def analyze_fake_news():
     """Analyze text for fake news and misinformation."""
     data = request.json or {}
-    text = data.get('text', '')
+    text = data.get('text', data.get('claim', ''))
     
     if not text.strip():
         return jsonify({"error": "No text provided"}), 400
@@ -347,13 +346,12 @@ Output JSON Format:
             if keywords:
                 query = " ".join(keywords[:3])
                 try:
-                    # Search last 24 hours (timelimit='d')
-                    results = DDGS().text(query, max_results=3, timelimit='d')
+                    # Search broader time frame
+                    results = DDGS().text(query, max_results=3)
                     if not results:
-                        result_json["isFake"] = True
-                        result_json["confidence"] = 30
-                        result_json["sourceCredibility"] = 0
-                        result_json["explanation"] = "[Unverified / High Risk] No recent web presence or external sources found to corroborate this event. Text exhibits perfect tone but lacks real-world authenticity. " + result_json.get("explanation", "")
+                        # Don't blindly force isFake to True, just lower confidence and add a warning
+                        result_json["confidence"] = max(10, result_json.get("confidence", 80) - 30)
+                        result_json["explanation"] = "[Unverified] We couldn't find immediate external web sources corroborating this. " + result_json.get("explanation", "")
                 except Exception as e:
                     print(f"Search API error: {e}")
                     # If search fails, we don't strictly penalize but we can log it
