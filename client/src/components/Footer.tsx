@@ -166,7 +166,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
       {/* Generic Modal */}
       {activeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50/60 dark:bg-slate-50/60 dark:bg-[#07090e]/60 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-50/60 dark:bg-[#07090e]/60 backdrop-blur-md">
           <div className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-900/[0.08] dark:border-white/[0.08] bg-white/40 dark:bg-black/40 shadow-[0_0_100px_rgba(0,0,0,0.8)] backdrop-blur-xl animate-in fade-in zoom-in-95 duration-300">
             {/* Top accent line */}
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-70" />

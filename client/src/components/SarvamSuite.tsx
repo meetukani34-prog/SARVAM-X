@@ -464,7 +464,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
       <MentorPanel userId={userId} />
 
       {/* LEFT SIDEBAR NAVIGATION */}
-      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-slate-50/95 dark:bg-slate-50/95 dark:bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-slate-900/10 dark:border-slate-900/[0.05] dark:border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed md:relative inset-y-0 left-0 w-64 shrink-0 bg-slate-50/95 dark:bg-[#07090e]/95 md:bg-white/[0.01] backdrop-blur-2xl md:backdrop-blur-none border-r border-slate-900/10 dark:border-slate-900/[0.05] dark:border-white/[0.05] p-6 flex flex-col justify-between z-40 md:z-10 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex flex-col gap-8">
           
           {/* Main Suite Brand Logo - clickable to go back to landing page */}
