@@ -138,6 +138,15 @@ const CodeOracle: React.FC = () => {
                   </p>
                 </div>
               )}
+
+              {result.exec_out && (
+                <div>
+                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">Terminal Output</h4>
+                  <div className="text-[10px] text-slate-300 font-mono leading-relaxed p-4 bg-black/40 border border-slate-700/50 rounded-xl whitespace-pre-wrap">
+                    {result.exec_out}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

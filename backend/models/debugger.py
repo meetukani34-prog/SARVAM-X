@@ -208,6 +208,50 @@ class CodeDebugger:
                             "message": "Use `is None` instead of `== None` (PEP 8).",
                             "code_snippet": "... == None"
                         })
+
+        # Detect undefined variables
+        import builtins
+        defined_names = set(dir(builtins))
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Assign):
+                for target in node.targets:
+                    if isinstance(target, ast.Name):
+                        defined_names.add(target.id)
+            elif isinstance(node, ast.FunctionDef):
+                defined_names.add(node.name)
+                for arg in node.args.args:
+                    defined_names.add(arg.arg)
+            elif isinstance(node, ast.ClassDef):
+                defined_names.add(node.name)
+            elif isinstance(node, ast.Import):
+                for alias in node.names:
+                    defined_names.add(alias.asname or alias.name)
+            elif isinstance(node, ast.ImportFrom):
+                for alias in node.names:
+                    defined_names.add(alias.asname or alias.name)
+            elif isinstance(node, ast.arg):
+                defined_names.add(node.arg)
+
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load):
+                if node.id not in defined_names:
+                    errors.append({
+                        "type": "NameError",
+                        "line": getattr(node, 'lineno', 1),
+                        "severity": "CRITICAL",
+                        "message": f"Name '{node.id}' is not defined.",
+                        "code_snippet": f"{node.id}"
+                    })
+                    fixes.append({
+                        "line": getattr(node, 'lineno', 1),
+                        "type": "NameError",
+                        "original": node.id,
+                        "fixed": f'"{node.id}"',
+                        "explanation": f"If '{node.id}' is meant to be a string, enclose it in quotes. Otherwise, ensure it is defined before use."
+                    })
+                    # Add it to defined names so we only error once per variable
+                    defined_names.add(node.id)
+
         return errors, fixes
 
     def _estimate_complexity(self, code: str) -> str:
