@@ -855,19 +855,51 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
                 <div className={`${bgCard} lg:col-span-2 p-6 md:p-8`}>
                   <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-6">SHAP Feature Influence Graph</h3>
                   <div className="flex flex-col gap-5">
-                    {twinData?.shap_values && Object.entries(twinData.shap_values).map(([feat, val], idx) => {
-                      const color = val > 0.05 ? "bg-emerald-500" : val > 0.0 ? "bg-primary" : "bg-cyan-500"
-                      const widthPercent = Math.min(100, Math.max(10, Math.round(val * 100)))
-                      return (
-                        <div key={idx} className="flex items-center justify-between gap-4">
-                          <div className="w-1/3 text-xs font-bold text-gray-300 truncate uppercase tracking-wide">{feat.replace(/_/g, " ")}</div>
-                          <div className="flex-1 bg-white/[0.03] h-2.5 rounded-full overflow-hidden relative border border-slate-900/[0.01] dark:border-white/[0.01]">
-                            <div className={`${color} h-full rounded-full transition-all duration-1000`} style={{ width: `${widthPercent}%` }} />
+                    {twinData?.shap_values && (() => {
+                      const maxVal = Math.max(...Object.values(twinData.shap_values).map(Math.abs)) || 1;
+                      const sortedFeatures = Object.entries(twinData.shap_values).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]));
+                      
+                      return sortedFeatures.map(([feat, val], idx) => {
+                        const isPositive = val >= 0;
+                        const widthPercent = (Math.abs(val) / maxVal) * 50;
+
+                        return (
+                          <div key={idx} className="flex items-center justify-between gap-2 sm:gap-4 group">
+                            <div className="w-[30%] text-[10px] sm:text-xs font-bold text-gray-400 truncate uppercase tracking-widest group-hover:text-slate-900 dark:group-hover:text-white transition-colors" title={feat.replace(/_/g, " ")}>
+                              {feat.replace(/_/g, " ")}
+                            </div>
+                            
+                            <div className="flex-1 h-2 sm:h-2.5 relative flex items-center bg-transparent">
+                              {/* Background track */}
+                              <div className="absolute inset-0 bg-slate-200/50 dark:bg-white/[0.02] rounded-full border border-slate-900/[0.02] dark:border-white/[0.02]" />
+                              
+                              {/* Center axis line */}
+                              <div className="absolute top-[-4px] bottom-[-4px] left-1/2 w-px bg-slate-400/50 dark:bg-slate-500/50 z-10" />
+                              
+                              {/* Negative Bar (Right-to-Left from center) */}
+                              {!isPositive && (
+                                <div 
+                                  className="absolute top-0 bottom-0 right-1/2 bg-rose-500 rounded-l-full transition-all duration-1000" 
+                                  style={{ width: `${widthPercent}%` }} 
+                                />
+                              )}
+                              
+                              {/* Positive Bar (Left-to-Right from center) */}
+                              {isPositive && (
+                                <div 
+                                  className="absolute top-0 bottom-0 left-1/2 bg-emerald-500 rounded-r-full transition-all duration-1000" 
+                                  style={{ width: `${widthPercent}%` }} 
+                                />
+                              )}
+                            </div>
+                            
+                            <div className={`w-14 text-right text-[10px] sm:text-xs font-bold font-mono tracking-tighter sm:tracking-normal ${isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
+                              {isPositive ? '+' : ''}{val.toFixed(2)}
+                            </div>
                           </div>
-                          <div className="w-12 text-right text-xs font-bold font-mono text-primary">{(val * 100).toFixed(0)}%</div>
-                        </div>
-                      )
-                    })}
+                        )
+                      })
+                    })()}
                   </div>
                 </div>
 
