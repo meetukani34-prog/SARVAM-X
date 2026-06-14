@@ -44,6 +44,11 @@ limiter = Limiter(
     storage_uri="memory://"
 )
 
+# Initialize AI LLM Client (NVIDIA Llama 3.1)
+thinking_client = OpenAI(
+    base_url="https://integrate.api.nvidia.com/v1",
+    api_key=os.environ.get("NVIDIA_API_KEY", "dummy-key-to-prevent-crash")
+)
 # Initialize components
 db.init_db()
 twin = DigitalTwin()
