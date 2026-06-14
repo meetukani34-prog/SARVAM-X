@@ -144,12 +144,13 @@ class DigitalTwin:
             avg = np.mean(scores[-3:]) if len(scores) >= 3 else np.mean(scores)
             if avg < 70:
                 weak.append({"topic": topic, "avg_score": round(avg, 1)})
-        return sorted(weak, key=lambda x: x['avg_score'])
+        sorted_weak = sorted(weak, key=lambda x: x['avg_score'])
+        return [w['topic'] for w in sorted_weak]
 
     def generate_study_plan(self, weak_topics, sessions):
         """Generate personalized 4-week study plan."""
         plan = []
-        priority_topics = [w['topic'] for w in weak_topics[:3]]
+        priority_topics = weak_topics[:3]
         all_topics = ["Arrays", "Recursion", "Dynamic Programming", "Trees", "Graphs"]
         strong = [t for t in all_topics if t not in priority_topics]
 

@@ -47,7 +47,7 @@ class ExplainabilityEngine:
             parts.append(f"However, your score is held back by {' and '.join(neg_strs)}.")
 
         if weak_topics:
-            topic_names = ', '.join([w['topic'] for w in weak_topics[:3]])
+            topic_names = ', '.join(weak_topics[:3])
             parts.append(f"Weak areas detected: **{topic_names}**. Strengthening these could improve your score significantly.")
 
         # Confidence heuristic (higher score = higher confidence)
