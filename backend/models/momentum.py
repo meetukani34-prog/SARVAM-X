@@ -2,7 +2,7 @@
 Behavioral Entropy Engine — Momentum Analytics for the Cognitive Mirror
 Tracks focus patterns, calculates momentum drag, and computes correction forces.
 """
-import numpy as np
+import math
 from datetime import datetime
 
 
@@ -75,9 +75,16 @@ class MomentumEngine:
         accuracies = [s.get("accuracy", 50) for s in sessions[:10]]
         durations = [s.get("duration_min", 30) for s in sessions[:10]]
 
+        def mean(lst):
+            return sum(lst) / len(lst) if lst else 0
+            
+        def std(lst):
+            m = mean(lst)
+            return math.sqrt(sum((x - m) ** 2 for x in lst) / len(lst)) if lst else 0
+
         # Entropy = coefficient of variation (stddev / mean)
-        acc_cv = np.std(accuracies) / max(np.mean(accuracies), 1)
-        dur_cv = np.std(durations) / max(np.mean(durations), 1)
+        acc_cv = std(accuracies) / max(mean(accuracies), 1)
+        dur_cv = std(durations) / max(mean(durations), 1)
 
         entropy = (acc_cv + dur_cv) / 2
         return min(1.0, entropy)
@@ -122,7 +129,8 @@ class MomentumEngine:
         if not drag["detected"]:
             return {"needed": False, "actions": [], "urgency": "none"}
 
-        avg_acc = np.mean([s.get("accuracy", 50) for s in sessions[:5]])
+        accs = [s.get("accuracy", 50) for s in sessions[:5]]
+        avg_acc = sum(accs) / len(accs) if accs else 50.0
         target_gap = max(0, self.ORBIT_TARGET - avg_acc)
         problems_needed = max(3, int(target_gap * 0.4))
         hours_needed = round(problems_needed * 0.3, 1)
@@ -159,7 +167,8 @@ class MomentumEngine:
         if not sessions:
             return {"current": 50.0, "projected_7d": 50.0, "projected_30d": 50.0, "target": self.ORBIT_TARGET, "on_track": False}
 
-        current = float(np.mean([s.get("accuracy", 50) for s in sessions[:5]]))
+        accs = [s.get("accuracy", 50) for s in sessions[:5]]
+        current = float(sum(accs) / len(accs) if accs else 50.0)
         daily_growth = float((momentum - 50) * 0.02)  # momentum above 50 = growth
 
         projected_7d = float(min(100, max(0, current + daily_growth * 7)))
