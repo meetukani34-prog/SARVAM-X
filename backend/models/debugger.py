@@ -150,21 +150,21 @@ class CodeDebugger:
                 "line": lineno,
                 "type": "ZeroDivisionError",
                 "original": line.strip(),
-                "fixed": re.sub(r'/ 0(?!\.)(?!\d)', '/ (divisor or 1)', line.strip()),
+                "replacement": re.sub(r'/ 0(?!\.)(?!\d)', '/ (divisor or 1)', line.strip()),
                 "explanation": "Replaced hardcoded `/ 0` with a safe fallback `/ (divisor or 1)` to prevent ZeroDivisionError at runtime."
             },
             'InfiniteLoop': {
                 "line": lineno,
                 "type": "InfiniteLoop",
                 "original": line.strip(),
-                "fixed": line.strip() + "\n    # TODO: Add break/return condition",
+                "replacement": line.strip() + "\n    # TODO: Add break/return condition",
                 "explanation": "Added a reminder to insert a break or return condition to avoid an infinite loop."
             },
             'BareExcept': {
                 "line": lineno,
                 "type": "BareExcept",
                 "original": line.strip(),
-                "fixed": line.strip().replace('except:', 'except Exception as e:'),
+                "replacement": line.strip().replace('except:', 'except Exception as e:'),
                 "explanation": "Replaced bare `except:` with `except Exception as e:` for safer error handling."
             },
         }
@@ -193,7 +193,7 @@ class CodeDebugger:
                             "line": node.lineno,
                             "type": "MutableDefault",
                             "original": f"def {node.name}(arg=[]):",
-                            "fixed": f"def {node.name}(arg=None):\n    if arg is None: arg = []",
+                            "replacement": f"def {node.name}(arg=None):\n    if arg is None: arg = []",
                             "explanation": "Use `None` as default and initialize inside the function body to avoid shared mutable state."
                         })
 
@@ -246,7 +246,7 @@ class CodeDebugger:
                         "line": getattr(node, 'lineno', 1),
                         "type": "NameError",
                         "original": node.id,
-                        "fixed": f'"{node.id}"',
+                        "replacement": f'"{node.id}"',
                         "explanation": f"If '{node.id}' is meant to be a string, enclose it in quotes. Otherwise, ensure it is defined before use."
                     })
                     # Add it to defined names so we only error once per variable
