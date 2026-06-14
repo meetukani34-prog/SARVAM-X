@@ -9,6 +9,7 @@ from flask import Flask, request, jsonify, Response, stream_with_context, send_f
 from flask_cors import CORS
 from openai import OpenAI
 from dotenv import load_dotenv
+from duckduckgo_search import DDGS
 
 # Add parent dir to path for models
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -331,6 +332,24 @@ Output JSON Format:
             result_text = result_text[:-3]
             
         result_json = json.loads(result_text.strip())
+        
+        # Post-Processing: Web Presence Verification
+        if not result_json.get("isFake", True) and result_json.get("confidence", 0) > 60:
+            keywords = result_json.get("keywords", [])
+            if keywords:
+                query = " ".join(keywords[:3])
+                try:
+                    # Search last 24 hours (timelimit='d')
+                    results = DDGS().text(query, max_results=3, timelimit='d')
+                    if not results:
+                        result_json["isFake"] = True
+                        result_json["confidence"] = 30
+                        result_json["sourceCredibility"] = 0
+                        result_json["explanation"] = "[Unverified / High Risk] No recent web presence or external sources found to corroborate this event. Text exhibits perfect tone but lacks real-world authenticity. " + result_json.get("explanation", "")
+                except Exception as e:
+                    print(f"Search API error: {e}")
+                    # If search fails, we don't strictly penalize but we can log it
+
         return jsonify({"success": True, "data": result_json})
     except Exception as e:
         print(f"[!] Fake News Analysis Error: {str(e)}")

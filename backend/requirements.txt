@@ -13,3 +13,4 @@ httpx==0.27.2
 gunicorn
 supabase>=2.3.0
 python-dotenv>=1.0.1
+duckduckgo-search>=5.3.1
