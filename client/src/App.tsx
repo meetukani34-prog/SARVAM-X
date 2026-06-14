@@ -24,12 +24,14 @@ function App() {
     return saved && ["landing", "auth", "sarvam", "trinetra"].includes(saved) ? saved : "landing"
   })
   const [authPlatform, setAuthPlatform] = useState<"sarvam" | "trinetra">("sarvam")
-  const [isRestoring, setIsRestoring] = useState(true)
   
-  // User states
-  const [userId, setUserId] = useState<number | null>(null)
-  const [userName, setUserName] = useState("")
-  const [userEmail, setUserEmail] = useState("")
+  // Optimistically restore user states from localStorage to prevent loading screen delay
+  const [userId, setUserId] = useState<number | null>(() => {
+    const saved = localStorage.getItem("sarvam_userId")
+    return saved ? parseInt(saved, 10) : null
+  })
+  const [userName, setUserName] = useState(() => localStorage.getItem("sarvam_userName") || "")
+  const [userEmail, setUserEmail] = useState(() => localStorage.getItem("sarvam_userEmail") || "")
 
   // Persist activeView to localStorage whenever it changes
   useEffect(() => {
@@ -44,32 +46,31 @@ function App() {
         setUserId(res.user_id)
         setUserName(res.name)
         setUserEmail(res.email)
+        localStorage.setItem("sarvam_userId", res.user_id.toString())
+        localStorage.setItem("sarvam_userName", res.name)
+        localStorage.setItem("sarvam_userEmail", res.email)
         return true
       }
     } catch (err) {
+      // Session expired or invalid
       setUserId(null)
       setUserName("")
       setUserEmail("")
+      localStorage.removeItem("sarvam_userId")
+      localStorage.removeItem("sarvam_userName")
+      localStorage.removeItem("sarvam_userEmail")
+      
+      // If we optimistically loaded a protected view but auth failed, kick to landing
+      if (activeView === "sarvam" || activeView === "trinetra") {
+        setActiveView("landing")
+      }
     }
     return false
   }
 
-  // On initial mount: verify JWT session and restore view
+  // On initial mount: verify JWT session asynchronously
   useEffect(() => {
-    const restoreSession = async () => {
-      const savedView = localStorage.getItem("sarvam_view") as ViewType | null
-      const isAuthenticated = await syncSession()
-
-      if (isAuthenticated && (savedView === "sarvam" || savedView === "trinetra")) {
-        // User was on a dashboard — restore it
-        setActiveView(savedView)
-      } else if (!isAuthenticated && (savedView === "sarvam" || savedView === "trinetra")) {
-        // Session expired — send to landing
-        setActiveView("landing")
-      }
-      setIsRestoring(false)
-    }
-    restoreSession()
+    syncSession()
   }, [])
 
   const handleNavigate = async (view: ViewType, platform: "sarvam" | "trinetra" = "sarvam") => {
@@ -108,17 +109,6 @@ function App() {
   }
 
   // Render view router
-  if (isRestoring) {
-    return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#07090e] flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
-          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium tracking-widest uppercase">Syncing Matrix</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="bg-slate-50 dark:bg-[#07090e] min-h-screen text-slate-900 dark:text-foreground relative selection:bg-primary selection:text-primary-foreground overflow-x-hidden">
       {activeView === "landing" && (
