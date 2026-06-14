@@ -123,13 +123,16 @@ def update_profile():
     return jsonify({"success": True, "name": new_name})
 
 @app.route('/api/user/me', methods=['GET'])
-@jwt_required()
+@jwt_required(optional=True)
 def get_me():
-    user_id = int(get_jwt_identity())
-    user = db.fetch_user(user_id)
+    user_id = get_jwt_identity()
+    if not user_id:
+        return jsonify({"success": False, "error": "Not logged in"}), 200
+        
+    user = db.fetch_user(int(user_id))
     if user:
         return jsonify({"success": True, "user_id": user['id'], "name": user['name'], "email": user['email']})
-    return jsonify({"error": "User not found"}), 404
+    return jsonify({"success": False, "error": "User not found"}), 404
 
 # ─── LLM CONFIGURATION ──────────────────────────────────────────────────────
 # Thinking Client (Complex Reasoning)

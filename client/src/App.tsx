@@ -50,9 +50,21 @@ function App() {
         localStorage.setItem("sarvam_userName", res.name)
         localStorage.setItem("sarvam_userEmail", res.email)
         return true
+      } else {
+        // Clear invalid session silently
+        setUserId(null)
+        setUserName("")
+        setUserEmail("")
+        localStorage.removeItem("sarvam_userId")
+        localStorage.removeItem("sarvam_userName")
+        localStorage.removeItem("sarvam_userEmail")
+        localStorage.removeItem("sarvam_token")
+        if (activeView === "sarvam" || activeView === "trinetra") {
+          setActiveView("landing")
+        }
       }
     } catch (err) {
-      // Session expired or invalid
+      // Session expired or network error
       setUserId(null)
       setUserName("")
       setUserEmail("")
