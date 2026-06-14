@@ -368,15 +368,28 @@ def debug_code():
         # Generate trace log
         result['trace_log'] = _generate_trace_log(result['errors'], language)
 
-        # Execute code if it's Python
-        if language == 'python':
-            # DEMO MODE: Live execution disabled for security reasons.
-            result['exec_out'] = "Code execution is disabled in this environment for security reasons. Displaying static AST analysis only."
-            result['exec_err'] = ""
-            result['exec_code'] = 0
+        # AI Simulated Execution (only if code is correct)
+        if len(result['errors']) == 0:
+            prompt = f"You are a strict code execution engine. Simulate the execution of this {language} code. Output EXACTLY what would be printed to stdout. No explanations, no markdown formatting, no code blocks, just the raw terminal output. If there is no output, just output nothing.\n\nCode:\n{code}"
+            try:
+                ai_resp = thinking_client.chat.completions.create(
+                    model="meta/llama-3.1-70b-instruct",
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=500,
+                    temperature=0.1
+                )
+                sim_out = ai_resp.choices[0].message.content.strip()
+                result['exec_out'] = sim_out if sim_out else "[Execution completed with no output]"
+                result['exec_err'] = ""
+                result['exec_code'] = 0
+            except Exception as e:
+                result['exec_out'] = "Code execution is currently disabled for security reasons."
+                result['exec_err'] = f"AI simulation failed: {str(e)}"
+                result['exec_code'] = 1
         else:
-            result['exec_out'] = "Execution not supported for this language in demo mode."
-            result['exec_code'] = 0
+            result['exec_out'] = "Execution aborted. Please fix the detected errors above first."
+            result['exec_err'] = "Static analysis failed."
+            result['exec_code'] = 1
 
         # NOTE: Skipping db.save_debug() to prevent file-watch reloads
         return jsonify(result)
