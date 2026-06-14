@@ -16,6 +16,7 @@ export interface AuthResponse {
   user_id: number;
   name: string;
   email: string;
+  access_token?: string;
   error?: string;
 }
 
@@ -180,8 +181,10 @@ export interface FakeNewsResponse {
 // Helper for requests
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const url = `${BASE_URL}${endpoint}`;
+  const token = localStorage.getItem('sarvam_token');
   const headers = {
     'Content-Type': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
     ...options.headers,
   };
   // Send cookies with requests for JWT auth
@@ -196,20 +199,29 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 export const api = {
   // Auth Operations
   async signup(name: string, email: string, password: string): Promise<AuthResponse> {
-    return request<AuthResponse>('/api/auth/signup', {
+    const res = await request<AuthResponse>('/api/auth/signup', {
       method: 'POST',
       body: JSON.stringify({ name, email, password }),
     });
+    if (res.success && res.access_token) {
+      localStorage.setItem('sarvam_token', res.access_token);
+    }
+    return res;
   },
 
   async login(email: string, password: string): Promise<AuthResponse> {
-    return request<AuthResponse>('/api/auth/login', {
+    const res = await request<AuthResponse>('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
+    if (res.success && res.access_token) {
+      localStorage.setItem('sarvam_token', res.access_token);
+    }
+    return res;
   },
   
   async logout(): Promise<{ success: boolean; message: string }> {
+    localStorage.removeItem('sarvam_token');
     return request<{ success: boolean; message: string }>('/api/auth/logout', {
       method: 'POST',
     });

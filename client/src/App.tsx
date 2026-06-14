@@ -59,6 +59,7 @@ function App() {
       localStorage.removeItem("sarvam_userId")
       localStorage.removeItem("sarvam_userName")
       localStorage.removeItem("sarvam_userEmail")
+      localStorage.removeItem("sarvam_token")
       
       // If we optimistically loaded a protected view but auth failed, kick to landing
       if (activeView === "sarvam" || activeView === "trinetra") {

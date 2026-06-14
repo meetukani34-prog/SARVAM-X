@@ -30,7 +30,7 @@ CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://l
 
 # Security Configurations
 app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'super-secret-sarvam-key-change-me')
-app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_TOKEN_LOCATION'] = ['cookies', 'headers']
 app.config['JWT_COOKIE_SECURE'] = True # Required for cross-domain cookies
 app.config['JWT_COOKIE_SAMESITE'] = 'None' # Required for cross-domain cookies
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False # Simplified for this demo
@@ -78,7 +78,7 @@ def signup():
         return jsonify({"error": "Email already exists"}), 409
         
     access_token = create_access_token(identity=str(user_id))
-    resp = jsonify({"success": True, "user_id": user_id, "name": name, "email": email})
+    resp = jsonify({"success": True, "user_id": user_id, "name": name, "email": email, "access_token": access_token})
     set_access_cookies(resp, access_token)
     return resp
 
@@ -97,7 +97,7 @@ def login():
         return jsonify({"error": "Invalid email or password"}), 401
         
     access_token = create_access_token(identity=str(user['id']))
-    resp = jsonify({"success": True, "user_id": user['id'], "name": user['name'], "email": user['email']})
+    resp = jsonify({"success": True, "user_id": user['id'], "name": user['name'], "email": user['email'], "access_token": access_token})
     set_access_cookies(resp, access_token)
     return resp
 
