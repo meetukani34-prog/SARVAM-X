@@ -18,13 +18,23 @@ import { api } from "./lib/api"
 type ViewType = "landing" | "auth" | "sarvam" | "trinetra"
 
 function App() {
-  const [activeView, setActiveView] = useState<ViewType>("landing")
+  // Restore last view from localStorage (default to "landing")
+  const [activeView, setActiveView] = useState<ViewType>(() => {
+    const saved = localStorage.getItem("sarvam_view") as ViewType | null
+    return saved && ["landing", "auth", "sarvam", "trinetra"].includes(saved) ? saved : "landing"
+  })
   const [authPlatform, setAuthPlatform] = useState<"sarvam" | "trinetra">("sarvam")
+  const [isRestoring, setIsRestoring] = useState(true)
   
   // User states
   const [userId, setUserId] = useState<number | null>(null)
   const [userName, setUserName] = useState("")
   const [userEmail, setUserEmail] = useState("")
+
+  // Persist activeView to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("sarvam_view", activeView)
+  }, [activeView])
 
   // Check auth session on load and on view change
   const syncSession = async () => {
@@ -44,9 +54,23 @@ function App() {
     return false
   }
 
+  // On initial mount: verify JWT session and restore view
   useEffect(() => {
-    syncSession()
-  }, [activeView])
+    const restoreSession = async () => {
+      const savedView = localStorage.getItem("sarvam_view") as ViewType | null
+      const isAuthenticated = await syncSession()
+
+      if (isAuthenticated && (savedView === "sarvam" || savedView === "trinetra")) {
+        // User was on a dashboard — restore it
+        setActiveView(savedView)
+      } else if (!isAuthenticated && (savedView === "sarvam" || savedView === "trinetra")) {
+        // Session expired — send to landing
+        setActiveView("landing")
+      }
+      setIsRestoring(false)
+    }
+    restoreSession()
+  }, [])
 
   const handleNavigate = async (view: ViewType, platform: "sarvam" | "trinetra" = "sarvam") => {
     setAuthPlatform(platform)
@@ -84,6 +108,17 @@ function App() {
   }
 
   // Render view router
+  if (isRestoring) {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-[#07090e] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium tracking-widest uppercase">Syncing Matrix</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="bg-slate-50 dark:bg-[#07090e] min-h-screen text-slate-900 dark:text-foreground relative selection:bg-primary selection:text-primary-foreground overflow-x-hidden">
       {activeView === "landing" && (
