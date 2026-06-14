@@ -288,18 +288,23 @@ def analyze_fake_news():
 Analyze the following news text and return a STRICT JSON object (no markdown, no backticks, just the JSON string).
 Do NOT include any extra text.
 
+CRITICAL INSTRUCTIONS:
+- Do NOT flag text as fake simply because it describes geopolitical tension, conflict, or uses strong language (e.g., "condemned", "strong protest").
+- Real news often involves dramatic events. Assume the text could be authentic breaking news unless it contains highly implausible claims, logical inconsistencies, known conspiracy theories, or extreme emotional manipulation without factual basis.
+- Be objective and factual.
+
 Input Text:
 \"\"\"{text}\"\"\"
 
 Output JSON Format:
 {{
-  "isFake": boolean (true if likely misinformation or sensationalized fake news, false if authentic),
+  "explanation": string (A detailed 2-3 sentence reasoning of your analysis. Explain WHY this might be real or fake before making your final judgment.),
+  "isFake": boolean (true if likely misinformation or fabricated fake news, false if authentic real news),
   "confidence": number (integer between 0 and 100, how confident you are in your assessment),
-  "sentiment": string (float between "0.00" and "1.00", representing emotional manipulation or sentiment intensity. 0.0 is neutral, 1.0 is highly emotionally charged/manipulative),
+  "sentiment": string (float between "0.00" and "1.00", representing emotional manipulation or sentiment intensity. 0.0 is factual/neutral, 1.0 is highly emotionally charged/manipulative),
   "keywords": array of strings (top 3 to 5 suspicious or manipulative words/phrases used in the text),
-  "manipulationScore": string (float between "0.00" and "1.00", similar to sentiment, representing likelihood of deliberate manipulation),
-  "sourceCredibility": number (integer between 0 and 100, estimate the credibility based on the tone and claims. 100 is highly credible, 0 is not credible),
-  "explanation": string (A brief 1-2 sentence explanation of your findings)
+  "manipulationScore": string (float between "0.00" and "1.00", likelihood of deliberate factual manipulation),
+  "sourceCredibility": number (integer between 0 and 100, estimate the credibility based on the tone and claims. 100 is highly credible, 0 is not credible)
 }}
 """
 
