@@ -78,8 +78,7 @@ export interface DebugError {
 
 export interface DebugFix {
   original: string;
-  replacement?: string;
-  fixed?: string;
+  replacement: string;
   explanation: string;
 }
 
@@ -100,7 +99,6 @@ export interface DebugResponse {
   exec_err?: string;
   exec_code?: number;
   error?: string;
-  refined_code?: string;
 }
 
 export interface ExplainResponse {
@@ -177,6 +175,27 @@ export interface FakeNewsResponse {
   manipulationScore: string;
   sourceCredibility: number;
   explanation: string;
+}
+
+export interface CodeOracleAnnotation {
+  line: number;
+  text: string;
+}
+
+export interface CodeOracleError {
+  line: number;
+  type: string;
+  severity: 'CRITICAL' | 'WARNING' | 'INFO';
+  message: string;
+}
+
+export interface CodeOracleResponse {
+  verdict: 'CLEAN' | 'WARNINGS' | 'CRITICAL';
+  refinedCode: string;
+  errors: CodeOracleError[];
+  annotations: CodeOracleAnnotation[];
+  summary: string;
+  linesAnalyzed: number;
 }
 
 // Helper for requests
@@ -267,6 +286,14 @@ export const api = {
     return request<{ success: boolean; data: FakeNewsResponse; error?: string }>('/api/fakenews/analyze', {
       method: 'POST',
       body: JSON.stringify({ text }),
+    });
+  },
+
+  // Code Oracle (AI-powered code refiner)
+  async analyzeCodeOracle(code: string, language: string = 'python'): Promise<{ success: boolean; data: CodeOracleResponse }> {
+    return request<{ success: boolean; data: CodeOracleResponse }>('/api/code-oracle', {
+      method: 'POST',
+      body: JSON.stringify({ code, language }),
     });
   },
 

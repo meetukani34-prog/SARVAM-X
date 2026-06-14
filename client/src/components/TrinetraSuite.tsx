@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 import ThreeModel from "./ThreeModel"
 import { useTheme } from "../context/ThemeContext"
 import { api } from "../lib/api"
-import CodeOracle from "./CodeOracle"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -62,7 +61,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
   const [newsResult, setNewsResult] = useState<any | null>(null)
   const [analyzingNews, setAnalyzingNews] = useState(false)
 
-  // Code Reviewer states
+  // Code Oracle states
   const [codeInput, setCodeInput] = useState(`def process_user_data(data):
     # Potential credentials exposure
     api_key = "sk_live_512837265"
@@ -82,8 +81,9 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
     # File is never closed
     
     return True`)
-  const [codeResult, setCodeResult] = useState<any | null>(null)
+  const [oracleResult, setOracleResult] = useState<any | null>(null)
   const [scanningCode, setScanningCode] = useState(false)
+  const [oracleLanguage, setOracleLanguage] = useState("python")
 
   // Report history state
   const [reports, setReports] = useState<ReportEntry[]>([])
@@ -144,69 +144,26 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
     }
   }
 
-  // Trigger Code Reviewer scan patterns
-  const handleReviewCode = (e: React.FormEvent) => {
+  // Trigger Code Oracle AI analysis
+  const handleReviewCode = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!codeInput.trim()) return
 
     setScanningCode(true)
-    setCodeResult(null)
+    setOracleResult(null)
 
-    setTimeout(() => {
-      const issues = []
-      
-      if (codeInput.includes("for") && codeInput.split("for").length > 2) {
-        issues.push({
-          level: "critical",
-          icon: "⚡",
-          title: "Nested Loop Inefficiency — O(n²)",
-          desc: "Multi-level nested iterations detected. Leads to algorithmic exhaustion under scaling."
-        })
+    try {
+      const res = await api.analyzeCodeOracle(codeInput, oracleLanguage)
+      if (res.success && res.data) {
+        setOracleResult(res.data)
+        const errCount = res.data.errors?.length || 0
+        saveReport("Code Oracle Analysis", `${errCount} Issues · ${res.data.verdict}`, errCount > 0 ? 85 : 100)
       }
-      if (/password|secret|api_key|token/i.test(codeInput)) {
-        issues.push({
-          level: "critical",
-          icon: "🔒",
-          title: "Hardcoded Credentials exposed",
-          desc: "Sensitive key/token signatures mapped in cleartext. Transition to vault injection variables."
-        })
-      }
-      if (/eval\(|exec\(/i.test(codeInput)) {
-        issues.push({
-          level: "critical",
-          icon: "💀",
-          title: "Arbitrary Code Injection Vulnerability",
-          desc: "eval()/exec() handles dynamic string compiles. Exploitable by command executions."
-        })
-      }
-      if (/open\(/.test(codeInput) && !/with\s+open/.test(codeInput)) {
-        issues.push({
-          level: "warning",
-          icon: "📂",
-          title: "Potential File Leak / Resource Leak",
-          desc: "File opened without enclosing context manager. Resource remains lock-bound on compile aborts."
-        })
-      }
-      if (issues.length === 0) {
-        issues.push({
-          level: "info",
-          icon: "✓",
-          title: "Optimal Sentinel Score",
-          desc: "Code passed standard threat heuristic scanners. No obvious risk maps observed."
-        })
-      }
-
-      const complexity = codeInput.split("\n").length > 20 ? "HIGH" : "MEDIUM"
-
-      setCodeResult({
-        issues,
-        complexity,
-        issueCount: issues.length
-      })
-
-      saveReport("Code Security Review", `${issues.length} Risks Flagged`, complexity === "HIGH" ? 88 : 50)
+    } catch (err) {
+      console.error(err)
+    } finally {
       setScanningCode(false)
-    }, 1500)
+    }
   }
 
   // Interactive chatbot responses
@@ -368,7 +325,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
             {[
               { id: "dashboard", label: "Dashboard", icon: "M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" },
               { id: "fakenews", label: "NLP Fake News", icon: "M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" },
-              { id: "coderev", label: "Code Reviewer", icon: "M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" },
+              { id: "coderev", label: "Code Oracle", icon: "M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" },
               { id: "xai", label: "Explainable AI", icon: "M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" },
               { id: "reports", label: "Audit Reports", icon: "M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5A3.375 3.375 0 0010.125 2.25H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" },
               { id: "insights", label: "AI Insights", icon: "M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" }
@@ -448,7 +405,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
               <div>
                 <span className="text-[9px] uppercase font-bold tracking-widest text-purple/70">Sentinel console / TRINETRA</span>
                 <h2 className="text-2xl font-extrabold tracking-tight mt-1 uppercase">
-                  {activeTab === "dashboard" ? "Risk Assessment Dashboard" : activeTab === "fakenews" ? "NLP Misinformation Classifier" : activeTab === "coderev" ? "Static Secure Code Reviewer" : activeTab === "xai" ? "SHAP Explanation matrix" : activeTab === "reports" ? "Logged Audit Registers" : "AI Trend Insights"}
+                  {activeTab === "dashboard" ? "Risk Assessment Dashboard" : activeTab === "fakenews" ? "NLP Misinformation Classifier" : activeTab === "coderev" ? "AI Code Oracle" : activeTab === "xai" ? "SHAP Explanation matrix" : activeTab === "reports" ? "Logged Audit Registers" : "AI Trend Insights"}
                 </h2>
               </div>
             </div>
@@ -671,9 +628,209 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
             </div>
           )}
 
-          {/* TAB CONTENT: 3. STATIC CODE SECURITY REVIEWER */}
+          {/* TAB CONTENT: 3. CODE ORACLE */}
           {activeTab === "coderev" && (
-            <CodeOracle />
+            <div className="flex flex-col gap-6">
+
+              {/* Header subtitle */}
+              <p className="text-center text-sm text-muted-foreground font-light -mt-2 mb-2">
+                Drop your broken code. The Oracle detects, refines, and explains — in any language.
+              </p>
+
+              {/* Split-panel: Code Input (Left) + Refined Output (Right) */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                {/* LEFT: Code Input Panel */}
+                <div className={`${bgCard} p-0 flex flex-col overflow-hidden`}>
+                  <form onSubmit={handleReviewCode} className="flex-1 flex flex-col">
+                    {/* Code header bar */}
+                    <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-900/[0.05] dark:border-white/[0.05]">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-purple ml-2">⊛ {oracleLanguage.charAt(0).toUpperCase() + oracleLanguage.slice(1)}</span>
+                      </div>
+                      <span className={`text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg border ${oracleResult ? (oracleResult.verdict === "CLEAN" ? "text-emerald-400 border-emerald-500/20 bg-emerald-500/5" : oracleResult.verdict === "CRITICAL" ? "text-red-400 border-red-500/20 bg-red-500/5" : "text-amber-400 border-amber-500/20 bg-amber-500/5") : "text-muted-foreground border-white/5"}`}>
+                        {oracleResult ? `◆ ${oracleResult.verdict}` : "◆ Void"}
+                      </span>
+                    </div>
+
+                    {/* Code textarea */}
+                    <textarea
+                      value={codeInput}
+                      onChange={(e) => setCodeInput(e.target.value)}
+                      rows={14}
+                      className="flex-1 w-full bg-transparent p-4 text-xs font-mono text-purple outline-none resize-none leading-relaxed border-none"
+                      placeholder="Paste your code here..."
+                    />
+
+                    {/* Footer with line count + actions */}
+                    <div className="flex items-center justify-between px-4 py-2.5 border-t border-slate-900/[0.05] dark:border-white/[0.05]">
+                      <span className="text-[9px] font-mono text-muted-foreground tracking-wider">{codeInput.split("\n").length} lines</span>
+                      <div className="flex items-center gap-3">
+                        <button type="button" onClick={() => setCodeInput("")} className="text-[9px] font-bold text-muted-foreground hover:text-red-400 uppercase tracking-widest transition-colors cursor-pointer">Clear</button>
+                        <button
+                          type="submit"
+                          disabled={scanningCode || !codeInput.trim()}
+                          className="px-5 py-2 bg-purple hover:shadow-[0_0_20px_rgba(168,85,247,0.25)] text-slate-900 dark:text-white font-bold rounded-xl transition-all duration-300 text-[9px] uppercase tracking-widest disabled:opacity-40 flex items-center gap-2 cursor-pointer"
+                        >
+                          {scanningCode ? (
+                            <>
+                              <svg className="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                              Analyzing...
+                            </>
+                          ) : (
+                            "✦ Refine Code"
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                {/* RIGHT: Refined Code + Annotations */}
+                <div className={`${bgCard} p-0 flex flex-col overflow-hidden`}>
+                  {scanningCode ? (
+                    <div className="flex-1 flex flex-col items-center justify-center gap-4 p-8">
+                      <div className="w-10 h-10 border-2 border-purple border-t-transparent rounded-full animate-spin" />
+                      <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Oracle is thinking...</p>
+                    </div>
+                  ) : oracleResult ? (
+                    <>
+                      {/* Refined Code Header */}
+                      <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-900/[0.05] dark:border-white/[0.05]">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 ml-2">✦ Refinement Complete</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => { navigator.clipboard.writeText(oracleResult.refinedCode); }}
+                          className="text-[8px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.02] text-muted-foreground hover:text-purple hover:border-purple/30 transition-all cursor-pointer"
+                        >
+                          ✎ Teleport to Clipboard
+                        </button>
+                      </div>
+
+                      {/* Refined Code Block */}
+                      <div className="px-4 pt-3 pb-2">
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 mb-2">✦ Refined Code</div>
+                        <div className="bg-white/[0.02] dark:bg-black/40 border border-emerald-500/10 rounded-xl p-4 max-h-52 overflow-y-auto">
+                          <pre className="text-xs font-mono text-emerald-400 whitespace-pre-wrap leading-relaxed">
+                            {oracleResult.refinedCode.split("\n").map((line: string, i: number) => (
+                              <div key={i} className="flex gap-3 hover:bg-white/[0.02] rounded px-1">
+                                <span className="text-muted-foreground select-none w-5 text-right text-[9px] font-bold shrink-0">{i + 1}</span>
+                                <span>{line}</span>
+                                {oracleResult.errors?.some((e: any) => e.line === i + 1) && (
+                                  <span className="text-red-400 ml-1">◆</span>
+                                )}
+                              </div>
+                            ))}
+                          </pre>
+                        </div>
+                      </div>
+
+                      {/* Oracle Annotations */}
+                      <div className="px-4 pb-4 flex-1 overflow-y-auto">
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-purple mb-3">✦ Oracle Annotations</div>
+                        <div className="flex flex-col gap-2.5 max-h-48 overflow-y-auto">
+                          {oracleResult.annotations?.map((ann: any, idx: number) => (
+                            <div key={idx} className="flex gap-3 p-3 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-xl">
+                              <span className="text-[9px] font-bold text-purple bg-purple/10 px-2 py-0.5 rounded-md h-fit shrink-0">Line {ann.line}</span>
+                              <p className="text-[11px] text-slate-900 dark:text-white leading-relaxed font-light">{ann.text}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Summary bar */}
+                      {oracleResult.summary && (
+                        <div className="px-4 py-2.5 border-t border-slate-900/[0.05] dark:border-white/[0.05] text-[10px] text-muted-foreground font-light">
+                          {oracleResult.summary}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="flex-1 flex flex-col items-center justify-center gap-3 p-8 text-center">
+                      <span className="text-3xl opacity-30">⊛</span>
+                      <p className="text-xs text-muted-foreground font-light">Paste code on the left and click <span className="text-purple font-bold">Refine Code</span> to see the Oracle's analysis.</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Language Selector Pills */}
+              <div className="flex flex-wrap items-center justify-center gap-2.5">
+                {[
+                  { id: "python", label: "Python", icon: "🐍" },
+                  { id: "javascript", label: "JavaScript", icon: "⚡" },
+                  { id: "typescript", label: "TypeScript", icon: "💎" },
+                  { id: "java", label: "Java", icon: "🍵" },
+                  { id: "cpp", label: "C++", icon: "⊕" },
+                  { id: "c", label: "C", icon: "⚙" },
+                  { id: "go", label: "Go", icon: "🐹" },
+                  { id: "rust", label: "Rust", icon: "🦀" },
+                  { id: "ruby", label: "Ruby", icon: "💎" },
+                  { id: "php", label: "PHP", icon: "🐘" },
+                  { id: "kotlin", label: "Kotlin", icon: "🟣" },
+                  { id: "swift", label: "Swift", icon: "🦅" },
+                ].map(lang => (
+                  <button
+                    key={lang.id}
+                    type="button"
+                    onClick={() => setOracleLanguage(lang.id)}
+                    className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all duration-200 border cursor-pointer ${
+                      oracleLanguage === lang.id
+                        ? "bg-purple/20 border-purple/40 text-purple shadow-[0_0_12px_rgba(168,85,247,0.15)]"
+                        : "bg-white/[0.01] border-slate-900/[0.05] dark:border-white/[0.05] text-muted-foreground hover:text-purple hover:border-purple/20"
+                    }`}
+                  >
+                    {lang.icon} {lang.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Error details panel (shows after analysis) */}
+              {oracleResult && oracleResult.errors?.length > 0 && (
+                <div className={`${bgCard} p-6 md:p-8 animate-fadeIn`}>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-purple mb-6">
+                    ⊛ Detected Issues ({oracleResult.errors.length})
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {oracleResult.errors.map((err: any, idx: number) => (
+                      <div
+                        key={idx}
+                        className={`p-4 border rounded-2xl ${
+                          err.severity === "CRITICAL"
+                            ? "bg-red-500/[0.02] border-red-500/20"
+                            : err.severity === "WARNING"
+                            ? "bg-amber-500/[0.02] border-amber-500/20"
+                            : "bg-cyan-500/[0.02] border-cyan-500/20"
+                        }`}
+                      >
+                        <div className="flex justify-between items-center mb-2">
+                          <span className={`text-[10px] font-bold uppercase tracking-widest font-mono ${
+                            err.severity === "CRITICAL" ? "text-red-400" : err.severity === "WARNING" ? "text-amber-400" : "text-cyan-400"
+                          }`}>
+                            Line {err.line} / {err.type}
+                          </span>
+                          <span className={`text-[8px] font-bold px-2 py-0.5 rounded border uppercase tracking-wider font-mono ${
+                            err.severity === "CRITICAL" ? "bg-red-500/10 border-red-500/20 text-red-400" : err.severity === "WARNING" ? "bg-amber-500/10 border-amber-500/20 text-amber-400" : "bg-cyan-500/10 border-cyan-500/20 text-cyan-400"
+                          }`}>
+                            {err.severity}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-900 dark:text-white leading-relaxed font-light">{err.message}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
 
           {/* TAB CONTENT: 4. EXPLAINABLE AI */}
