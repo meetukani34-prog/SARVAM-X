@@ -3,6 +3,7 @@ import { api } from "../lib/api"
 import type { KPI, Session, TwinResponse, HeatmapResponse, WhatIfResponse, DebugResponse } from "../lib/api"
 import ThreeModel from "./ThreeModel"
 import MentorPanel from "./MentorPanel"
+import CodeOracle from "./CodeOracle"
 import { useTheme } from "../context/ThemeContext"
 import {
   Chart as ChartJS,
@@ -488,7 +489,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
           <nav className="flex flex-col gap-2">
             {[
               { id: "dashboard", label: "Cognitive Twin", icon: "M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" },
-              { id: "debugger", label: "AST Debugger", icon: "M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" },
+              { id: "debugger", label: "Code Oracle", icon: "M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" },
               { id: "xai", label: "Explainable AI", icon: "M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" },
               { id: "heatmap", label: "Skill Heatmap", icon: "M9 4.5v15m6-15v15m-12-3h18m-18-6h18m-18-6h18" },
               { id: "history", label: "Study History", icon: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" }
@@ -843,183 +844,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
 
             {/* TAB CONTENT: 2. AST CODE DEBUGGER */}
             {activeTab === "debugger" && (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                {/* Code submission forms */}
-                <div className={`${bgCard} lg:col-span-2 p-6 md:p-8 flex flex-col`}>
-                  <form onSubmit={handleDebugCode} className="flex-1 flex flex-col justify-between">
-                    <div>
-                      <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-xs font-bold uppercase tracking-widest text-primary">Compiler Code Window</h3>
-                        <select
-                          value={debugLanguage}
-                          onChange={(e) => setDebugLanguage(e.target.value)}
-                          className="bg-slate-900/[0.02] dark:bg-white/[0.02] border border-slate-900/10 dark:border-white/10 hover:border-slate-900/10 dark:border-white/10 focus:border-slate-900/10 dark:border-white/10 rounded-xl py-2 px-4 text-[10px] uppercase font-bold tracking-widest text-slate-900 dark:text-white outline-none cursor-pointer"
-                        >
-                          {["python", "javascript", "typescript", "cpp", "c", "csharp", "rust", "go", "java", "ruby", "php", "swift", "kotlin", "scala"].map((lang) => (
-                            <option key={lang} value={lang} className="bg-[#0e121b] text-slate-900 dark:text-white">{lang.toUpperCase()}</option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div className="relative border border-slate-900/[0.06] dark:border-white/[0.06] rounded-2xl overflow-hidden bg-white/40 dark:bg-black/40 mb-6">
-                        {/* Fake code header */}
-                        <div className="bg-slate-900/[0.02] dark:bg-white/[0.02] border-b border-slate-900/[0.04] dark:border-white/[0.04] px-4 py-2 flex items-center justify-between text-[9px] font-mono tracking-widest text-muted-foreground select-none">
-                          <span>{debugLanguage.toUpperCase()} SCANNER</span>
-                          <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-                        </div>
-                        <textarea
-                          value={debugCodeInput}
-                          onChange={(e) => setDebugCodeInput(e.target.value)}
-                          rows={12}
-                          className="w-full bg-transparent p-4 text-xs text-emerald-400 font-mono outline-none resize-none leading-relaxed border-none"
-                        />
-                      </div>
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={debugging}
-                      className="w-full py-3.5 bg-primary hover:shadow-[0_0_20px_rgba(34,197,94,0.25)] text-primary-foreground font-bold rounded-xl transition-all duration-300 text-[10px] uppercase tracking-widest disabled:opacity-40 flex items-center justify-center gap-2"
-                    >
-                      {debugging ? (
-                        <>
-                          <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Analyzing AST Patterns...
-                        </>
-                      ) : (
-                        "Trigger AST Review Scan"
-                      )}
-                    </button>
-                  </form>
-                </div>
-
-                {/* Scanning trace logs Terminal emulator */}
-                <div className={`${bgCard} p-4 sm:p-6 flex flex-col justify-between h-[400px] sm:h-[500px]`}>
-                  <div>
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-4">AST Trace Terminal</h3>
-                    <div className="bg-white/50 dark:bg-black/50 border border-slate-900/[0.05] dark:border-white/[0.05] rounded-2xl p-4 h-96 overflow-y-auto font-mono text-[10px] text-gray-300 flex flex-col gap-2 shadow-inner">
-                      {runLogs.map((log, i) => {
-                        const isFail = log.level === "FAIL" || log.level === "CRITICAL"
-                        return (
-                          <div key={i} className="leading-relaxed border-b border-slate-900/[0.02] dark:border-white/[0.02] pb-1">
-                            <span className="text-muted-foreground mr-1.5 select-none font-bold">[{log.time || "LOG"}]</span>
-                            <span className={isFail ? "text-red-400 font-bold" : log.level === "DEBUG" ? "text-cyan-400" : "text-emerald-400 font-bold"}>
-                              {log.level}:
-                            </span>{" "}
-                            {log.message}
-                          </div>
-                        )
-                      })}
-                      {debugging && (
-                        <div className="text-primary font-bold animate-pulse">Scanning INDENTATIONS & SYNTAXES...</div>
-                      )}
-                    </div>
-                  </div>
-                  
-                  {/* Digital Twin metrics indicator */}
-                  <div className="flex items-center justify-between border-t border-slate-900/[0.05] dark:border-white/[0.05] pt-4 text-[9px] font-mono tracking-widest text-muted-foreground mt-4">
-                    <span>SYNTAX STATUS: {debugResult ? "PROCESSED" : "STANDBY"}</span>
-                    <span>AST VER: 2.1.0</span>
-                  </div>
-                </div>
-
-                {/* Sub-panels displaying error lists and fixes */}
-                {debugResult && (
-                  <div className="lg:col-span-3 grid grid-cols-1 lg:grid-cols-2 gap-8 animate-fadeIn">
-                    
-                    {/* Error lists */}
-                    <div className={`${bgCard} p-6`}>
-                      <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-6">Syntax Indentation & Anomalies</h3>
-                      <div className="flex flex-col gap-4">
-                        {debugResult.errors && debugResult.errors.length > 0 ? (
-                          debugResult.errors.map((err, i) => (
-                            <div
-                              key={i}
-                              className={`p-4 border rounded-2xl ${
-                                err.severity === "CRITICAL"
-                                  ? "bg-red-500/[0.02] border-red-500/20 text-red-400"
-                                  : "bg-amber-500/[0.02] border-amber-500/20 text-amber-400"
-                              }`}
-                            >
-                              <div className="flex justify-between items-center mb-1.5">
-                                <span className="text-[10px] font-bold uppercase tracking-widest font-mono">
-                                  Line {err.line} / {err.type}
-                                </span>
-                                <span className={`text-[8px] font-bold px-2 py-0.5 rounded border uppercase tracking-wider font-mono ${
-                                  err.severity === "CRITICAL" ? "bg-red-500/10 border-red-500/20" : "bg-amber-500/10 border-amber-500/20"
-                                }`}>
-                                  {err.severity}
-                                </span>
-                              </div>
-                              <p className="text-xs text-slate-900 dark:text-white leading-normal font-light">{err.message}</p>
-                            </div>
-                          ))
-                        ) : (
-                          <div className="p-4 bg-emerald-500/5 border border-emerald-500/10 text-emerald-400 text-xs rounded-xl font-medium flex items-center gap-2">
-                            <span>✓ Code syntax structure looks clean. No AST anomalies detected.</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* AST Suggestive fixes */}
-                    <div className={`${bgCard} p-6`}>
-                      <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-6">Heuristic Corrective Vector</h3>
-                      <div className="flex flex-col gap-4">
-                        {debugResult.fixes && debugResult.fixes.length > 0 ? (
-                          debugResult.fixes.map((fix, i) => (
-                            <div key={i} className="p-4 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl flex flex-col gap-3">
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                                <div className="p-3 bg-red-500/[0.03] border border-red-500/10 rounded-xl font-mono text-[10px] text-red-400 truncate">
-                                  <span className="text-[8px] block text-muted-foreground uppercase font-bold tracking-wider mb-1 font-sora">ORIGINAL</span>
-                                  {fix.original}
-                                </div>
-                                <div className="p-3 bg-emerald-500/[0.03] border border-emerald-500/10 rounded-xl font-mono text-[10px] text-emerald-400 truncate">
-                                  <span className="text-[8px] block text-muted-foreground uppercase font-bold tracking-wider mb-1 font-sora">SUGGESTION</span>
-                                  {fix.replacement}
-                                </div>
-                              </div>
-                              <p className="text-xs text-muted-foreground font-light leading-relaxed">{fix.explanation}</p>
-                            </div>
-                          ))
-                        ) : (
-                          <p className="text-xs text-muted-foreground font-light p-2">No fixes suggested. Ensure the code has structural warnings.</p>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Sub-process execution outputs */}
-                    {(debugResult.exec_out || debugResult.exec_err) && (
-                      <div className={`${bgCard} lg:col-span-3 p-6`}>
-                        <h3 className="text-xs font-bold uppercase tracking-widest text-primary mb-4">Python Sub-Process Execution logs</h3>
-                        <div className="p-4 bg-white/40 dark:bg-black/40 border border-slate-900/[0.05] dark:border-white/[0.05] rounded-2xl font-mono text-xs">
-                          {debugResult.exec_out && (
-                            <div className="mb-2">
-                              <span className="text-emerald-400 font-bold block mb-1">STDOUT:</span>
-                              <pre className="whitespace-pre-wrap leading-relaxed text-gray-200">{debugResult.exec_out}</pre>
-                            </div>
-                          )}
-                          {debugResult.exec_err && (
-                            <div>
-                              <span className="text-red-400 font-bold block mb-1">STDERR:</span>
-                              <pre className="whitespace-pre-wrap leading-relaxed text-red-400/80">{debugResult.exec_err}</pre>
-                            </div>
-                          )}
-                          <div className="text-[9px] text-muted-foreground uppercase font-bold mt-4 tracking-widest border-t border-slate-900/[0.03] dark:border-white/[0.03] pt-2 flex justify-between">
-                            <span>EXEC CODE: {debugResult.exec_code}</span>
-                            <span>TIMEOUT: 3s</span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                  </div>
-                )}
-              </div>
+              <CodeOracle />
             )}
 
             {/* TAB CONTENT: 3. EXPLAINABLE AI (XAI) */}

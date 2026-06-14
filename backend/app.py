@@ -358,6 +358,18 @@ def debug_code():
     try:
         result = debugger.analyze(code, language)
 
+        # Generate refined code
+        lines = code.split('\n')
+        # Apply fixes bottom-up to avoid line shift issues, but since we are just replacing lines directly and the fixes 
+        # usually target 1 line, we can just replace the specific line. If there are multiple fixes for one line, we might have issues.
+        # But let's keep it simple: replace lines based on original text.
+        refined_code = code
+        for fix in result.get('fixes', []):
+            if fix.get('original') and fix.get('fixed'):
+                refined_code = refined_code.replace(fix['original'], fix['fixed'])
+        
+        result['refined_code'] = refined_code
+
         # XAI explanation for debug
         xai_explanation = explainer.explain_debug(
             result['errors'], result['fixes'],

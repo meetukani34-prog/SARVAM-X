@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import ThreeModel from "./ThreeModel"
 import { useTheme } from "../context/ThemeContext"
 import { api } from "../lib/api"
+import CodeOracle from "./CodeOracle"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -672,123 +673,7 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
 
           {/* TAB CONTENT: 3. STATIC CODE SECURITY REVIEWER */}
           {activeTab === "coderev" && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              
-              {/* Code window input */}
-              <div className={`${bgCard} lg:col-span-2 p-6 md:p-8 flex flex-col`}>
-                <form onSubmit={handleReviewCode} className="flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-purple mb-6">Static Vulnerability scanner</h3>
-                    <div className="relative border border-slate-900/[0.06] dark:border-white/[0.06] bg-white/40 dark:bg-black/40 rounded-2xl overflow-hidden mb-6">
-                      <div className="bg-slate-900/[0.02] dark:bg-white/[0.02] border-b border-slate-900/[0.04] dark:border-white/[0.04] px-4 py-2 text-[9px] font-mono tracking-widest text-muted-foreground flex justify-between select-none">
-                        <span>SECURITY SCRIPTER</span>
-                        <button
-                          type="button"
-                          onClick={() => setCodeInput(`def run_query(user_id):
-    # Potential credentials exposure
-    pwd = "super_admin_pass"
-    
-    # O(n^2) nested loops
-    for i in user_id:
-        for j in user_id:
-            if i == j:
-                print("check logic")
-                
-    # eval threat
-    eval(i)
-    
-    # leak file
-    f = open("logs.bin", "rb")
-    return True`)}
-                          className="text-[8px] font-bold hover:text-purple text-muted-foreground uppercase cursor-pointer"
-                        >
-                          Load Vulnerable Script
-                        </button>
-                      </div>
-                      <textarea
-                        value={codeInput}
-                        onChange={(e) => setCodeInput(e.target.value)}
-                        rows={12}
-                        className="w-full bg-transparent p-4 text-xs font-mono text-purple outline-none resize-none leading-relaxed border-none"
-                      />
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={scanningCode || !codeInput.trim()}
-                    className="w-full py-3.5 bg-purple hover:shadow-[0_0_20px_rgba(168,85,247,0.25)] text-slate-900 dark:text-white font-bold rounded-xl transition-all duration-300 text-[10px] uppercase tracking-widest disabled:opacity-40 flex items-center justify-center gap-2"
-                  >
-                    {scanningCode ? (
-                      <>
-                        <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Compiling Code Graph...
-                      </>
-                    ) : (
-                      "Perform Code Review Audit"
-                    )}
-                  </button>
-                </form>
-              </div>
-
-              {/* Code analysis results */}
-              <div className={`${bgCard} p-6 flex flex-col justify-start`}>
-                <h3 className="text-xs font-bold uppercase tracking-widest text-purple mb-6">Security Threat Maps</h3>
-                {scanningCode ? (
-                  <div className="h-64 flex flex-col items-center justify-center gap-3 text-center">
-                    <span className="text-xl animate-spin text-purple">⚙</span>
-                    <p className="text-muted-foreground text-xs uppercase tracking-widest font-bold">Scanning Code Graph...</p>
-                  </div>
-                ) : codeResult ? (
-                  <div className="flex flex-col gap-4 max-h-[400px] overflow-y-auto pr-1 animate-fadeIn">
-                    
-                    {/* General diagnostic metrics */}
-                    <div className="grid grid-cols-2 gap-4 text-center">
-                      <div className="p-3.5 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl">
-                        <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-widest block">Complexity</span>
-                        <p className="text-lg font-black text-slate-900 dark:text-white mt-1 uppercase">{codeResult.complexity}</p>
-                      </div>
-                      <div className="p-3.5 bg-white/[0.01] border border-slate-900/[0.04] dark:border-white/[0.04] rounded-2xl">
-                        <span className="text-[8px] text-muted-foreground uppercase font-bold tracking-widest block">Threats Found</span>
-                        <p className="text-lg font-black text-red-400 mt-1 uppercase">{codeResult.issueCount}</p>
-                      </div>
-                    </div>
-
-                    {/* Detected issues lists */}
-                    <div className="flex flex-col gap-3">
-                      {codeResult.issues.map((iss: any, idx: number) => {
-                        const isCrit = iss.level === "critical"
-                        return (
-                          <div
-                            key={idx}
-                            className={`p-3.5 border rounded-2xl ${
-                              isCrit
-                                ? "bg-red-500/[0.02] border-red-500/20 text-red-400"
-                                : iss.level === "warning"
-                                ? "bg-amber-500/[0.02] border-amber-500/20 text-amber-400"
-                                : "bg-cyan-500/[0.02] border-cyan-500/20 text-cyan-300"
-                            }`}
-                          >
-                            <div className="flex justify-between items-center mb-1 text-[10px] font-bold uppercase tracking-wider">
-                              <span>{iss.icon} {iss.title}</span>
-                              <span className="text-[8px] font-mono opacity-80 uppercase">{iss.level}</span>
-                            </div>
-                            <p className="text-[11px] text-slate-900 dark:text-white leading-relaxed font-light mt-1">{iss.desc}</p>
-                          </div>
-                        )
-                      })}
-                    </div>
-
-                  </div>
-                ) : (
-                  <p className="text-xs text-muted-foreground font-light p-6 text-center">Load a vulnerable script and trigger scanner review.</p>
-                )}
-              </div>
-
-            </div>
+            <CodeOracle />
           )}
 
           {/* TAB CONTENT: 4. EXPLAINABLE AI */}

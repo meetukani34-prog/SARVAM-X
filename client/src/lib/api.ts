@@ -78,7 +78,8 @@ export interface DebugError {
 
 export interface DebugFix {
   original: string;
-  replacement: string;
+  replacement?: string;
+  fixed?: string;
   explanation: string;
 }
 
@@ -99,6 +100,7 @@ export interface DebugResponse {
   exec_err?: string;
   exec_code?: number;
   error?: string;
+  refined_code?: string;
 }
 
 export interface ExplainResponse {
