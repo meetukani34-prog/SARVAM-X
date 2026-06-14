@@ -49,7 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
         resultExplanation.textContent = data.explanation;
         resultDiv.style.display = 'block';
       } else {
-        resultExplanation.textContent = "Error: Could not analyze the claim.";
+        const errorMsg = responseJson.error || "Could not analyze the claim.";
+        const details = responseJson.details || "";
+        resultExplanation.textContent = `Error: ${errorMsg} ${details}`;
         resultDiv.style.display = 'block';
       }
     } catch (err) {

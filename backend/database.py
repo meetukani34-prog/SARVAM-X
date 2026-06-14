@@ -7,11 +7,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://missing.supabase.co")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "missing-key")
 
-# Initialize Supabase client
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+# Try to create client, catch if it still fails
+try:
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+except Exception as e:
+    print(f"Failed to initialize Supabase client: {e}")
+    supabase = None
 
 def init_db():
     # Tables are created manually in Supabase SQL editor.

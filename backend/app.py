@@ -18,10 +18,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 load_dotenv()
 
-thinking_client = OpenAI(
-  base_url="https://integrate.api.nvidia.com/v1",
-  api_key=os.environ.get("NVIDIA_THINKING_API_KEY", "missing-key")
-)
 
 import database as db
 from models.twin_model import DigitalTwin, WhatIfSimulator
@@ -146,13 +142,13 @@ def get_me():
 # Thinking Client (Complex Reasoning)
 thinking_client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
-    api_key=os.environ.get("NVIDIA_THINKING_API_KEY", "")
+    api_key=os.environ.get("NVIDIA_THINKING_API_KEY", "missing-key")
 )
 
 # Speaking Client (Multilingual Articulation)
 speaking_client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
-    api_key=os.environ.get("NVIDIA_SPEAKING_API_KEY", "")
+    api_key=os.environ.get("NVIDIA_SPEAKING_API_KEY", "missing-key")
 )
 
 COGNITIVE_MIRROR_PERSONA = """You are the SARVAM-X Cognitive Mirror — a weightless, empathetic AI learning companion.
