@@ -60,6 +60,23 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
   const { theme } = useTheme()
   const [newsResult, setNewsResult] = useState<any | null>(null)
   const [analyzingNews, setAnalyzingNews] = useState(false)
+  const [shareCopied, setShareCopied] = useState(false)
+
+  const handleShareReport = () => {
+    if (!newsResult) return
+    try {
+      const jsonStr = JSON.stringify(newsResult)
+      // Base64 encode the string
+      const base64Str = btoa(encodeURIComponent(jsonStr))
+      const url = new URL(window.location.href)
+      url.searchParams.set("report", base64Str)
+      navigator.clipboard.writeText(url.toString())
+      setShareCopied(true)
+      setTimeout(() => setShareCopied(false), 3000)
+    } catch (err) {
+      console.error("Failed to generate share link", err)
+    }
+  }
 
   // Code Reviewer states
   const [codeInput, setCodeInput] = useState(`def process_user_data(data):
@@ -83,6 +100,9 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
     return True`)
   const [codeResult, setCodeResult] = useState<any | null>(null)
   const [scanningCode, setScanningCode] = useState(false)
+  
+  const [codeMode, setCodeMode] = useState<"paste" | "github">("paste")
+  const [prUrl, setPrUrl] = useState("")
 
   // Report history state
   const [reports, setReports] = useState<ReportEntry[]>([])
@@ -102,6 +122,22 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
         setReports(JSON.parse(saved))
       } catch (e) {
         console.error(e)
+      }
+    }
+  }, [])
+
+  // Auto-load shared report from URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const encodedReport = params.get("report")
+    if (encodedReport) {
+      try {
+        const decodedStr = decodeURIComponent(atob(encodedReport))
+        const parsedReport = JSON.parse(decodedStr)
+        setNewsResult(parsedReport)
+        setActiveTab("fakenews")
+      } catch (err) {
+        console.error("Failed to parse shared report", err)
       }
     }
   }, [])
@@ -144,68 +180,41 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
   }
 
   // Trigger Code Reviewer scan patterns
-  const handleReviewCode = (e: React.FormEvent) => {
+  const handleReviewCode = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!codeInput.trim()) return
-
+    if (codeMode === "paste" && !codeInput.trim()) return
+    if (codeMode === "github" && !prUrl.trim()) return
+    
     setScanningCode(true)
-    setCodeResult(null)
-
-    setTimeout(() => {
-      const issues = []
-      
-      if (codeInput.includes("for") && codeInput.split("for").length > 2) {
-        issues.push({
-          level: "critical",
-          icon: "⚡",
-          title: "Nested Loop Inefficiency — O(n²)",
-          desc: "Multi-level nested iterations detected. Leads to algorithmic exhaustion under scaling."
+    
+    try {
+      if (codeMode === "paste") {
+        const res = await api.debugCode(codeInput, "python")
+        setCodeResult(res)
+        saveReport("Code Security Review", `${res.errors?.length || 0} Risks Flagged`, res.complexity === "HIGH" ? 88 : 50)
+      } else {
+        const response = await fetch("http://127.0.0.1:5000/api/code/review-pr", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("sarvam_token")}`,
+          },
+          body: JSON.stringify({ pr_url: prUrl }),
         })
+        const data = await response.json()
+        if (response.ok) {
+          setCodeResult(data)
+          saveReport("GitHub PR Review", `${data.errors?.length || 0} Risks Flagged`, data.complexity === "HIGH" ? 88 : 50)
+        } else {
+          setCodeResult({ errors: [{ type: "Error", message: data.error, severity: "CRITICAL" }], fixes: [], complexity: "Unknown", efficiency: "Unknown" })
+        }
       }
-      if (/password|secret|api_key|token/i.test(codeInput)) {
-        issues.push({
-          level: "critical",
-          icon: "🔒",
-          title: "Hardcoded Credentials exposed",
-          desc: "Sensitive key/token signatures mapped in cleartext. Transition to vault injection variables."
-        })
-      }
-      if (/eval\(|exec\(/i.test(codeInput)) {
-        issues.push({
-          level: "critical",
-          icon: "💀",
-          title: "Arbitrary Code Injection Vulnerability",
-          desc: "eval()/exec() handles dynamic string compiles. Exploitable by command executions."
-        })
-      }
-      if (/open\(/.test(codeInput) && !/with\s+open/.test(codeInput)) {
-        issues.push({
-          level: "warning",
-          icon: "📂",
-          title: "Potential File Leak / Resource Leak",
-          desc: "File opened without enclosing context manager. Resource remains lock-bound on compile aborts."
-        })
-      }
-      if (issues.length === 0) {
-        issues.push({
-          level: "info",
-          icon: "✓",
-          title: "Optimal Sentinel Score",
-          desc: "Code passed standard threat heuristic scanners. No obvious risk maps observed."
-        })
-      }
-
-      const complexity = codeInput.split("\n").length > 20 ? "HIGH" : "MEDIUM"
-
-      setCodeResult({
-        issues,
-        complexity,
-        issueCount: issues.length
-      })
-
-      saveReport("Code Security Review", `${issues.length} Risks Flagged`, complexity === "HIGH" ? 88 : 50)
+    } catch (err) {
+      console.error(err)
+      setCodeResult({ errors: [{ type: "Error", message: "Failed to connect to API", severity: "CRITICAL" }], fixes: [], complexity: "Unknown", efficiency: "Unknown" })
+    } finally {
       setScanningCode(false)
-    }, 1500)
+    }
   }
 
   // Interactive chatbot responses
@@ -659,6 +668,18 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                           ))}
                         </div>
                       </div>
+                      
+                      <div className="mt-4 pt-4 border-t border-slate-900/[0.04] dark:border-white/[0.04]">
+                        <button
+                          onClick={handleShareReport}
+                          className="w-full py-2.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-500 dark:text-blue-400 border border-blue-500/20 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors flex justify-center items-center gap-2"
+                        >
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                          </svg>
+                          {shareCopied ? "Link Copied!" : "Share Fact-Check Report"}
+                        </button>
+                      </div>
                     </div>
 
                   </div>
@@ -678,12 +699,20 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
               <div className={`${bgCard} lg:col-span-2 p-6 md:p-8 flex flex-col`}>
                 <form onSubmit={handleReviewCode} className="flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-purple mb-6">Static Vulnerability scanner</h3>
-                    <div className="relative border border-slate-900/[0.06] dark:border-white/[0.06] bg-white/40 dark:bg-black/40 rounded-2xl overflow-hidden mb-6">
-                      <div className="bg-slate-900/[0.02] dark:bg-white/[0.02] border-b border-slate-900/[0.04] dark:border-white/[0.04] px-4 py-2 text-[9px] font-mono tracking-widest text-muted-foreground flex justify-between select-none">
-                        <span>SECURITY SCRIPTER</span>
-                        <button
-                          type="button"
+                    <div className="flex justify-between items-center mb-6">
+                      <h3 className="text-xs font-bold uppercase tracking-widest text-purple">Static Vulnerability scanner</h3>
+                      <div className="flex bg-slate-100 dark:bg-white/5 p-1 rounded-xl">
+                        <button type="button" onClick={() => setCodeMode("paste")} className={`text-[10px] px-3 py-1 rounded-lg font-bold uppercase tracking-wider ${codeMode === "paste" ? "bg-white dark:bg-white/10 shadow-sm text-slate-900 dark:text-white" : "text-muted-foreground hover:text-slate-900 dark:hover:text-white"}`}>Paste Code</button>
+                        <button type="button" onClick={() => setCodeMode("github")} className={`text-[10px] px-3 py-1 rounded-lg font-bold uppercase tracking-wider ${codeMode === "github" ? "bg-white dark:bg-white/10 shadow-sm text-slate-900 dark:text-white" : "text-muted-foreground hover:text-slate-900 dark:hover:text-white"}`}>GitHub PR</button>
+                      </div>
+                    </div>
+                    
+                    {codeMode === "paste" ? (
+                      <div className="relative border border-slate-900/[0.06] dark:border-white/[0.06] bg-white/40 dark:bg-black/40 rounded-2xl overflow-hidden mb-6">
+                        <div className="bg-slate-900/[0.02] dark:bg-white/[0.02] border-b border-slate-900/[0.04] dark:border-white/[0.04] px-4 py-2 text-[9px] font-mono tracking-widest text-muted-foreground flex justify-between select-none">
+                          <span>SECURITY SCRIPTER</span>
+                          <button
+                            type="button"
                           onClick={() => setCodeInput(`def run_query(user_id):
     # Potential credentials exposure
     pwd = "super_admin_pass"
@@ -712,6 +741,19 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
                         className="w-full bg-transparent p-4 text-xs font-mono text-purple outline-none resize-none leading-relaxed border-none"
                       />
                     </div>
+                    ) : (
+                      <div className="relative border border-slate-900/[0.06] dark:border-white/[0.06] bg-white/40 dark:bg-black/40 rounded-2xl p-6 mb-6">
+                        <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4 block">Enter GitHub PR URL</label>
+                        <input
+                          type="url"
+                          value={prUrl}
+                          onChange={(e) => setPrUrl(e.target.value)}
+                          className="w-full bg-white dark:bg-black/50 border border-slate-900/10 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple/50 focus:ring-1 focus:ring-purple/50 text-slate-900 dark:text-white"
+                          placeholder="https://github.com/owner/repo/pull/123"
+                        />
+                        <p className="text-[10px] text-muted-foreground mt-3">The reviewer will automatically fetch the unified diff patch and scan for security vulnerabilities, logic flaws, and optimizations.</p>
+                      </div>
+                    )}
                   </div>
 
                   <button

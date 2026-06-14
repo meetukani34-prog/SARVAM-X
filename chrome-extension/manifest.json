@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Trinetra Fake News Detector",
+  "version": "1.0.0",
+  "description": "Highlight text on any webpage and verify claims instantly with Trinetra AI.",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Open Trinetra"
+  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "host_permissions": [
+    "*://*/*"
+  ]
+}

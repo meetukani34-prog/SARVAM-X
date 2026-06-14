@@ -328,6 +328,10 @@ export const api = {
     return request<MomentumResponse>(`/api/momentum`);
   },
 
+  async getLeaderboard(): Promise<any> {
+    return request<any>(`/api/leaderboard`);
+  },
+
   // Stream helper for chat endpoint
   getChatStreamUrl(): string {
     return `${BASE_URL}/api/chat`;

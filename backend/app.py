@@ -10,6 +10,8 @@ from flask_cors import CORS
 from openai import OpenAI
 from dotenv import load_dotenv
 from duckduckgo_search import DDGS
+import requests
+import re
 
 # Add parent dir to path for models
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -295,6 +297,7 @@ Analyze the following news text and return a STRICT JSON object (no markdown, no
 Do NOT include any extra text.
 
 CRITICAL INSTRUCTIONS:
+- The input text may be in any language (English, Hindi, Tamil, Telugu, etc.). If it is not in English, internally translate and analyze it, but ALWAYS provide your final JSON response (including the explanation) in English.
 - Do NOT flag text as fake simply because it describes geopolitical tension, conflict, or uses strong language (e.g., "condemned", "strong protest").
 - Real news often involves dramatic events. Assume the text could be authentic breaking news unless it contains highly implausible claims, logical inconsistencies, known conspiracy theories, or extreme emotional manipulation without factual basis.
 - Be objective and factual.
@@ -371,6 +374,51 @@ Output JSON Format:
 
 # ─── DEBUG ──────────────────────────────────────────────────────────────────
 
+@app.route('/api/whatsapp/webhook', methods=['POST'])
+def whatsapp_webhook():
+    """Receive messages from Twilio WhatsApp."""
+    incoming_msg = request.form.get('Body', '').strip()
+    sender = request.form.get('From', '')
+
+    if not incoming_msg:
+        return "<Response></Response>", 200
+
+    # Process via Trinetra logic
+    # Simulated basic prompt for the bot
+    prompt = f"Analyze the following claim for fake news and give a 2 sentence summary including if it's likely True, False, or Misleading.\nClaim: {incoming_msg}"
+    
+    try:
+        ai_resp = thinking_client.chat.completions.create(
+            model="meta/llama-3.1-8b-instruct",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=300,
+            temperature=0.3
+        )
+        reply_text = ai_resp.choices[0].message.content.strip()
+    except Exception as e:
+        reply_text = "Sorry, I am currently unable to process requests."
+
+    # Return TwiML response for WhatsApp
+    xml_response = f"""<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Message>{reply_text}</Message>
+</Response>"""
+    return Response(xml_response, mimetype='text/xml')
+
+@app.route('/api/leaderboard', methods=['GET'])
+@jwt_required()
+def get_leaderboard():
+    """Return simulated gamification leaderboard for SARVAM-X students."""
+    # Simulated top 5 students
+    leaderboard = [
+        {"rank": 1, "name": "Arjun Patel", "score": 9850, "badges": ["Top Coder", "Fast Debugger"]},
+        {"rank": 2, "name": "Meera Sharma", "score": 9200, "badges": ["Algorithm Expert"]},
+        {"rank": 3, "name": "You (Current User)", "score": 8450, "badges": ["Rising Star"]},
+        {"rank": 4, "name": "Rohan Gupta", "score": 8100, "badges": ["Consistent"]},
+        {"rank": 5, "name": "Sneha Reddy", "score": 7900, "badges": ["Quick Learner"]}
+    ]
+    return jsonify({"leaderboard": leaderboard, "global_percentile": "Top 12%"})
+
 @app.route('/api/debug', methods=['POST'])
 @jwt_required()
 @limiter.limit("10 per minute")
@@ -424,6 +472,94 @@ def debug_code():
         return jsonify(result)
     except Exception as e:
         print(f"[!] Debugger Error: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/code/review-pr', methods=['POST'])
+@jwt_required()
+@limiter.limit("5 per minute")
+def review_pr():
+    """Fetch a GitHub PR and review it using LLM."""
+    data = request.json or {}
+    pr_url = data.get('pr_url', '')
+
+    if not pr_url.strip():
+        return jsonify({"error": "No PR URL provided"}), 400
+
+    # Extract owner, repo, pull_number
+    match = re.search(r"github\.com/([^/]+)/([^/]+)/pull/(\d+)", pr_url)
+    if not match:
+        return jsonify({"error": "Invalid GitHub PR URL. Format: https://github.com/owner/repo/pull/123"}), 400
+
+    owner, repo, pull_number = match.groups()
+    api_url = f"https://api.github.com/repos/{owner}/{repo}/pulls/{pull_number}"
+
+    try:
+        # Fetch PR diff/patch
+        headers = {'Accept': 'application/vnd.github.v3.diff'}
+        response = requests.get(api_url, headers=headers)
+        if response.status_code != 200:
+            return jsonify({"error": f"Failed to fetch PR from GitHub (Status {response.status_code})"}), 400
+        
+        diff_text = response.text
+        if len(diff_text) > 30000:
+            diff_text = diff_text[:30000] + "\n...[TRUNCATED]"
+
+        # Call LLM for code review
+        prompt = f"""You are a strict and highly skilled Senior Software Engineer conducting a Code Review on a GitHub Pull Request.
+Here is the raw git diff patch of the pull request:
+
+```diff
+{diff_text}
+```
+
+Review the code and provide a JSON response EXACTLY in the following format. Do not use markdown backticks outside of the JSON. Do not add any extra text.
+
+{{
+  "errors": [
+    {{
+      "line": integer (approximate line number of issue),
+      "type": "Syntax Error" | "Security Vulnerability" | "Logic Flaw" | "Performance Issue",
+      "message": "Description of the issue",
+      "severity": "CRITICAL" | "WARNING" | "INFO"
+    }}
+  ],
+  "fixes": [
+    "A clear, actionable suggestion to fix an issue",
+    "Another suggestion"
+  ],
+  "complexity": "O(n) / Unknown",
+  "efficiency": "A brief note on efficiency"
+}}
+"""
+        ai_resp = thinking_client.chat.completions.create(
+            model="meta/llama-3.1-70b-instruct",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=1500,
+            temperature=0.1
+        )
+        out_text = ai_resp.choices[0].message.content.strip()
+        # Clean markdown if returned
+        if out_text.startswith("```json"):
+            out_text = out_text[7:-3].strip()
+        elif out_text.startswith("```"):
+            out_text = out_text[3:-3].strip()
+
+        result = json.loads(out_text)
+
+        # Generate XAI explanation
+        xai_explanation = explainer.explain_debug(
+            result.get('errors', []), result.get('fixes', []),
+            result.get('complexity', 'Unknown'), result.get('efficiency', 'Unknown')
+        )
+        result['xai_explanation'] = xai_explanation
+        result['trace_log'] = _generate_trace_log(result.get('errors', []), "github-pr")
+        result['exec_out'] = "[Execution not available for PR diffs]"
+        result['exec_err'] = ""
+        result['exec_code'] = 0
+
+        return jsonify(result)
+    except Exception as e:
+        print(f"[!] PR Review Error: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 def _generate_trace_log(errors, language='python'):

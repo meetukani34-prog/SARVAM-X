@@ -83,7 +83,15 @@ function App() {
 
   // On initial mount: verify JWT session asynchronously
   useEffect(() => {
-    syncSession()
+    const params = new URLSearchParams(window.location.search)
+    if (params.get("report")) {
+      setActiveView("trinetra")
+      setAuthPlatform("trinetra")
+      // Still try to sync session in background but don't kick if it fails
+      syncSession()
+    } else {
+      syncSession()
+    }
   }, [])
 
   const handleNavigate = async (view: ViewType, platform: "sarvam" | "trinetra" = "sarvam") => {
@@ -158,14 +166,22 @@ function App() {
 
       )}
 
-      {activeView === "trinetra" && userId && (
+      {activeView === "trinetra" && (
         <TrinetraSuite
-          userId={userId}
-          userName={userName}
-          userEmail={userEmail}
+          userId={userId || 0}
+          userName={userName || "Guest Auditor"}
+          userEmail={userEmail || "anonymous@trinetra.ai"}
           onSignOut={handleSignOut}
           onSwitchSuite={() => handleNavigate("sarvam")}
-          onBackToHome={() => handleNavigate("landing")}
+          onBackToHome={() => {
+            // Remove report from URL if leaving
+            const url = new URL(window.location.href)
+            if (url.searchParams.get("report")) {
+              url.searchParams.delete("report")
+              window.history.replaceState({}, "", url.toString())
+            }
+            handleNavigate("landing")
+          }}
         />
       )}
     </div>

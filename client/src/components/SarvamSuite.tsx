@@ -179,6 +179,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
   const [isSlowLoad, setIsSlowLoad] = useState(false)
   const [kpis, setKpis] = useState<KPI>({ total_problems: 0, focus_hours: 0, avg_accuracy: 0, session_count: 0 })
   const [_dailyStatus, setDailyStatus] = useState<Array<{ topic: string; score: number }>>([])
+  const [leaderboard, setLeaderboard] = useState<any[]>([])
   
   // What-If Simulator states
   const [simHours, setSimHours] = useState(1.0)
@@ -231,6 +232,15 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
       setTwinData(dash);
       setKpis(dash.kpis);
       setDailyStatus(dash.daily_status);
+
+      try {
+        const lbRes = await api.getLeaderboard()
+        if (lbRes.leaderboard) {
+          setLeaderboard(lbRes.leaderboard)
+        }
+      } catch(e) {
+        console.error("Leaderboard error", e)
+      }
     } catch (e) {
       console.error("Failed to load digital twin data", e)
       // Provide fallback data so the UI doesn't crash or stay empty if Vercel API fails
