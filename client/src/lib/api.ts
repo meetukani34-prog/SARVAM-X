@@ -190,6 +190,13 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
   // Send cookies with requests for JWT auth
   const response = await fetch(url, { ...options, headers, credentials: 'include' });
   if (!response.ok) {
+    if (response.status === 401) {
+      localStorage.removeItem("sarvam_token");
+      localStorage.removeItem("sarvam_userId");
+      localStorage.removeItem("sarvam_userName");
+      localStorage.removeItem("sarvam_userEmail");
+      window.dispatchEvent(new Event("auth_failed"));
+    }
     const errBody = await response.json().catch(() => ({}));
     throw new Error(errBody.error || `HTTP error! status: ${response.status}`);
   }
