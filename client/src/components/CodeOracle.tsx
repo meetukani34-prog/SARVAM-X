@@ -1,5 +1,6 @@
 import React, { useState } from "react"
-import { api, DebugResponse } from "../lib/api"
+import { api } from "../lib/api"
+import type { DebugResponse } from "../lib/api"
 
 export default function CodeOracle() {
   const [codeInput, setCodeInput] = useState("print(hello)")
