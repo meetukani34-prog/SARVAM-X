@@ -298,9 +298,9 @@ Do NOT include any extra text.
 
 CRITICAL INSTRUCTIONS:
 - The input text may be in any language (English, Hindi, Tamil, Telugu, etc.). If it is not in English, internally translate and analyze it, but ALWAYS provide your final JSON response (including the explanation) in English.
-- Do NOT flag text as fake simply because it describes geopolitical tension, conflict, or uses strong language (e.g., "condemned", "strong protest").
-- Real news often involves dramatic events. Assume the text could be authentic breaking news unless it contains highly implausible claims, logical inconsistencies, known conspiracy theories, or extreme emotional manipulation without factual basis.
-- Be objective and factual.
+- CRITICAL FACT-CHECKING: You must actively cross-reference the claims, names, and titles with your internal knowledge base. If the text assigns incorrect titles to known political figures (e.g., claiming someone is the Chief Minister when they are not), or describes impossible current events, it is FAKE NEWS.
+- Do NOT assume the text is authentic just because it is written in a professional journalistic tone. Fake news often mimics real news perfectly.
+- Be highly skeptical of sensational political events (e.g., mass resignations, arrests of major figures). If your internal knowledge strongly contradicts the premise, mark isFake as true.
 
 Input Text:
 \"\"\"{text}\"\"\"
