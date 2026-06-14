@@ -38,11 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ claim: claim })
       });
       
-      const data = await response.json();
+      const responseJson = await response.json();
       
-      if (data.status) {
-        resultScore.textContent = `Status: ${data.status} (Confidence: ${Math.round(data.confidence * 100)}%)`;
-        resultScore.style.color = data.status.includes('Fake') || data.status.includes('High Risk') ? '#ef4444' : '#10b981';
+      if (responseJson.success && responseJson.data) {
+        const data = responseJson.data;
+        const status = data.isFake ? 'Fake News' : 'Real News';
+        
+        resultScore.textContent = `Status: ${status} (Confidence: ${data.confidence}%)`;
+        resultScore.style.color = data.isFake ? '#ef4444' : '#10b981';
         resultExplanation.textContent = data.explanation;
         resultDiv.style.display = 'block';
       } else {
