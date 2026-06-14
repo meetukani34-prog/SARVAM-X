@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import ThreeModel from "./ThreeModel"
 import { useTheme } from "../context/ThemeContext"
+import { api } from "../lib/api"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -118,40 +119,28 @@ const TrinetraSuite: React.FC<TrinetraSuiteProps> = ({
     localStorage.setItem("trinetra_reports", JSON.stringify(updated))
   }
 
-  // Trigger Fake News analysis mock logic
-  const handleAnalyzeNews = (e: React.FormEvent) => {
+  // Trigger Fake News analysis using LLM
+  const handleAnalyzeNews = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!newsInput.trim()) return
 
     setAnalyzingNews(true)
     setNewsResult(null)
 
-    setTimeout(() => {
-      const conf = Math.floor(Math.random() * 25) + 72
-      const isFake = conf > 82
-      const sentiment = (Math.random() * 0.7 + 0.3).toFixed(2)
-      
-      // Extract pseudo suspicious words
-      const suspicious = ["breaking", "miracle", "secret", "exposed", "conspiracy", "government", "unbelievable"]
-      const words = newsInput.toLowerCase().split(/\W+/)
-      const foundKeywords = suspicious.filter(w => words.includes(w))
-      if (foundKeywords.length < 2) {
-        foundKeywords.push("unverified-source", "emotional-language")
+    try {
+      const res = await api.analyzeFakeNews(newsInput)
+      if (res.success && res.data) {
+        setNewsResult(res.data)
+        saveReport("Fake News Analysis", res.data.isFake ? "Likely Misinformation" : "Authentic Verified", res.data.confidence)
+      } else {
+        // Fallback in case of error
+        console.error("Analysis failed:", res.error)
       }
-
-      const res = {
-        isFake,
-        confidence: conf,
-        sentiment,
-        keywords: foundKeywords.slice(0, 5),
-        manipulationScore: sentiment,
-        sourceCredibility: isFake ? 22 : 82
-      }
-
-      setNewsResult(res)
-      saveReport("Fake News Analysis", isFake ? "Likely Misinformation" : "Authentic Verified", conf)
+    } catch (err) {
+      console.error(err)
+    } finally {
       setAnalyzingNews(false)
-    }, 1800)
+    }
   }
 
   // Trigger Code Reviewer scan patterns

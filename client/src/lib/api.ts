@@ -167,6 +167,16 @@ export interface MomentumResponse {
   cognitive_friction: number;
 }
 
+export interface FakeNewsResponse {
+  isFake: boolean;
+  confidence: number;
+  sentiment: string;
+  keywords: string[];
+  manipulationScore: string;
+  sourceCredibility: number;
+  explanation: string;
+}
+
 // Helper for requests
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const url = `${BASE_URL}${endpoint}`;
@@ -247,6 +257,14 @@ export const api = {
     return request<DebugResponse>('/api/debug', {
       method: 'POST',
       body: JSON.stringify({ code, language }),
+    });
+  },
+
+  // Fake News Analysis using LLM
+  async analyzeFakeNews(text: string): Promise<{ success: boolean; data: FakeNewsResponse; error?: string }> {
+    return request<{ success: boolean; data: FakeNewsResponse; error?: string }>('/api/fakenews/analyze', {
+      method: 'POST',
+      body: JSON.stringify({ text }),
     });
   },
 

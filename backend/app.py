@@ -271,6 +271,75 @@ def predict():
         "weak_topics": weak_topics,
     })
 
+# ─── FAKE NEWS ANALYSIS ───────────────────────────────────────────────────────
+
+@app.route('/api/fakenews/analyze', methods=['POST'])
+@jwt_required()
+@limiter.limit("10 per minute")
+def analyze_fake_news():
+    """Analyze text for fake news and misinformation."""
+    data = request.json or {}
+    text = data.get('text', '')
+    
+    if not text.strip():
+        return jsonify({"error": "No text provided"}), 400
+
+    prompt = f"""You are a highly advanced misinformation analysis engine.
+Analyze the following news text and return a STRICT JSON object (no markdown, no backticks, just the JSON string).
+Do NOT include any extra text.
+
+Input Text:
+\"\"\"{text}\"\"\"
+
+Output JSON Format:
+{{
+  "isFake": boolean (true if likely misinformation or sensationalized fake news, false if authentic),
+  "confidence": number (integer between 0 and 100, how confident you are in your assessment),
+  "sentiment": string (float between "0.00" and "1.00", representing emotional manipulation or sentiment intensity. 0.0 is neutral, 1.0 is highly emotionally charged/manipulative),
+  "keywords": array of strings (top 3 to 5 suspicious or manipulative words/phrases used in the text),
+  "manipulationScore": string (float between "0.00" and "1.00", similar to sentiment, representing likelihood of deliberate manipulation),
+  "sourceCredibility": number (integer between 0 and 100, estimate the credibility based on the tone and claims. 100 is highly credible, 0 is not credible),
+  "explanation": string (A brief 1-2 sentence explanation of your findings)
+}}
+"""
+
+    try:
+        response = thinking_client.chat.completions.create(
+            model="meta/llama-3.1-70b-instruct",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.2,
+            max_tokens=500
+        )
+        result_text = response.choices[0].message.content.strip()
+        
+        # Clean up in case the model returns markdown JSON blocks
+        if result_text.startswith("```json"):
+            result_text = result_text[7:]
+        if result_text.startswith("```"):
+            result_text = result_text[3:]
+        if result_text.endswith("```"):
+            result_text = result_text[:-3]
+            
+        result_json = json.loads(result_text.strip())
+        return jsonify({"success": True, "data": result_json})
+    except Exception as e:
+        print(f"[!] Fake News Analysis Error: {str(e)}")
+        # Fallback to avoid breaking the UI if parsing fails
+        return jsonify({
+            "success": False, 
+            "error": "Failed to analyze text", 
+            "details": str(e),
+            "data": {
+                "isFake": True,
+                "confidence": 50,
+                "sentiment": "0.50",
+                "keywords": ["analysis-failed"],
+                "manipulationScore": "0.50",
+                "sourceCredibility": 50,
+                "explanation": "Analysis failed due to a processing error."
+            }
+        }), 500
+
 # ─── DEBUG ──────────────────────────────────────────────────────────────────
 
 @app.route('/api/debug', methods=['POST'])
