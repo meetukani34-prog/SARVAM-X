@@ -44,11 +44,6 @@ limiter = Limiter(
     storage_uri="memory://"
 )
 
-# Initialize AI LLM Client (NVIDIA Llama 3.1)
-thinking_client = OpenAI(
-    base_url="https://integrate.api.nvidia.com/v1",
-    api_key=os.environ.get("NVIDIA_API_KEY", "dummy-key-to-prevent-crash")
-)
 # Initialize components
 db.init_db()
 twin = DigitalTwin()
@@ -344,107 +339,6 @@ Output JSON Format:
                 "explanation": "Analysis failed due to a processing error."
             }
         }), 500
-# ─── CODE ORACLE (AI-powered Code Refiner) ────────────────────────────────────
-
-@app.route('/api/code-oracle', methods=['POST'])
-@jwt_required()
-@limiter.limit("10 per minute")
-def code_oracle():
-    """AI-powered code analysis: detect errors, refine code, and annotate."""
-    data = request.json or {}
-    code = data.get('code', '')
-    language = data.get('language', 'python')
-    
-    if not code.strip():
-        return jsonify({"error": "No code provided"}), 400
-
-    # First run the static AST debugger for structural issues
-    static_result = debugger.analyze(code, language)
-
-    prompt = f"""You are TRINETRA Code Oracle — an elite AI code analysis engine.
-You will receive source code in {language}. Your job:
-1. Detect ALL errors (syntax, logic, security, performance, best-practice violations)
-2. Produce a REFINED version of the code that fixes every issue
-3. Generate line-by-line "Oracle Annotations" explaining what each line does and any issues found
-
-Return a STRICT JSON object (no markdown, no backticks, just raw JSON):
-{{
-  "verdict": "string (one of: 'CLEAN', 'WARNINGS', 'CRITICAL')",
-  "refinedCode": "string (the fully corrected/improved version of the code)",
-  "errors": [
-    {{
-      "line": number,
-      "type": "string (e.g. SyntaxError, SecurityRisk, LogicError, PerformanceIssue)",
-      "severity": "string (CRITICAL, WARNING, or INFO)",
-      "message": "string (short explanation of the issue)"
-    }}
-  ],
-  "annotations": [
-    {{
-      "line": number,
-      "text": "string (explanation of what this line does and any issue or improvement)"
-    }}
-  ],
-  "summary": "string (1-2 sentence overall summary of the code quality)"
-}}
-
-Source Code ({language}):
-\"\"\"
-{code}
-\"\"\"
-"""
-
-    try:
-        response = thinking_client.chat.completions.create(
-            model="meta/llama-3.1-70b-instruct",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.15,
-            max_tokens=2000
-        )
-        result_text = response.choices[0].message.content.strip()
-        
-        # Clean up markdown JSON blocks
-        if result_text.startswith("```json"):
-            result_text = result_text[7:]
-        if result_text.startswith("```"):
-            result_text = result_text[3:]
-        if result_text.endswith("```"):
-            result_text = result_text[:-3]
-            
-        ai_result = json.loads(result_text.strip())
-        
-        # Merge static analysis errors with AI errors (deduplicate by line+type)
-        seen = set()
-        merged_errors = []
-        for e in ai_result.get("errors", []):
-            key = f"{e.get('line',0)}-{e.get('type','')}"
-            if key not in seen:
-                seen.add(key)
-                merged_errors.append(e)
-        for e in static_result.get("errors", []):
-            key = f"{e.get('line',0)}-{e.get('type','')}"
-            if key not in seen:
-                seen.add(key)
-                merged_errors.append(e)
-        
-        ai_result["errors"] = merged_errors
-        ai_result["linesAnalyzed"] = len(code.split('\n'))
-        
-        return jsonify({"success": True, "data": ai_result})
-    except Exception as e:
-        print(f"[!] Code Oracle Error: {str(e)}")
-        # Fallback: return static analysis only
-        return jsonify({
-            "success": True,
-            "data": {
-                "verdict": "WARNINGS" if static_result.get("errors") else "CLEAN",
-                "refinedCode": code,
-                "errors": static_result.get("errors", []),
-                "annotations": [{"line": 1, "text": "AI analysis unavailable. Showing static analysis only."}],
-                "summary": f"Static analysis found {len(static_result.get('errors', []))} issue(s).",
-                "linesAnalyzed": len(code.split('\n'))
-            }
-        })
 
 # ─── DEBUG ──────────────────────────────────────────────────────────────────
 

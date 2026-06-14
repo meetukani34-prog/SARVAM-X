@@ -3,6 +3,7 @@ import { api } from "../lib/api"
 import type { KPI, Session, TwinResponse, HeatmapResponse, WhatIfResponse, DebugResponse } from "../lib/api"
 import ThreeModel from "./ThreeModel"
 import MentorPanel from "./MentorPanel"
+import CodeOracle from "./CodeOracle"
 import { useTheme } from "../context/ThemeContext"
 import {
   Chart as ChartJS,
@@ -843,9 +844,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
 
             {/* TAB CONTENT: 2. AST CODE DEBUGGER */}
             {activeTab === "debugger" && (
-              <div className="flex items-center justify-center h-full min-h-[400px] text-muted-foreground text-sm font-medium border border-slate-900/[0.05] dark:border-white/[0.05] rounded-3xl bg-slate-50/50 dark:bg-black/10">
-                Code Debugger is now available under the Code Oracle tab in Trinetra.
-              </div>
+              <CodeOracle />
             )}
 
             {/* TAB CONTENT: 3. EXPLAINABLE AI (XAI) */}

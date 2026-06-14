@@ -177,27 +177,6 @@ export interface FakeNewsResponse {
   explanation: string;
 }
 
-export interface CodeOracleAnnotation {
-  line: number;
-  text: string;
-}
-
-export interface CodeOracleError {
-  line: number;
-  type: string;
-  severity: 'CRITICAL' | 'WARNING' | 'INFO';
-  message: string;
-}
-
-export interface CodeOracleResponse {
-  verdict: 'CLEAN' | 'WARNINGS' | 'CRITICAL';
-  refinedCode: string;
-  errors: CodeOracleError[];
-  annotations: CodeOracleAnnotation[];
-  summary: string;
-  linesAnalyzed: number;
-}
-
 // Helper for requests
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const url = `${BASE_URL}${endpoint}`;
@@ -286,14 +265,6 @@ export const api = {
     return request<{ success: boolean; data: FakeNewsResponse; error?: string }>('/api/fakenews/analyze', {
       method: 'POST',
       body: JSON.stringify({ text }),
-    });
-  },
-
-  // Code Oracle (AI-powered code refiner)
-  async analyzeCodeOracle(code: string, language: string = 'python'): Promise<{ success: boolean; data: CodeOracleResponse }> {
-    return request<{ success: boolean; data: CodeOracleResponse }>('/api/code-oracle', {
-      method: 'POST',
-      body: JSON.stringify({ code, language }),
     });
   },
 
