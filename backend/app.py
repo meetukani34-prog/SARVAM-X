@@ -18,6 +18,11 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 load_dotenv()
 
+thinking_client = OpenAI(
+  base_url="https://integrate.api.nvidia.com/v1",
+  api_key=os.environ.get("NVIDIA_THINKING_API_KEY")
+)
+
 import database as db
 from models.twin_model import DigitalTwin, WhatIfSimulator
 from models.debugger import CodeDebugger
