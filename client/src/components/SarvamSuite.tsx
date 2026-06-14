@@ -417,7 +417,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
 
   return (
     <div 
-      className="flex h-screen bg-slate-50 dark:bg-[#07090e] text-slate-900 dark:text-foreground overflow-hidden font-sans select-none bg-cover bg-center bg-no-repeat bg-fixed transition-all duration-1000"
+      className="flex flex-col md:flex-row h-screen bg-slate-50 dark:bg-[#07090e] text-slate-900 dark:text-foreground overflow-hidden font-sans select-none bg-cover bg-center bg-no-repeat bg-fixed transition-all duration-1000"
       style={{
         backgroundImage: `linear-gradient(to bottom, ${theme === 'dark' ? 'rgba(7, 9, 14, 0.75), rgba(7, 9, 14, 0.98)' : 'rgba(248, 250, 252, 0.75), rgba(248, 250, 252, 0.98)'}), url('${getBackgroundImage(activeTab)}')`
       }}
@@ -432,7 +432,7 @@ const SarvamSuite: React.FC<SarvamSuiteProps> = ({
       )}
 
       {/* Mobile Top Bar */}
-      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white/[0.01] border-b border-slate-900/[0.05] dark:border-white/[0.05] z-20">
+      <div className="md:hidden w-full shrink-0 flex items-center justify-between px-4 py-3 bg-white/[0.01] border-b border-slate-900/[0.05] dark:border-white/[0.05] z-20">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
